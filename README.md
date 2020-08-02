@@ -40,7 +40,7 @@ This software has developed a positioning software based on the Iridium satellit
 ### Built With
 
 Base on QT/C++
-* [C] (http://doc.codingdict.com/c_guide/index2.html)
+* [C](http://doc.codingdict.com/c_guide/index2.html)
 * [QT](https://doc.qt.io/)
 * [C++](http://www.cplusplus.com/)
 
