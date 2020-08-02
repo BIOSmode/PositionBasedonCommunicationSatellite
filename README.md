@@ -28,8 +28,8 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-Cpomplie: Qt Creator 4.11.0  + Visual Statio 2015  and   Visual Statio 2013
-environment: win10  VS2013  and  QT 5.9.9 + Qt 5.9.9 (MSVC 2015 64-bit)
+Cpomplie: Qt Creator 4.11.0  + Visual Statio 2015  and   Visual Statio 2013 BaiduMap API 
+environment: win10  VS2013  and  QT 5.9.9 + Qt 5.9.9 (MSVC 2015 64-bit) + BaiduMap JavaScript API
 
 This software has developed a positioning software based on the Iridium satellite signal based on the C/C++ language and windows + QT platform, which basically realizes the following functions: 
 1. Cooperate with Novatel hardware to realize GPS-based positioning through USB serial communication.
@@ -39,10 +39,11 @@ This software has developed a positioning software based on the Iridium satellit
 
 ### Built With
 
-Base on QT/C++
-* [C](http://doc.codingdict.com/c_guide/index2.html)
+Base on C/QT/C++/Js
+* [C](http://users.cs.cf.ac.uk/Dave.Marshall/C/CE/)
 * [QT](https://doc.qt.io/)
 * [C++](http://www.cplusplus.com/)
+* [JavaScript](https://enable-javascript.com/)
 
 
 
