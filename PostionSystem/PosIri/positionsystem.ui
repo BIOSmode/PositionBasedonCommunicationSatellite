@@ -25,7 +25,8 @@
     </property>
     <property name="styleSheet">
      <string notr="true">font: 16pt &quot;Times New Roman&quot;;
-QTabBar::tab{ min-height: 50px; min-width:80px;}</string>
+QTabBar::tab{ min-height: 50px; min-width:80px;}
+QTabBar::tab:selected{background:blue}</string>
     </property>
     <property name="tabShape">
      <enum>QTabWidget::Triangular</enum>
@@ -40,9 +41,9 @@ QTabBar::tab{ min-height: 50px; min-width:80px;}</string>
      <widget class="QLabel" name="HomDiscripetion">
       <property name="geometry">
        <rect>
-        <x>230</x>
-        <y>340</y>
-        <width>721</width>
+        <x>250</x>
+        <y>300</y>
+        <width>571</width>
         <height>41</height>
        </rect>
       </property>
@@ -53,8 +54,8 @@ QTabBar::tab{ min-height: 50px; min-width:80px;}</string>
      <widget class="QLabel" name="HomMainTitle">
       <property name="geometry">
        <rect>
-        <x>320</x>
-        <y>430</y>
+        <x>340</x>
+        <y>400</y>
         <width>441</width>
         <height>231</height>
        </rect>
@@ -73,14 +74,14 @@ struct Information
      <widget class="QLabel" name="HomeInfor">
       <property name="geometry">
        <rect>
-        <x>180</x>
-        <y>220</y>
-        <width>721</width>
+        <x>100</x>
+        <y>160</y>
+        <width>881</width>
         <height>71</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 26pt &quot;Times New Roman&quot;;</string>
+       <string notr="true">font: 32pt &quot;Times New Roman&quot;;</string>
       </property>
       <property name="text">
        <string>Positon System Based on  Communicate Satellite</string>
@@ -932,24 +933,11 @@ struct Information
      <attribute name="title">
       <string>Location</string>
      </attribute>
-     <widget class="QDateTimeEdit" name="LocDateTime">
-      <property name="geometry">
-       <rect>
-        <x>160</x>
-        <y>140</y>
-        <width>211</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="LocConfigRead">
       <property name="geometry">
        <rect>
         <x>50</x>
-        <y>100</y>
+        <y>90</y>
         <width>151</width>
         <height>31</height>
        </rect>
@@ -981,7 +969,7 @@ struct Information
       <property name="geometry">
        <rect>
         <x>800</x>
-        <y>100</y>
+        <y>90</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -1026,7 +1014,7 @@ struct Information
       <property name="geometry">
        <rect>
         <x>500</x>
-        <y>100</y>
+        <y>90</y>
         <width>101</width>
         <height>31</height>
        </rect>
@@ -1046,6 +1034,9 @@ struct Information
         <width>211</width>
         <height>31</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="LocPosIterL">
@@ -1110,7 +1101,7 @@ struct Information
       <property name="geometry">
        <rect>
         <x>390</x>
-        <y>100</y>
+        <y>90</y>
         <width>101</width>
         <height>31</height>
        </rect>
@@ -1126,7 +1117,7 @@ struct Information
       <property name="geometry">
        <rect>
         <x>610</x>
-        <y>100</y>
+        <y>90</y>
         <width>181</width>
         <height>31</height>
        </rect>
@@ -1135,7 +1126,7 @@ struct Information
        <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
       </property>
       <property name="text">
-       <string>Show Pos Sequentiallly</string>
+       <string>Show Pos Sequentially</string>
       </property>
      </widget>
      <widget class="QRadioButton" name="LocHighAissradioButton">
@@ -1160,8 +1151,11 @@ struct Information
         <x>50</x>
         <y>340</y>
         <width>321</width>
-        <height>201</height>
+        <height>241</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 10pt &quot;Times New Roman&quot;;</string>
       </property>
      </widget>
      <widget class="QLabel" name="Loclabel_3">
@@ -1184,7 +1178,7 @@ struct Information
       <property name="geometry">
        <rect>
         <x>950</x>
-        <y>100</y>
+        <y>90</y>
         <width>111</width>
         <height>31</height>
        </rect>
@@ -1216,13 +1210,13 @@ struct Information
       <property name="geometry">
        <rect>
         <x>50</x>
-        <y>560</y>
+        <y>600</y>
         <width>321</width>
-        <height>101</height>
+        <height>91</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+       <string notr="true">font: 10pt &quot;Times New Roman&quot;;</string>
       </property>
      </widget>
      <widget class="QWebEngineView" name="LocMapView" native="true">
@@ -1259,7 +1253,7 @@ struct Information
       <property name="geometry">
        <rect>
         <x>220</x>
-        <y>100</y>
+        <y>90</y>
         <width>151</width>
         <height>31</height>
        </rect>
@@ -1275,8 +1269,8 @@ struct Information
       <property name="geometry">
        <rect>
         <x>50</x>
-        <y>670</y>
-        <width>101</width>
+        <y>710</y>
+        <width>151</width>
         <height>31</height>
        </rect>
       </property>
@@ -1290,9 +1284,9 @@ struct Information
      <widget class="QPushButton" name="LocEndLoc">
       <property name="geometry">
        <rect>
-        <x>160</x>
-        <y>670</y>
-        <width>101</width>
+        <x>220</x>
+        <y>710</y>
+        <width>151</width>
         <height>31</height>
        </rect>
       </property>
@@ -1303,55 +1297,17 @@ struct Information
        <string>End Loc</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="LocRefreshpushButton">
+     <widget class="QDateTimeEdit" name="LocdateTimeEdit">
       <property name="geometry">
        <rect>
-        <x>270</x>
-        <y>670</y>
-        <width>81</width>
+        <x>160</x>
+        <y>141</y>
+        <width>211</width>
         <height>31</height>
        </rect>
       </property>
       <property name="styleSheet">
        <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
-      </property>
-      <property name="text">
-       <string>Refresh</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="LocFreshcheckBox">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>360</x>
-        <y>670</y>
-        <width>41</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QProgressBar" name="LocprogressBar">
-      <property name="geometry">
-       <rect>
-        <x>50</x>
-        <y>710</y>
-        <width>321</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
-      </property>
-      <property name="value">
-       <number>0</number>
       </property>
      </widget>
     </widget>

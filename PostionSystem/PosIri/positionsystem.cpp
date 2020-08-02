@@ -9,7 +9,9 @@
 * 2020/08/01 sun 20:52:The basic framework of the overall program is built;
 * 2020/08/01 sun 20:52:GPS and TLE Part are completed；
 * 2020/08/02 sun 19:12:Acquisiton Part is completed；
-* 2020/08/02 sun 20:13:Position part's interface redeployment completed;
+* 2020/08/02 sun 20:13:Position part's interface redeployment is completed;
+* 2020/08/02 sun 23:23:Position part's original function is completed;
+* 2020/08/03 sun 00:34:Almost all parts are completed;
 **********************************************************************************************/
 
 #include "positionsystem.h"
@@ -38,12 +40,38 @@ PositionSystem::PositionSystem(QWidget *parent)
     ui->LocMapOne->setEnabled(false);
     ui->LocMapRefCircle->setEnabled(false);
     ui->LocMapResCircle->setEnabled(false);
+
+    //Set Homepage
+    ui->tabWidget->setCurrentIndex(0);
 }
 
 
 PositionSystem::~PositionSystem()
 {
     delete ui;
+}
+
+/*********************************************************************************************
+* sun 20200801
+* By sunguiyu96@gmail.com
+* Multiple Part
+* Time update slot function
+* input：
+* output：
+* Process：
+* 2020/06/14 sun 01:08:Finished；
+* 2020/08/01 sun 19:38:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::timerUpdate(void)
+{
+    QDateTime time = QDateTime::currentDateTime();
+    //GPS
+    ui->GPSdateTimeEdit->setDisplayFormat("yyyy/MM/dd  HH:mm:ss");   //设置显示格式
+    ui->GPSdateTimeEdit->setDateTime(time);
+    //Update
+    ui->UpdateTimeEdit->setDisplayFormat("yyyy/MM/dd  HH:mm:ss");   //设置显示格式
+    ui->UpdateTimeEdit->setDateTime(time);
+
 }
 
 //GPS Loc and Log's Global Variable
@@ -81,7 +109,7 @@ static int current_i = 0;
 * Process：
 * 2020/01/02 sun 12:38:开始；
 * 2020/01/02 sun 19:27:达到预想效果；
-* 2020/08/01 sun 20:22:修改在总程序框架之内运行；
+* 2020/08/01 sun 20:22:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::on_GPSSearchPort_clicked()
 {
@@ -122,9 +150,8 @@ void PositionSystem::on_GPSSearchPort_clicked()
 * 2020/01/08 sun 11:15:达到预想效果；
 * 2020/01/08 sun 21:10:ASCII有效数据分离，写文件完成；
 * 2020/01/09 sun 00:20:根据数据头尾分包程序完成，实测数据通过；
-* 2020/08/01 sun 20:31:修改在总程序框架之内运行；
+* 2020/08/01 sun 20:31:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
-
 void PositionSystem::ReadPort()
 {
     GPSOut.time = QDateTime::currentDateTime();
@@ -256,7 +283,7 @@ void PositionSystem::ReadPort()
 * Process：
 * 2020/01/08 sun 21:29:开始；
 * 2020/01/08 sun 21:30:达到预想效果；
-* 2020/08/01 sun 20:37:修改在总程序框架之内运行；
+* 2020/08/01 sun 20:37:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::on_GPSOpenPort_clicked()
 {
@@ -299,7 +326,7 @@ void PositionSystem::on_GPSOpenPort_clicked()
 * Process：
 * 2020/01/08 sun 21:29:开始；
 * 2020/01/08 sun 21:30:达到预想效果；
-* 2020/08/01 sun 20:37:修改在总程序框架之内运行；
+* 2020/08/01 sun 20:37:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::on_GPSReceive_clicked()
 {
@@ -329,7 +356,7 @@ void PositionSystem::on_GPSReceive_clicked()
 * Process：
 * 2020/01/08 sun 21:29:开始；
 * 2020/01/08 sun 21:30:达到预想效果；
-* 2020/08/01 sun 20:44:修改在总程序框架之内运行；
+* 2020/08/01 sun 20:44:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::on_GPSSentCommand_clicked()
 {
@@ -347,7 +374,8 @@ void PositionSystem::on_GPSSentCommand_clicked()
 * input：
 * output：
 * Process：
-* 2020/08/02 sun 17:42:修改在总程序框架之内运行；
+* 2020/08/02 sun 17:42:Complete the modification to make it run within the integral program；
+；
 **********************************************************************************************/
 void PositionSystem::on_AcqReadApushButton_clicked()
 {
@@ -443,7 +471,7 @@ void PositionSystem::on_AcqReadApushButton_clicked()
 * input：
 * output：
 * Process：
-* 2020/08/02 sun 17:48:修改在总程序框架之内运行；
+* 2020/08/02 sun 17:48:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::on_AcqReadCpushButton_clicked()
 {
@@ -539,7 +567,7 @@ void PositionSystem::on_AcqReadCpushButton_clicked()
 * input：
 * output：
 * Process：
-* 2020/08/02 sun 18:07:修改在总程序框架之内运行；
+* 2020/08/02 sun 18:07:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::on_AcqWriteCpushButton_clicked()
 {
@@ -677,7 +705,7 @@ void PositionSystem::on_AcqWriteCpushButton_clicked()
 * input：
 * output：
 * Process：
-* 2020/08/02 sun 18:12:修改在总程序框架之内运行；
+* 2020/08/02 sun 18:12:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::on_AcqStartpushButton_clicked()
 {
@@ -717,17 +745,17 @@ void PositionSystem::on_AcqStartpushButton_clicked()
 * input：
 * output：
 * Process：
-* 2020/08/02 sun 18:14:修改在总程序框架之内运行；
+* 2020/08/02 sun 18:14:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::on_AcqEndpushButton_clicked()
 {
     //关闭IridiumAcq.exeProcess
     QString c = "taskkill /im IridiumAcq.exe /f";
-       int pInt = QProcess::execute(c);    //关闭后台notepad.exeProcess，阻塞式运行,一直占用cpu,成功返回0，失败返回1
-       if(pInt==0)
-       {
-           QMessageBox::warning(0,"PATH","SUCCESS KILL IRIDIUMACQ.EXE!",QMessageBox::Yes);           //查看当前路径
-       }
+    int pInt = QProcess::execute(c);    //关闭后台notepad.exeProcess，阻塞式运行,一直占用cpu,成功返回0，失败返回1
+    if(pInt==0)
+    {
+        QMessageBox::warning(0,"PATH","SUCCESS KILL IRIDIUMACQ.EXE!",QMessageBox::Yes);           //查看当前路径
+    }
 
 }
 
@@ -739,7 +767,7 @@ void PositionSystem::on_AcqEndpushButton_clicked()
 * input：
 * output：
 * Process：
-* 2020/08/02 sun 18:18:修改在总程序框架之内运行；
+* 2020/08/02 sun 18:18:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::on_AcqRefreshpushButton_clicked()
 {
@@ -763,7 +791,7 @@ void PositionSystem::on_AcqRefreshpushButton_clicked()
 * input：
 * output：
 * Process：
-* 2020/08/02 sun 18:18:修改在总程序框架之内运行；
+* 2020/08/02 sun 18:18:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::refreshacqout(void)
 {
@@ -782,7 +810,7 @@ void PositionSystem::refreshacqout(void)
 * Process：
 * 2019/12/12 sun 16:13:达到理想效果；
 * 2019/12/30 sun 17:26:捕获文件路径可通过readconfig按钮读取；
-* 2020/08/02 sun 18:18:修改在总程序框架之内运行；
+* 2020/08/02 sun 18:18:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::ReadData()
 {
@@ -845,7 +873,7 @@ void PositionSystem::ReadData()
 * output：
 * Process：
 * 2019/12/13 sun 0:13:开始；
-* 2020/08/02 sun 18:24:修改在总程序框架之内运行；
+* 2020/08/02 sun 18:24:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::PlotData()
 {
@@ -890,7 +918,7 @@ void PositionSystem::PlotData()
 * output：
 * Process：
 * 2019/12/13 sun 0:22:开始；
-* 2020/08/02 sun 18:25:修改在总程序框架之内运行；
+* 2020/08/02 sun 18:25:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::RefreshBar()
 {
@@ -910,7 +938,7 @@ void PositionSystem::RefreshBar()
 * Process：
 * 2020/06/13 sun 18:33:目前可以显示网页及保存TLE；
 * 2020/06/13 sun 18:55:优化了信息output；
-* 2020/08/01 sun 19:12:修改在总程序框架之内运行；
+* 2020/08/01 sun 19:12:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::on_Iridium_clicked()
 {
@@ -983,7 +1011,7 @@ void PositionSystem::on_Iridium_clicked()
 * Process：
 * 2020/06/13 sun 18:33:目前可以显示网页及保存TLE；
 * 2020/06/13 sun 18:55:优化了信息output；
-* 2020/08/01 sun 19:23:修改在总程序框架之内运行；
+* 2020/08/01 sun 19:23:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::on_IridiumNext_clicked()
 {
@@ -1060,7 +1088,7 @@ void PositionSystem::on_IridiumNext_clicked()
 * 2020/06/13 sun 22:29:可直接删除两个换行符；
 * 2020/06/13 sun 23:46:发现\r\n均被认为是换行符，所以需要删除；
 * 2020/06/14 sun 01:34:基本达到理想效果；
-* 2020/08/01 sun 19:26:修改在总程序框架之内运行；
+* 2020/08/01 sun 19:26:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::on_UpdateTLE_clicked()
 {
@@ -1217,7 +1245,7 @@ void PositionSystem::on_UpdateTLE_clicked()
 * Process：
 * 2020/06/14 sun 00:08:开始；
 * 2020/06/14 sun 01:32:达到理想效果；
-* 2020/08/01 sun 19:31:修改在总程序框架之内运行；
+* 2020/08/01 sun 19:31:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 QString PositionSystem::CalculateTimeVSTLE(QString line)
 {
@@ -1252,7 +1280,7 @@ QString PositionSystem::CalculateTimeVSTLE(QString line)
     }
     else
     {
-        ui ->UptextEdit_2 ->setText("Year Error");  //报错
+        ui ->UptextEdit_2 ->setText("Year Error");  //Report an error
     }
     //月
     if(BJT.M < 10 && BJT.M > 0)
@@ -1266,7 +1294,7 @@ QString PositionSystem::CalculateTimeVSTLE(QString line)
     }
     else
     {
-        ui ->UptextEdit_2 ->setText("Month Error");  //报错
+        ui ->UptextEdit_2 ->setText("Month Error");  //Report an error
     }
     //日
     if(BJT.D < 10 && BJT.D > 0)
@@ -1280,7 +1308,7 @@ QString PositionSystem::CalculateTimeVSTLE(QString line)
     }
     else
     {
-        ui ->UptextEdit_2 ->setText("Day Error");  //报错
+        ui ->UptextEdit_2 ->setText("Day Error");  //Report an error
     }
      //时
     if(BJT.h < 10 && BJT.h >= 0)
@@ -1294,7 +1322,7 @@ QString PositionSystem::CalculateTimeVSTLE(QString line)
     }
     else
     {
-         ui ->UptextEdit_2 ->setText("Hour Error");  //报错
+         ui ->UptextEdit_2 ->setText("Hour Error");  //Report an error
     }
     //分
     if(BJT.m < 10 && BJT.m >= 0)
@@ -1308,7 +1336,7 @@ QString PositionSystem::CalculateTimeVSTLE(QString line)
     }
     else
     {
-        ui ->UptextEdit_2 ->setText("Minute Error");  //报错
+        ui ->UptextEdit_2 ->setText("Minute Error");  //Report an error
     }
     //秒
     int second = (int)BJT.s;
@@ -1323,7 +1351,7 @@ QString PositionSystem::CalculateTimeVSTLE(QString line)
     }
     else
     {
-        ui ->UptextEdit_2 ->setText("Second Error");  //报错
+        ui ->UptextEdit_2 ->setText("Second Error");  //Report an error
     }
 
     TLE_DT = year_s + "/" + month_s + "/" + day_s + " " + hour_s + ":" + minute_s + ":" + second_s;
@@ -1341,7 +1369,7 @@ QString PositionSystem::CalculateTimeVSTLE(QString line)
 * Process：
 * 2020/06/14 sun 00:25:开始；
 * 2020/06/14 sun 00:43:结束；
-* 2020/08/01 sun 19:34:修改在总程序框架之内运行；
+* 2020/08/01 sun 19:34:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 PositionSystem::DateTime PositionSystem::days2ymdhms(int y,double d)
 {
@@ -1398,7 +1426,7 @@ PositionSystem::DateTime PositionSystem::days2ymdhms(int y,double d)
 * output：int数
 * Process：从C复制而来
 * 2019/08/20 sun 16:41：完成；
-* 2020/08/01 sun 19:35:修改在总程序框架之内运行；
+* 2020/08/01 sun 19:35:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 int PositionSystem::fix(double a)
 {
@@ -1431,7 +1459,7 @@ int PositionSystem::fix(double a)
 * Process：
 * 2020/06/14 sun 00:27:开始；
 * 2020/06/14 sun 01:03:完成；
-* 2020/08/01 sun 19:37:修改在总程序框架之内运行；
+* 2020/08/01 sun 19:37:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 PositionSystem::DateTime PositionSystem::UTC2BJT(DateTime U)
 {
@@ -1467,26 +1495,1160 @@ PositionSystem::DateTime PositionSystem::UTC2BJT(DateTime U)
     return B;
 }
 
+
 /*********************************************************************************************
 * sun 20200801
 * By sunguiyu96@gmail.com
-* Multiple Part
-* 时间更新槽函数
+* Location Part
+* Load LOC.config, extract information
 * input：
 * output：
 * Process：
-* 2020/06/14 sun 01:08:完成；
-* 2020/08/01 sun 19:38:修改在总程序框架之内运行；
+* 2020/05/26 sun 16:54:Basically realize all the functions of config reading；
+* 2020/08/02 sun 22:15:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
-void PositionSystem::timerUpdate(void)
+void PositionSystem::on_LocConfigRead_clicked()
 {
-    QDateTime time = QDateTime::currentDateTime();
-    //GPS
-    ui->GPSdateTimeEdit->setDisplayFormat("yyyy/MM/dd  HH:mm:ss");   //设置显示格式
-    ui->GPSdateTimeEdit->setDateTime(time);
-    //Update
-    ui->UpdateTimeEdit->setDisplayFormat("yyyy/MM/dd  HH:mm:ss");   //设置显示格式
-    ui->UpdateTimeEdit->setDateTime(time);
+    //Disable button
+    ui->LocMapDisplay->setEnabled(false);
+    ui->LocMapAll->setEnabled(false);
+    ui->LocMapOne->setEnabled(false);
+
+
+    int syear = 0,smonth = 0,sday = 0,shour = 0,sminute = 0;
+    double ssecond = 0.0;
+    double loc_x = 0.0,loc_y = 0.0,loc_z = 0.0;
+    int AssistantHigh = 0,posIter = 0;
+    ititude LocItitude;
+    QDateTime LocDT;
+    //Read config
+    QString currentpath = QApplication::applicationDirPath();       //Read the path where the .exe is located
+//    QString currentpath = "C:/Qt/BaiduMapTest/BaiduMap2";        //Currently a fixed folder
+    QString configpath = currentpath + "/config/";
+    qDebug() << configpath << endl;
+//    QString filename = QFileDialog::getOpenFileName(this, "打开文件", configpath, "config files(*.config);;Txt(*.txt)");
+    QString filename = configpath + "/LOC.config";
+    if(filename.isEmpty() == false)
+    {
+        QFile file(filename);
+        bool isok = file.open(QIODevice::ReadOnly);     //Open the file as read-only
+        if(isok == true)
+        {
+            QByteArray array;
+            QByteArray configline;
+            while(file.atEnd() == false)
+            {
+                configline = file.readLine();      //Every line read
+                array += configline;        //Save the read content in a byte array.
+                QString locline;
+                locline.prepend(configline);
+                //qDebug() << acqline;
+
+                //Get positioning error/result file path and name
+                if(locline[0]=="s" && locline[1]=="t")
+                {
+                    QString LocOutName;
+                    int n_name = locline.length() - 19;
+                    LocOutName = locline.mid(12,n_name);
+                    LoCoutPathandName = currentpath + "/LOC/" + LocOutName + ".txt";     //Location error file name
+                    LoCoutPathandName_L = currentpath + "/LOC/" + LocOutName + "L.txt";     //Location result file name
+                    qDebug() <<  LoCoutPathandName <<endl;
+                    qDebug() <<  LoCoutPathandName_L <<endl;
+                    ui ->LoctextEdit_2 ->setText(LoCoutPathandName + "\n" + LoCoutPathandName_L);
+                }
+                //Data time
+                if(locline[0]=="s" && locline[1]=="y" && locline[2]=="e")
+                {
+                    QString year;
+                    int n = locline.length() - 6;
+                    year = locline.mid(6,n);
+                    syear = year.toInt();
+                }       //year
+                if(locline[0]=="s" && locline[1]=="m" && locline[2]=="o")
+                {
+                    QString month;
+                    int n = locline.length() - 7;
+                    month = locline.mid(7,n);
+                    smonth = month.toInt();
+                }       //month
+                if(locline[0]=="s" && locline[1]=="d" && locline[2]=="a")
+                {
+                    QString day;
+                    int n = locline.length() - 5;
+                    day = locline.mid(5,n);
+                    sday = day.toInt();
+                }       //day
+                if(locline[0]=="s" && locline[1]=="h" && locline[2]=="o")
+                {
+                    QString hour;
+                    int n = locline.length() - 6;
+                    hour = locline.mid(6,n);
+                    shour = hour.toInt();
+                }       //hour
+                if(locline[0]=="s" && locline[1]=="m" && locline[2]=="i")
+                {
+                    QString minute;
+                    int n = locline.length() - 8;
+                    minute = locline.mid(8,n);
+                    sminute = minute.toInt();
+                }       //minute
+                if(locline[0]=="s" && locline[1]=="s" && locline[2]=="e")
+                {
+                    QString second;
+                    int n = locline.length() - 8;
+                    second = locline.mid(8,n);
+                    ssecond = second.toDouble();
+                }       //second
+                if(locline[0]=="l" && locline[1]=="o" && locline[4]=="x" && locline[5]==":")
+                {
+                    QString locx;
+                    int n = locline.length() - 6;
+                    locx = locline.mid(6,n);
+                    loc_x = locx.toDouble();
+                }       //X
+                if(locline[0]=="l" && locline[1]=="o" && locline[4]=="y" && locline[5]==":")
+                {
+                    QString locy;
+                    int n = locline.length() - 6;
+                    locy = locline.mid(6,n);
+                    loc_y = locy.toDouble();
+                }       //Y
+                if(locline[0]=="l" && locline[1]=="o" && locline[4]=="z" && locline[5]==":")
+                {
+                    QString locz;
+                    int n = locline.length() - 6;
+                    locz = locline.mid(6,n);
+                    loc_z = locz.toDouble();
+                }       //Z
+                if(locline[0]=="A" && locline[1]=="s" && locline[4]=="s")
+                {
+                    QString Assistant_High;
+                    int n = locline.length() - 15;
+                    Assistant_High = locline.mid(15,n);
+                    AssistantHigh = Assistant_High.toInt();
+                }       //Elevation assist
+                if(locline[0]=="p" && locline[1]=="o" && locline[4]=="i")
+                {
+                    QString iter;
+                    int n = locline.length() - 9;
+                    iter = locline.mid(9,n);
+                    posIter = iter.toInt();
+                    Iter = posIter;
+                }       //Positioning times
+            }
+            ui->LoctextEdit->setText(array);
+        }
+        file.close();       //Close the file after reading the file.
+//        qDebug() << loc_x << endl;
+//        qDebug() << syear << "/" << smonth << "/" << sday << endl;
+//        qDebug() << shour << ":" << sminute << ":" << ssecond << endl;
+
+        LocItitude = togeod(6378137,298.257223563,loc_x,loc_y,loc_z);       //Convert to latitude, longitude and High
+    }
+
+    //Display the read data on the panel
+    //Time
+    LocDT = intToQDatetime(syear,smonth,sday,shour,sminute,ssecond);        //Convert the read date and time to the required format
+    //qDebug() << LocDT.toString("yyyy-MM-dd hh:mm:ss")  << endl;
+    ui->LocdateTimeEdit->setDisplayFormat("yyyy/MM/dd HH:mm:ss");   //Set display format
+    ui->LocdateTimeEdit->setDateTime(LocDT);
+    //latitude, longitude and High
+    Loc_Ititude = LocItitude;
+    if(LocItitude.longitude > 0)
+    {
+        ui->LocLongitude->setText("E " + QString::number(LocItitude.longitude));
+    }
+    else if(LocItitude.longitude < 0)
+    {
+        ui->LocLongitude->setText("W " + QString::number(-1 * LocItitude.longitude));
+    }
+    else
+    {
+        ui->LocLongitude->setText(QString::number(LocItitude.longitude));
+    }
+    if(LocItitude.latitude > 0)
+    {
+        ui->LocLatitude->setText("N " + QString::number(LocItitude.latitude));
+    }
+    else if(LocItitude.latitude < 0)
+    {
+        ui->LocLatitude->setText("S " + QString::number(-1 * LocItitude.latitude));
+    }
+    else
+    {
+        ui->LocLatitude->setText(QString::number(LocItitude.latitude));
+    }
+    ui->LocHighlight->setText(QString::number(LocItitude.h));
+    //Elevation assist
+    if(AssistantHigh == 3)
+    {
+        ui->LocHighAissradioButton->setChecked(true);
+    }
+    else
+    {
+        ui->LocHighAissradioButton->setChecked(false);
+    }
+    //Positioning times
+    ui->LocPosIterL->setText(QString::number(posIter));
+
+    //After .config has been read, enable the next button
+    ui->LocMapDisplay->setEnabled(true);
+}
+
+/*********************************************************************************************
+* sun 20200801
+* By sunguiyu96@gmail.com
+* Location Part
+* Write LOC.config from textEdit
+* input:
+* output:
+* Process:
+* 2020/08/02 sun 23:56:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::on_LocConfigWrite_clicked()
+{
+    //Set Location's button disabled
+    ui->LocConfigWrite->setEnabled(false);
+    ui->LocMapDisplay->setEnabled(false);
+    ui->LocMapAll->setEnabled(false);
+    ui->LocMapOne->setEnabled(false);
+    ui->LocMapRefCircle->setEnabled(false);
+    ui->LocMapResCircle->setEnabled(false);
+
+    //Write config
+    QString currentpath = QApplication::applicationDirPath();       //Read the path where the .exe is located
+    QString configpath = currentpath + "/config/";
+    QString filename = QFileDialog::getOpenFileName(this, "打开文件", configpath, "config files(*.config);;Txt(*.txt)");
+    QString str;
+    if(filename.isEmpty() == false)
+    {
+        QFile file(filename);
+        bool isok = file.open(QIODevice::WriteOnly);
+        if(isok == true)
+        {
+            //Rewrite from interface
+            str = ui->LoctextEdit->toPlainText();
+            file.write(str.toUtf8());
+        }
+        file.close();
+        //ui->AcqConfigtextEdit->setText(str + "\n" + "Write " + filename + " OK!!");
+    }
+
+    //Read the config file written above
+    int syear = 0,smonth = 0,sday = 0,shour = 0,sminute = 0;
+    double ssecond = 0.0;
+    double loc_x = 0.0,loc_y = 0.0,loc_z = 0.0;
+    int AssistantHigh = 0,posIter = 0;
+    ititude LocItitude;
+    QDateTime LocDT;
+    if(filename.isEmpty() == false)
+    {
+        QFile file(filename);
+        bool isok = file.open(QIODevice::ReadOnly);     //Open the file as read-only
+        if(isok == true)
+        {
+            QByteArray array;
+            QByteArray configline;
+            while(file.atEnd() == false)
+            {
+                configline = file.readLine();      //Every line read
+                array += configline;        //Save the read content in a byte array.
+                QString locline;
+                locline.prepend(configline);
+                //qDebug() << acqline;
+
+                //Get positioning error/result file path and name
+                if(locline[0]=="s" && locline[1]=="t")
+                {
+                    QString LocOutName;
+                    int n_name = locline.length() - 19;
+                    LocOutName = locline.mid(12,n_name);
+                    LoCoutPathandName = currentpath + "/LOC/" + LocOutName + ".txt";     //Location error file name
+                    LoCoutPathandName_L = currentpath + "/LOC/" + LocOutName + "L.txt";     //Location result file name
+                    qDebug() <<  LoCoutPathandName <<endl;
+                    qDebug() <<  LoCoutPathandName_L <<endl;
+                    ui ->LoctextEdit_2 ->setText(LoCoutPathandName + "\n" + LoCoutPathandName_L);
+                }
+                //Data time
+                if(locline[0]=="s" && locline[1]=="y" && locline[2]=="e")
+                {
+                    QString year;
+                    int n = locline.length() - 6;
+                    year = locline.mid(6,n);
+                    syear = year.toInt();
+                }       //year
+                if(locline[0]=="s" && locline[1]=="m" && locline[2]=="o")
+                {
+                    QString month;
+                    int n = locline.length() - 7;
+                    month = locline.mid(7,n);
+                    smonth = month.toInt();
+                }       //month
+                if(locline[0]=="s" && locline[1]=="d" && locline[2]=="a")
+                {
+                    QString day;
+                    int n = locline.length() - 5;
+                    day = locline.mid(5,n);
+                    sday = day.toInt();
+                }       //day
+                if(locline[0]=="s" && locline[1]=="h" && locline[2]=="o")
+                {
+                    QString hour;
+                    int n = locline.length() - 6;
+                    hour = locline.mid(6,n);
+                    shour = hour.toInt();
+                }       //hour
+                if(locline[0]=="s" && locline[1]=="m" && locline[2]=="i")
+                {
+                    QString minute;
+                    int n = locline.length() - 8;
+                    minute = locline.mid(8,n);
+                    sminute = minute.toInt();
+                }       //minute
+                if(locline[0]=="s" && locline[1]=="s" && locline[2]=="e")
+                {
+                    QString second;
+                    int n = locline.length() - 8;
+                    second = locline.mid(8,n);
+                    ssecond = second.toDouble();
+                }       //second
+                if(locline[0]=="l" && locline[1]=="o" && locline[4]=="x" && locline[5]==":")
+                {
+                    QString locx;
+                    int n = locline.length() - 6;
+                    locx = locline.mid(6,n);
+                    loc_x = locx.toDouble();
+                }       //X
+                if(locline[0]=="l" && locline[1]=="o" && locline[4]=="y" && locline[5]==":")
+                {
+                    QString locy;
+                    int n = locline.length() - 6;
+                    locy = locline.mid(6,n);
+                    loc_y = locy.toDouble();
+                }       //Y
+                if(locline[0]=="l" && locline[1]=="o" && locline[4]=="z" && locline[5]==":")
+                {
+                    QString locz;
+                    int n = locline.length() - 6;
+                    locz = locline.mid(6,n);
+                    loc_z = locz.toDouble();
+                }       //Z
+                if(locline[0]=="A" && locline[1]=="s" && locline[4]=="s")
+                {
+                    QString Assistant_High;
+                    int n = locline.length() - 15;
+                    Assistant_High = locline.mid(15,n);
+                    AssistantHigh = Assistant_High.toInt();
+                }       //Elevation assist
+                if(locline[0]=="p" && locline[1]=="o" && locline[4]=="i")
+                {
+                    QString iter;
+                    int n = locline.length() - 9;
+                    iter = locline.mid(9,n);
+                    posIter = iter.toInt();
+                    Iter = posIter;
+                }       //Positioning times
+            }
+            ui->LoctextEdit->setText(array);
+        }
+        file.close();       //Close the file after reading the file.
+
+        LocItitude = togeod(6378137,298.257223563,loc_x,loc_y,loc_z);       //Convert to latitude, longitude and High
+    }
+
+    //Display the read data on the panel
+    //Time
+    LocDT = intToQDatetime(syear,smonth,sday,shour,sminute,ssecond);        //Convert the read date and time to the required format
+
+    ui->LocdateTimeEdit->setDisplayFormat("yyyy/MM/dd HH:mm:ss");   //Set display format
+    ui->LocdateTimeEdit->setDateTime(LocDT);
+
+    //latitude, longitude and High
+    Loc_Ititude = LocItitude;
+    if(LocItitude.longitude > 0)
+    {
+        ui->LocLongitude->setText("E " + QString::number(LocItitude.longitude));
+    }
+    else if(LocItitude.longitude < 0)
+    {
+        ui->LocLongitude->setText("W " + QString::number(-1 * LocItitude.longitude));
+    }
+    else
+    {
+        ui->LocLongitude->setText(QString::number(LocItitude.longitude));
+    }
+    if(LocItitude.latitude > 0)
+    {
+        ui->LocLatitude->setText("N " + QString::number(LocItitude.latitude));
+    }
+    else if(LocItitude.latitude < 0)
+    {
+        ui->LocLatitude->setText("S " + QString::number(-1 * LocItitude.latitude));
+    }
+    else
+    {
+        ui->LocLatitude->setText(QString::number(LocItitude.latitude));
+    }
+    ui->LocHighlight->setText(QString::number(LocItitude.h));
+    //Elevation assist
+    if(AssistantHigh == 3)
+    {
+        ui->LocHighAissradioButton->setChecked(true);
+    }
+    else
+    {
+        ui->LocHighAissradioButton->setChecked(false);
+    }
+    //Positioning times
+    ui->LocPosIterL->setText(QString::number(posIter));
+
+    //Write success sign
+    QString currentText = ui->LoctextEdit_2->toPlainText();
+    ui->LoctextEdit_2->setText(currentText + "\n\nWrite " + filename + " OK!!");
+    //Keep it at the bottom
+    QTextCursor cursor = ui->LoctextEdit_2->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->LoctextEdit_2->setTextCursor(cursor);
+
+    //After .config has been read, enable the next button
+    ui->LocMapDisplay->setEnabled(true);
+    ui->LocConfigWrite->setEnabled(true);
+}
+
+/***********************************************************************************************************
+* sun 20200801
+* By sunguiyu96@gmail.com
+* togeod
+* Function：Subroutine to calculate geodetic coordinates latitude, longitude,
+*           height given Cartesian coordinates X,Y,Z, and reference ellipsoid
+*           values semi-major axis (a) and the inverse of flattening (finv)；
+* input:a           - semi-major axis of the reference ellipsoid
+*       finv        - inverse of flattening of the reference ellipsoid
+*       X,Y,Z       - Cartesian coordinates
+* output:Contained in the structure CanseeHigh，latitude/longitude/height above reference ellipsoid
+* other:
+* Copy it directly from the original C file to convert from XYZ to latitude and longitude
+%  Copyright (C) 1987 C. Goad, Columbus, Ohio
+%  Reprinted with permission of author, 1996
+%  Fortran code translated into MATLAB
+%  Kai Borre 03-30-96
+%
+% CVS record:
+% $Id: togeod.m,v 1.1.1.1.2.4 2006/08/22 13:45:59 dpl Exp $
+**************************************************************************************************************/
+PositionSystem::ititude PositionSystem::togeod(double semimajor, double Rec_flat, double X, double Y, double Z)
+{
+    ititude togeodOut;
+    togeodOut.latitude = 0;
+    togeodOut.longitude = 0;
+    togeodOut.h = 0;
+    double tolsq=1.0e-10;
+    int maxit = 10;
+    double esq = 0;
+    double oneesq = 0;
+    double sinphi = 0;
+    double cosphi = 0;
+    double N_phi = 0;
+
+
+    //compute radians-to-degree factor
+    double rtd = 180 / 3.1415926535898;
+
+    //compute square of eccentricity
+    if (Rec_flat < 1.0e-20)
+    {
+        esq = 0;
+    }
+    else
+    {
+        esq = (2 - 1 / Rec_flat) / Rec_flat;
+    }
+    oneesq = 1 - esq;
+
+    //first guess
+    //P is distanse from spin axis
+    double P = 0;
+    P = sqrt(X*X + Y*Y);
+    //direct calculation of langitude
+
+    if (P > 1.0e-20)
+    {
+        togeodOut.longitude = atan2(Y, X)*rtd;
+    }
+    else
+    {
+        togeodOut.longitude = 0;
+    }
+
+    if (togeodOut.longitude < 0)
+    {
+        togeodOut.longitude = togeodOut.longitude + 360;
+    }
+
+    //r is distance from origin(0.0.0)
+    double r = 0;
+    r = sqrt(P*P + Z*Z);
+    if (r > 1.0e-20)
+    {
+        sinphi = Z / r;
+    }
+    else
+    {
+        sinphi = 0;
+    }
+    togeodOut.latitude = asin(sinphi);
+
+    //initial value of hright = distance from origin minus
+    //approximate distance from origin to surface of elliosoid
+    if (r < 1.0e-20)
+    {
+        togeodOut.h = 0;
+        return togeodOut;
+    }
+    togeodOut.h = r - semimajor*(1 - sinphi*sinphi / Rec_flat);
+
+    //iterate
+    for (int i = 0; i < maxit; i++)
+    {
+        sinphi = sin(togeodOut.latitude);
+        cosphi = cos(togeodOut.latitude);
+
+        //compute radius of curvature in prime vertical direction
+        N_phi = semimajor / sqrt(1 - esq*sinphi*sinphi);
+
+        //compute residuals in P and Z
+        double dP = 0;
+        double dZ = 0;
+        dP = P - (N_phi + togeodOut.h)*cosphi;
+        dZ = Z - (N_phi*oneesq + togeodOut.h)*sinphi;
+
+        //update hright and latitude
+        togeodOut.h = togeodOut.h + (sinphi*dZ + cosphi*dP);
+        togeodOut.latitude = togeodOut.latitude + (cosphi*dZ - sinphi*dP) / (N_phi + togeodOut.h);
+
+        //test for convergence
+        if ((dP*dP + dZ*dZ) < tolsq)
+        {
+            break;
+        }
+
+        //Not Converged:Warn user
+        if (i == maxit)
+        {
+            printf("Problem in TOGEOD, did not converge in %2d iterrations!",i);
+        }
+    }//end of maxit circle
+
+    togeodOut.latitude = togeodOut.latitude * rtd;
+
+    return togeodOut;
+}
+
+/*********************************************************************************************
+* sun 20200801
+* By sunguiyu96@gmail.com
+* Location Part
+* Convert the year, month and day of int type to QDatetime type
+* input: Year month day hour minute second
+* output: QDatetime
+* Process:
+* 2020/05/26 sun 16:14:Start；
+* 2020/05/26 sun 16:44:Unmistakable；
+* 2020/08/02 sun 22:15:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+QDateTime PositionSystem::intToQDatetime(int year,int month,int day,int hour,int minute,double second_d)
+{
+    QDateTime DT;
+    QString DT_s,year_s,month_s,day_s,hour_s,minute_s,second_s;      //Prepare to convert time format
+    if(year >= 1000 && year <= 9999)
+    {
+        year_s = QString::number(year);        //Consider the length of year must be 4
+    }
+    else
+    {
+        ui ->LoctextEdit_2 ->setText("Year Error");  //Report an error
+    }
+    //月
+    if(month < 10 && month > 0)
+    {
+        month_s = QString::number(month);
+        month_s = "0" + month_s;//补0
+    }
+    else if(month < 13 && month > 9)
+    {
+        month_s = QString::number(month);
+    }
+    else
+    {
+        ui ->LoctextEdit_2 ->setText("Month Error");  //Report an error
+    }
+    //日
+    if(day < 10 && day > 0)
+    {
+        day_s = QString::number(day);
+        day_s = "0" + day_s;//补0
+    }
+    else if(day < 32 && day > 9)
+    {
+        day_s = QString::number(day);
+    }
+    else
+    {
+        ui ->LoctextEdit_2 ->setText("Day Error");  //Report an error
+    }
+    //时
+    if(hour < 10 && hour > 0)
+    {
+        hour_s = QString::number(hour);
+        hour_s = "0" + hour_s;//补0
+    }
+    else if(hour < 25 && hour >= 9)
+    {
+        hour_s = QString::number(hour);
+    }
+    else
+    {
+        ui ->LoctextEdit_2 ->setText("Hour Error");  //Report an error
+    }
+    //分
+    if(minute < 10 && minute >= 0)
+    {
+        minute_s = QString::number(minute);
+        minute_s = "0" + minute_s;//补0
+    }
+    else if(minute < 61 && minute > 9)
+    {
+        minute_s = QString::number(minute);
+    }
+    else
+    {
+        ui ->LoctextEdit_2 ->setText("Minute Error");  //Report an error
+    }
+    //秒
+    int second = (int)second_d;
+    if(second < 10 && second > 0)
+    {
+        second_s = QString::number(second);
+        second_s = "0" + second_s;//补0
+    }
+    else if(second <= 60 && second >= 10)
+    {
+        second_s = QString::number(second);
+    }
+    else
+    {
+        ui ->LoctextEdit_2 ->setText("Second Error");  //Report an error
+    }
+    DT_s = year_s + "-" + month_s + "-" + day_s + " " + hour_s + ":" + minute_s + ":" + second_s;
+//    qDebug() << "Str:" << DT_s << endl;
+    DT = QDateTime::fromString(DT_s,"yyyy-MM-dd hh:mm:ss");
+    //qDebug() << DT.toString("yyyy-MM-dd hh:mm:ss")  << endl;
+
+    return DT;
+}
+
+/*********************************************************************************************
+* sun 20200801
+* By sunguiyu96@gmail.com
+* Location Part
+* After the Map is loaded, enable the next button
+* input:
+* output:
+* Process:
+* 2020/06/03 sun 09:35:Start；
+* 2020/06/03 sun 09:40:Unmistakable；
+* 2020/08/01 sun 22:38:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::MapLoadFinished(void)
+{
+    ui->LocMapDisplay->setEnabled(true);
+    ui->LocMapAll->setEnabled(true);
+    ui->LocMapOne->setEnabled(true);
+    ui->LocMapRefCircle->setEnabled(true);
+    ui->LocMapResCircle->setEnabled(true);
+}
+
+/*********************************************************************************************
+* sun 20200801
+* By sunguiyu96@gmail.com
+* Location Part
+* Load and display the map
+* input:
+* output:
+* Process:
+* 2020/05/21 sun 18:47:Access the Baidu map API to display the location,
+*                      and the WGS84->BD conversion function will be called；
+* 2020/08/02 sun 22:42:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::on_LocMapDisplay_clicked()
+{
+    //Set Location's button disabled
+    ui->LocConfigWrite->setEnabled(false);
+    ui->LocMapDisplay->setEnabled(false);
+    ui->LocMapAll->setEnabled(false);
+    ui->LocMapOne->setEnabled(false);
+    ui->LocMapRefCircle->setEnabled(false);
+    ui->LocMapResCircle->setEnabled(false);
+
+    //Set the ordinal number to zero
+    current_i = 0;
+
+    QString currentpath = QApplication::applicationDirPath();       //Read the path where the .exe is located
+    QString path = currentpath + "/LoctiononBaiduMap.html";
+//    QString path = "C:/Qt/BaiduMapTest/BaiduMap2/BaiduMap2.html";        //Fixed path
+    QUrl url(path);
+
+    ui->LocMapView->load(url);
+    ui->LocMapView->show();
+
+    //Read positioning results from XXXXL.txt
+    QString filename = LoCoutPathandName_L;
+
+    LocData.resize(Iter + 5);
+    index.resize(Iter + 5);
+    if(filename.isEmpty() == false)
+    {
+        QFile file(filename);
+        bool isok = file.open(QIODevice::ReadOnly);     //Open the file as read-only
+        if(isok == true)
+        {
+            QString Currunt_textEdit = ui->LoctextEdit->toPlainText();
+            QByteArray array;
+            QByteArray line;
+            bool DataFlag = false;
+            int i = 0;
+            while(file.atEnd() == false)
+            {
+                line = file.readLine();      //Every line read
+                array += line;      //Save the read content in a byte array.
+                QString locline;
+                locline.prepend(line);
+
+                //Read positioning results in format
+                if(locline[0]=="i" && locline[1]=="i" && locline[2]=="i")
+                {
+                    DataFlag = true;
+                }
+                else if(DataFlag == true)
+                {
+                    i++;
+                    QString str(line);
+                    QVector<QStringRef> lineRef;
+                    lineRef = str.splitRef(' ',QString::SkipEmptyParts);
+
+                    index[i] = lineRef[0].toInt();
+                    LocData[i].latitude = lineRef[4].toDouble();
+                    LocData[i].longitude = lineRef[5].toDouble();
+                    LocData[i].h = lineRef[6].toDouble();
+//                    qDebug() << index[i] << " " <<  LocData[i].latitude << " " << LocData[i].longitude << endl;
+                    qDebug("%d %f %f",index[i], LocData[i].latitude,LocData[i].longitude);
+                }
+            }
+            ui->LoctextEdit->setText(Currunt_textEdit + array);
+            //Move the cursor to the end
+            QTextCursor cursor = ui->LoctextEdit->textCursor();
+            cursor.movePosition(QTextCursor::End);
+            ui->LoctextEdit->setTextCursor(cursor);
+        }
+        file.close();       //Close the file after reading the file.
+    }
+
+//    connect(ui->MapView, SIGNAL(loadFinished(bool)), this, SLOT(MapLoadFinished(void)));//加载地图完成后执行MapLoadFinished函数
+
+    MapLoadFinished();      //Execute the MapLoadFinished function after loading the map
+}
+
+/*********************************************************************************************
+* sun 20200801
+* By sunguiyu96@gmail.com
+* Location Part
+* Button to locate all results on the map
+* input:
+* output:
+* Process:
+* 2020/06/02 sun 17:52:Achieve reading positioning results；
+* 2020/06/02 sun 18:52:Display all positioning through interaction with Baidu map API js;
+* 2020/06/03 sun 16:24:Add reading reference point；
+* 2020/06/03 sun 16:51:Combine read positioning results to display map；
+* 2020/08/02 sun 22:58:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::on_LocMapAll_clicked()
+{
+    //Set Location's button disabled
+    ui->LocMapDisplay->setEnabled(false);
+    ui->LocMapAll->setEnabled(false);
+    ui->LocMapOne->setEnabled(false);
+    ui->LocMapRefCircle->setEnabled(false);
+    ui->LocMapResCircle->setEnabled(false);
+
+    //Place the reference point on the map
+    QString command_ = QString("addreal(%1,%2)").arg(QString::number(Loc_Ititude.longitude)).arg(QString::number(Loc_Ititude.latitude));
+    ui->LocMapView->page()->runJavaScript(command_);
+
+    //Point all positioning results on the map
+    for(int j = 1;j < Iter + 1;j++)
+    {
+        QString command = QString("addpoint(%1,%2)").arg(QString::number(LocData[j].longitude)).arg(QString::number(LocData[j].latitude));
+        ui->LocMapView->page()->runJavaScript(command);
+    }
+
+    //Enable button
+    ui->LocMapDisplay->setEnabled(true);
+    ui->LocMapAll->setEnabled(true);
+    ui->LocMapRefCircle->setEnabled(true);
+    ui->LocMapResCircle->setEnabled(true);
+}
+
+/*********************************************************************************************
+* sun 20200801
+* By sunguiyu96@gmail.com
+* Location Part
+* Button to locate One results on the map sequentially
+* input:
+* output:
+* Process:
+* 2020/06/03 sun 16:53:Start;
+* 2020/06/03 sun 17:30:Complpleted;
+* 2020/08/02 sun 23:03:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::on_LocMapOne_clicked()
+{
+    //Set Location's button disabled
+    ui->LocMapDisplay->setEnabled(false);
+    ui->LocMapAll->setEnabled(false);
+    ui->LocMapOne->setEnabled(false);
+    ui->LocMapRefCircle->setEnabled(false);
+    ui->LocMapResCircle->setEnabled(false);
+
+    //Read the current content of text2
+    QString Currunt_textEdit = ui->LoctextEdit_2->toPlainText();
+    QString text;
+
+    //Press this button for the first time to display the reference point
+    if(current_i == 0)
+    {
+        text = "\nReal: " + QString::number(Loc_Ititude.longitude) + "," + QString::number(Loc_Ititude.latitude) + "\n";
+        QString command_ = QString("addreal(%1,%2)").arg(QString::number(Loc_Ititude.longitude)).arg(QString::number(Loc_Ititude.latitude));
+        ui->LocMapView->page()->runJavaScript(command_);
+        current_i++;
+    }
+    else
+    {
+        current_i++;
+        //Display anchor points in turn
+        if(current_i <= Iter)
+        {
+            text ="\n" + QString::number(index[current_i]) +  ": " + QString::number(LocData[current_i].longitude) + "," + QString::number(LocData[current_i].latitude) + "\n";
+            QString command = QString("addpoint(%1,%2)").arg(QString::number(LocData[current_i].longitude)).arg(QString::number(LocData[current_i].latitude));
+            ui->LocMapView->page()->runJavaScript(command);
+        }
+    }
+
+    //Display information in textEdit_2
+    ui->LoctextEdit_2->setText(Currunt_textEdit + text);
+    //Move the cursor to the end
+    QTextCursor cursor = ui->LoctextEdit_2->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->LoctextEdit_2->setTextCursor(cursor);
+
+    //Enable button
+    ui->LocMapDisplay->setEnabled(true);
+    ui->LocMapAll->setEnabled(true);
+    ui->LocMapRefCircle->setEnabled(true);
+    ui->LocMapResCircle->setEnabled(true);
+    if(current_i <= Iter)
+    {
+        ui->LocMapOne->setEnabled(true);
+    }
+}
+
+/*********************************************************************************************
+* sun 20200801
+* By sunguiyu96@gmail.com
+* Location Part
+* Display the distribution of positioning results relative to the reference point on the map
+* input:
+* output:
+* Process:
+* 2020/06/03 sun 17:31:Start；
+* 2020/06/03 sun 18:37:End；
+* 2020/06/03 sun 19:35:Success；
+* 2020/08/02 sun 23:08:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::on_LocMapRefCircle_clicked()
+{
+    //Set Location's button disabled
+    ui->LocMapDisplay->setEnabled(false);
+    ui->LocMapAll->setEnabled(false);
+    ui->LocMapOne->setEnabled(false);
+    ui->LocMapRefCircle->setEnabled(false);
+    ui->LocMapResCircle->setEnabled(false);
+
+    //Read distance from XXXXX.txt
+    QVector<double>dis(10);
+    dis.resize(Iter);
+
+    QString filename = LoCoutPathandName;
+    if(filename.isEmpty() == false)
+    {
+        QFile file(filename);
+        bool isok = file.open(QIODevice::ReadOnly);     //Open the file as read-only
+        if(isok == true)
+        {
+            QString Currunt_textEdit = ui->LoctextEdit->toPlainText();
+            QByteArray array;
+            QByteArray line;
+            bool DataFlag = false;
+            int i = 0;
+            while(file.atEnd() == false)
+            {
+                line = file.readLine();      //Every line read
+                array += line;      //Save the read content in a byte array
+                QString locline;
+                locline.prepend(line);
+
+                //Read positioning results in format
+                if(locline[0]=="i" && locline[1]=="i" && locline[2]=="i")
+                {
+                    DataFlag = true;
+                }
+                else if(locline[0]=="m" && locline[1]=="e" && locline[2]=="a")
+                {
+                    DataFlag = false;
+                }
+                else if(DataFlag == true)
+                {
+                    QString str(line);
+                    QVector<QStringRef> lineRef;
+                    lineRef = str.splitRef(' ',QString::SkipEmptyParts);
+
+                    dis[i] = lineRef[1].toDouble();
+                    qDebug("%d %f",i + 1, dis[i]);
+
+                    i++;
+                }
+            }
+            ui->LoctextEdit->setText(Currunt_textEdit + array);
+           //Move the cursor to the end
+            QTextCursor cursor = ui->LoctextEdit->textCursor();
+            cursor.movePosition(QTextCursor::End);
+            ui->LoctextEdit->setTextCursor(cursor);
+        }
+        file.close();       //Close the file after reading the file.
+    }
+
+    //Sort to find the maximum radius and median radius
+    qSort(dis.begin(),dis.end());
+    double radius_50 = dis[int(Iter/2)];
+    double radius_100 = dis[Iter - 1];
+    qDebug("radius:50: %f,100: %f",radius_50,radius_100);
+
+    //Cooperate with Js to draw a circle with center as the center and radius respectively
+    QString commandCir = QString("addcirclereal(%1,%2,%3,%4)").arg(QString::number(Loc_Ititude.longitude)).arg(QString::number(Loc_Ititude.latitude)).arg(QString::number(radius_50)).arg(QString::number(radius_100));
+    ui->LocMapView->page()->runJavaScript(commandCir);
+
+    //把按钮使能
+    MapLoadFinished();
+
 
 }
 
+/*********************************************************************************************
+* sun 20200801
+* By sunguiyu96@gmail.com
+* Location Part
+* Display the distribution of positioning results relative to the reference point on the map
+* input:
+* output:
+* Process:
+* 2020/06/03 sun 19:36:Start；
+* 2020/06/03 sun 19:57:Success；
+* 2020/08/02 sun 23:14:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::on_LocMapResCircle_clicked()
+{
+    //Set Location's button disabled
+    ui->LocMapDisplay->setEnabled(false);
+    ui->LocMapAll->setEnabled(false);
+    ui->LocMapOne->setEnabled(false);
+    ui->LocMapRefCircle->setEnabled(false);
+    ui->LocMapResCircle->setEnabled(false);
+
+    //Read XYZ coordinates from XXXXXL.txt
+    QVector<double>X(10);
+    QVector<double>Y(10);
+    QVector<double>Z(10);
+    X.resize(Iter);
+    Y.resize(Iter);
+    Z.resize(Iter);
+
+    QString filename = LoCoutPathandName_L;
+    if(filename.isEmpty() == false)
+    {
+        QFile file(filename);
+        bool isok = file.open(QIODevice::ReadOnly);     //Open the file as read-only
+        if(isok == true)
+        {
+            QString Currunt_textEdit = ui->LoctextEdit->toPlainText();
+            QByteArray array;
+            QByteArray line;
+            bool DataFlag = false;
+            int i = 0;
+            while(file.atEnd() == false)
+            {
+                line = file.readLine();      //Every line read
+                array += line;      //Save the read content in a byte array
+                QString locline;
+                locline.prepend(line);
+                //Read positioning results in format
+                if(locline[0]=="i" && locline[1]=="i" && locline[2]=="i")
+                {
+                    DataFlag = true;
+                }
+                else if(DataFlag == true)
+                {
+                    QString str(line);
+                    QVector<QStringRef> lineRef;
+                    lineRef = str.splitRef(' ',QString::SkipEmptyParts);
+
+                    X[i] = lineRef[1].toDouble();
+                    Y[i] = lineRef[2].toDouble();
+                    Z[i] = lineRef[3].toDouble();
+                    qDebug("%d (%f,%f,%f)",i + 1, X[i],Y[i],Z[i]);
+
+                    i++;
+                }
+            }
+            ui->LoctextEdit->setText(Currunt_textEdit + array);
+            //Move the cursor to the end
+            QTextCursor cursor = ui->LoctextEdit->textCursor();
+            cursor.movePosition(QTextCursor::End);
+            ui->LoctextEdit->setTextCursor(cursor);
+        }
+        file.close();       //Close the file after reading the file.
+    }
+
+
+    //Calculate the average point of all points
+    ititude center;
+    double sumX = 0.0,sumY = 0.0,sumZ = 0.0;
+    for(int j = 0;j < Iter;j++)
+    {
+        sumX += X[j];
+        sumY += Y[j];
+        sumZ += Z[j];
+    }
+    double centerX = sumX / Iter;
+    double centerY = sumY / Iter;
+    double centerZ = sumZ / Iter;
+    center = togeod(6378137,298.257223563,centerX,centerY,centerZ);
+
+    //Sort to find the maximum radius and median radius
+    QVector<double>dis(10);
+    dis.resize(Iter);
+    double radius_50 = 0,radius_100 = 0;
+    for(int j = 0;j < Iter;j++)
+    {
+        dis[j] = sqrt(pow((X[j] - centerX),2) + pow((Y[j] - centerY),2) + pow((Z[j] - centerZ),2));
+    }
+    qSort(dis.begin(),dis.end());
+    radius_50 = dis[int(Iter/2)];
+    radius_100 = dis[Iter - 1];
+    qDebug("radius:50: %f,100: %f",radius_50,radius_100);
+
+
+    //Cooperate with Js to draw a circle with center as the center and radius respectively
+    QString commandCir = QString("addcircleloc(%1,%2,%3,%4)").arg(QString::number(center.longitude)).arg(QString::number(center.latitude)).arg(QString::number(radius_50)).arg(QString::number(radius_100));
+    ui->LocMapView->page()->runJavaScript(commandCir);
+
+    //把按钮使能
+    MapLoadFinished();
+}
+
+/*********************************************************************************************
+* sun 20200801
+* By sunguiyu96@gmail.com
+* Location Part
+* execute IridiumLoc.exe
+* input:
+* output:
+* Process:
+* 2020/08/02 sun 23:40:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::on_LocStartLoc_clicked()
+{
+    //Call IridiumLoc.exe in this folder
+    QString currentpath = QApplication::applicationDirPath();       //Read the path where the .exe is located
+    QString exepath = currentpath + "/IridiumLoc.exe.exe";
+    QString workpath = currentpath;
+    //QMessageBox::warning(0,"PATH",exepath,QMessageBox::Yes);
+    QString currentText = ui->AcqStatetextEdit->toPlainText();
+    ui->LoctextEdit_2->setText(currentText + "\n\nIRIDIUMLOC.EXE HAS START!!  \n");
+    //Keep it at the bottom
+    QTextCursor cursor = ui->LoctextEdit_2->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->LoctextEdit_2->setTextCursor(cursor);
+
+    QTimer *timerrefresh = new QTimer(this);
+    connect(timerrefresh,SIGNAL(timeout()),this,SLOT(refreshlocout()));
+    timerrefresh->start(1000 * 5);        //Refresh every 5s
+
+    QProcess *pro;
+    if (QFileInfo(exepath).exists())
+    {
+        pro = new QProcess(this);
+        connect(pro, SIGNAL(readyReadStandardOutput()),this, SLOT(readFromStdOut()));
+        pro->startDetached(exepath,QStringList(),workpath);
+//        pro->start(exepath,QStringList(),workpath);
+        //ui->textEdit_2->setText("END2   \n");
+
+        QByteArray res = pro->readAllStandardOutput();
+        ui->LoctextEdit_2->append(QString::fromLocal8Bit(res));
+        //ui->textEdit_2->setText(pro->readAllStandardOutput());
+        //ui->textEdit_2->append("\n END");
+    }
+}
+
+/*********************************************************************************************
+* sun 20200801
+* By sunguiyu96@gmail.com
+* Location Part
+* turn off IridiumLoc.exe
+* input:
+* output:
+* Process:
+* 2020/08/02 sun 23:43:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::on_LocEndLoc_clicked()
+{
+    QString c = "taskkill /im IridiumLoc.exe /f";
+    int pInt = QProcess::execute(c);    //Close the background IridiumLoc.exe Process, blocking operation, always occupy the cpu, success returns 0, failure returns 1
+    if(pInt == 0)
+    {
+        QMessageBox::warning(0,"PATH","SUCCESS KILL IRIDIUMLOC.EXE!",QMessageBox::Yes);
+    }
+}
+
+/*********************************************************************************************
+* sun 20200801
+* By sunguiyu96@gmail.com
+* Location Part
+* Check whether IridiumLoc.exe has finished running
+* input:
+* output:
+* Process:
+* 2020/08/03 sun 00:13:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::refreshlocout(void)
+{
+    QString filename = LoCoutPathandName_L;
+    if(filename.isEmpty() == false)
+    {
+        QString Currunt_textEdit = ui->LoctextEdit_2->toPlainText();
+        ui->LoctextEdit_2->setText(Currunt_textEdit + "\n\nLocation has finished!!  ");
+        //Move the cursor to the end
+        QTextCursor cursor = ui->LoctextEdit->textCursor();
+        cursor.movePosition(QTextCursor::End);
+        ui->LoctextEdit->setTextCursor(cursor);
+    }
+}

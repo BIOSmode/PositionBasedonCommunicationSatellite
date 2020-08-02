@@ -9,7 +9,9 @@
 * 2020/08/01 sun 20:52:The basic framework of the overall program is built;
 * 2020/08/01 sun 20:52:GPS and TLE Part are completed；
 * 2020/08/02 sun 19:12:Acquisiton Part is completed；
-* 2020/08/02 sun 20:13:Position part's interface redeployment completed;
+* 2020/08/02 sun 20:13:Position part's interface redeployment is completed;
+* 2020/08/02 sun 23:23:Position part's original function is completed;
+* 2020/08/03 sun 00:34:Almost all parts are completed;
 **********************************************************************************************/
 
 #ifndef POSITIONSYSTEM_H
@@ -129,8 +131,25 @@ private slots:
     void timerUpdate();
 
     //Location
+    void on_LocConfigRead_clicked();
 
+    void on_LocConfigWrite_clicked();
 
+    void on_LocMapDisplay_clicked();
+
+    void on_LocMapAll_clicked();
+
+    void on_LocMapOne_clicked();
+
+    void on_LocMapRefCircle_clicked();
+
+    void on_LocMapResCircle_clicked();
+
+    void on_LocStartLoc_clicked();
+
+    void on_LocEndLoc_clicked();
+
+    void refreshlocout(void);
 
 private:
 
