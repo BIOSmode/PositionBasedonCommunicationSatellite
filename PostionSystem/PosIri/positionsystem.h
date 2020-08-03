@@ -12,6 +12,9 @@
 * 2020/08/02 sun 20:13:Position part's interface redeployment is completed;
 * 2020/08/02 sun 23:23:Position part's original function is completed;
 * 2020/08/03 sun 00:34:Almost all parts are completed;
+* 2020/08/03 sun 11:50:IridiumLoc.exe can be run, the Loc part is fully completed;
+* 2020/08/03 sun 11:52：Added a tool to automatically copy the updated .tle to the TLE folder;
+* 2020/08/03 sun 15:28:Refer to other people's Js to modify the homepage and initial page;
 **********************************************************************************************/
 
 #ifndef POSITIONSYSTEM_H
@@ -128,7 +131,8 @@ private slots:
 
     void on_UpdateTLE_clicked();
 
-    void timerUpdate();
+    void on_UpCopypushButton_clicked();
+
 
     //Location
     void on_LocConfigRead_clicked();
@@ -150,6 +154,9 @@ private slots:
     void on_LocEndLoc_clicked();
 
     void refreshlocout(void);
+
+    //Mutiple Part
+    void timerUpdate();
 
 private:
 

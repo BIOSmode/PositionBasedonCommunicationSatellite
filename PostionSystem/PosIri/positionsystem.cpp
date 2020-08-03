@@ -12,6 +12,9 @@
 * 2020/08/02 sun 20:13:Position part's interface redeployment is completed;
 * 2020/08/02 sun 23:23:Position part's original function is completed;
 * 2020/08/03 sun 00:34:Almost all parts are completed;
+* 2020/08/03 sun 11:50:IridiumLoc.exe can be run, the Loc part is fully completed;
+* 2020/08/03 sun 11:52:Added a tool to automatically copy the updated .tle to the TLE folder;
+* 2020/08/03 sun 15:28:Refer to other people's Js to modify the homepage and initial page;
 **********************************************************************************************/
 
 #include "positionsystem.h"
@@ -24,6 +27,7 @@ PositionSystem::PositionSystem(QWidget *parent)
     , ui(new Ui::PositionSystem)
 {
     ui->setupUi(this);
+
 
     //In order to show current time
     QTimer *timer = new QTimer(this);
@@ -43,6 +47,21 @@ PositionSystem::PositionSystem(QWidget *parent)
 
     //Set Homepage
     ui->tabWidget->setCurrentIndex(0);
+    QString currentpath = QApplication::applicationDirPath();       //Read the path where the .exe is located
+    QString path = currentpath + "/Welcome.html";
+    QUrl url(path);
+    ui->HomWelcome->load(url);
+    ui->HomWelcome->show();
+
+    //Initialize part of the interface
+    QString pathUpd = currentpath + "/Json/UpdWelcome.html";
+    QUrl urlUpd(pathUpd);
+    ui->TLEVIew->load(urlUpd);
+    ui->TLEVIew->show();
+    QString pathLoc = currentpath + "/Json/LocWelcome.html";
+    QUrl urlLoc(pathLoc);
+    ui->LocMapView->load(urlLoc);
+    ui->LocMapView->show();
 }
 
 
@@ -87,8 +106,10 @@ static int BeginIndex = 0;  //起始块数
 QVector<int>Index(10);
 QVector<double>Time(10);
 QVector<double>Dop(10);
-
 QString AcqOutPathandName;
+
+//TLEupdate's Global Varible
+//QString currentTLEname;
 
 //Location's Global Variable
 QString LoCoutPathandName;
@@ -1092,7 +1113,7 @@ void PositionSystem::on_IridiumNext_clicked()
 **********************************************************************************************/
 void PositionSystem::on_UpdateTLE_clicked()
 {
-    //更新过程中，几个按钮无效
+    //During the update process, disable the remaining buttons
     ui->Iridium->setEnabled(false);
     ui->IridiumNext->setEnabled(false);
     ui->UpdateTLE->setEnabled(false);
@@ -1227,13 +1248,80 @@ void PositionSystem::on_UpdateTLE_clicked()
         //移动光标到末尾
         cursor.movePosition(QTextCursor::End);
         ui->UptextEdit->setTextCursor(cursor);
+
+        //currentTLEname = current_date + ".tle";
+        ui->UpTLEDlineEdit->setText(current_date + ".tle");
+        ui->UpTLElineEdit->setText(current_date + ".tle");
     }
+
 
     ui->Iridium->setEnabled(true);
     ui->IridiumNext->setEnabled(true);
     ui->UpdateTLE->setEnabled(true);
 }
 
+/*********************************************************************************************
+* sun 20200801
+* By sunguiyu96@gmail.com
+* TLEupdate Part
+* Copy the updated TLE file to the TLE folder
+* input:
+* output:
+* Process:
+* 2020/08/03 sun 11:46:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::on_UpCopypushButton_clicked()
+{
+    QString TLED = ui->UpTLEDlineEdit->text();
+    QString TLE = ui->UpTLElineEdit->text();
+
+    //Path
+    QString currentpath = QApplication::applicationDirPath();       //Read the path where the .exe is located
+    TLED = currentpath + "/TLEDownload/" + TLED;
+    TLE = currentpath + "/TLE/" + TLE;
+
+
+    QString text;
+    //Read TLED
+    if(TLED.isEmpty() == false)
+    {
+        QFile file(TLED);
+        bool isok = file.open(QIODevice::ReadOnly);
+        if(isok == true)
+        {
+            QByteArray array;
+            while(file.atEnd() == false)
+            {
+                array += file.readLine();
+            }
+            text = QString(array);
+        }
+        file.close();       //Close the file after reading the file.
+    }
+
+    //Write TLE
+    if(TLE.isEmpty() == false)
+    {
+        QFile file(TLE);
+        bool isok = file.open(QIODevice::WriteOnly);
+        if(isok == true)
+        {
+            file.write(text.toUtf8());
+        }
+        file.close();       //Close the file after reading the file.
+    }
+
+
+    QDateTime current_date_time =QDateTime::currentDateTime();
+    QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
+    QString Current_textEdit = ui->UptextEdit->toPlainText();
+    TLE = ui->UpTLElineEdit->text();
+    ui->UptextEdit->setText(Current_textEdit + "\n" + current_dt + ": " + TLE + " has copied to TLE folder successfully!\n\n");
+    //Keep it at the bottom
+    QTextCursor cursor = ui->UptextEdit->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->UptextEdit->setTextCursor(cursor);
+}
 
 /*********************************************************************************************
 * sun 20200801
@@ -1525,7 +1613,7 @@ void PositionSystem::on_LocConfigRead_clicked()
     QString currentpath = QApplication::applicationDirPath();       //Read the path where the .exe is located
 //    QString currentpath = "C:/Qt/BaiduMapTest/BaiduMap2";        //Currently a fixed folder
     QString configpath = currentpath + "/config/";
-    qDebug() << configpath << endl;
+//    qDebug() << configpath << endl;
 //    QString filename = QFileDialog::getOpenFileName(this, "打开文件", configpath, "config files(*.config);;Txt(*.txt)");
     QString filename = configpath + "/LOC.config";
     if(filename.isEmpty() == false)
@@ -1548,12 +1636,12 @@ void PositionSystem::on_LocConfigRead_clicked()
                 if(locline[0]=="s" && locline[1]=="t")
                 {
                     QString LocOutName;
-                    int n_name = locline.length() - 19;
+                    int n_name = locline.length() - 18;
                     LocOutName = locline.mid(12,n_name);
                     LoCoutPathandName = currentpath + "/LOC/" + LocOutName + ".txt";     //Location error file name
                     LoCoutPathandName_L = currentpath + "/LOC/" + LocOutName + "L.txt";     //Location result file name
-                    qDebug() <<  LoCoutPathandName <<endl;
-                    qDebug() <<  LoCoutPathandName_L <<endl;
+                    //qDebug() <<  LoCoutPathandName <<endl;
+                    //qDebug() <<  LoCoutPathandName_L <<endl;
                     ui ->LoctextEdit_2 ->setText(LoCoutPathandName + "\n" + LoCoutPathandName_L);
                 }
                 //Data time
@@ -1761,12 +1849,12 @@ void PositionSystem::on_LocConfigWrite_clicked()
                 if(locline[0]=="s" && locline[1]=="t")
                 {
                     QString LocOutName;
-                    int n_name = locline.length() - 19;
+                    int n_name = locline.length() - 18;
                     LocOutName = locline.mid(12,n_name);
                     LoCoutPathandName = currentpath + "/LOC/" + LocOutName + ".txt";     //Location error file name
                     LoCoutPathandName_L = currentpath + "/LOC/" + LocOutName + "L.txt";     //Location result file name
-                    qDebug() <<  LoCoutPathandName <<endl;
-                    qDebug() <<  LoCoutPathandName_L <<endl;
+                    //qDebug() <<  LoCoutPathandName <<endl;
+                    //qDebug() <<  LoCoutPathandName_L <<endl;
                     ui ->LoctextEdit_2 ->setText(LoCoutPathandName + "\n" + LoCoutPathandName_L);
                 }
                 //Data time
@@ -2579,7 +2667,7 @@ void PositionSystem::on_LocStartLoc_clicked()
 {
     //Call IridiumLoc.exe in this folder
     QString currentpath = QApplication::applicationDirPath();       //Read the path where the .exe is located
-    QString exepath = currentpath + "/IridiumLoc.exe.exe";
+    QString exepath = currentpath + "/IridiumLoc.exe";
     QString workpath = currentpath;
     //QMessageBox::warning(0,"PATH",exepath,QMessageBox::Yes);
     QString currentText = ui->AcqStatetextEdit->toPlainText();
@@ -2642,13 +2730,16 @@ void PositionSystem::on_LocEndLoc_clicked()
 void PositionSystem::refreshlocout(void)
 {
     QString filename = LoCoutPathandName_L;
+    //qDebug() << "refresh" << filename << endl;
     if(filename.isEmpty() == false)
     {
         QString Currunt_textEdit = ui->LoctextEdit_2->toPlainText();
-        ui->LoctextEdit_2->setText(Currunt_textEdit + "\n\nLocation has finished!!  ");
+        ui->LoctextEdit_2->setText(Currunt_textEdit + "\n" + filename + "\n output successfully!\nLocation has finished!!  ");
         //Move the cursor to the end
-        QTextCursor cursor = ui->LoctextEdit->textCursor();
+        QTextCursor cursor = ui->LoctextEdit_2->textCursor();
         cursor.movePosition(QTextCursor::End);
-        ui->LoctextEdit->setTextCursor(cursor);
+        ui->LoctextEdit_2->setTextCursor(cursor);
     }
 }
+
+
