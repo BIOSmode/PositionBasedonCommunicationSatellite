@@ -18,6 +18,8 @@
 * 2020/08/05 sun 12:31:Modify IridiumAcq.exe mode to read its output and refresh the interface display；
 * 2020/08/05 sun 19:46:Modify IridiumLoc.exe mode to read its output and refresh the interface display；
 * 2020/08/05 sun 19:46:The method of determining the end of exe has been modified to make it more reliable；
+* 2020/08/06 sun 00:47:Tek data preprocessing interface has been added to modify;
+* 2020/08/06 sun 00:47:Location: serial number can be read and progress can be refreshed as the sunmber;
 ***************************************************************************************************************************/
 
 #include "positionsystem.h"
@@ -45,6 +47,11 @@ PositionSystem::PositionSystem(QWidget *parent)
     ui->GPSOpenPort->setEnabled(false);
     ui->GPSSentCommand->setEnabled(false);
     ui->GPSReceive->setEnabled(false);
+
+    //Set Tek2File's button disabled
+    ui->TekWriteCpushButton->setEnabled(false);
+    ui->TekStartpushButton->setEnabled(false);
+    ui->TekEndpushButton->setEnabled(false);
 
     //Set Acqisition's button disabled
     ui->AcqWriteCpushButton->setEnabled(false);
@@ -123,6 +130,11 @@ QByteArray currentDATA;     //串口读取数据
 QSerialPort *serial_c = new QSerialPort;        //打开并读取数据的串口
 PositionSystem::GPSInfo GPSOut;     //储存所需的GPS信息
 int nn = 0;         //从上一次清空text接收到的信息次数
+
+//Tek2File's Global Variable
+static int TekTotalIndex = 0;     //总的块数
+static int TekBeginIndex = 0;  //起始块数
+QString TekCout = "";
 
 //Acquisition's Global Variable
 static int CurruntIndex = 0;
@@ -431,6 +443,316 @@ void PositionSystem::on_GPSSentCommand_clicked()
     QString str = ui->GPStextEdit->toPlainText();
     ui->GPStextEdit->setText(str + "\n" + "Command has been sent!");
 }
+
+/*********************************************************************************************
+* sun 20200805
+* By sunguiyu96@gmail.com
+* Tek2File Part
+* Read TEK.conifg
+* input:
+* output:
+* Process:
+* 2020/08/05 sun 23:46:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::on_TekReadpushButton_clicked()
+{
+    //Read TEk.config（The default configuration file）
+    QString currentpath = QApplication::applicationDirPath();       //Read in the path of .exe
+    QString configpath = currentpath + "/config/" + "Tek.config";
+    QString filename = configpath;
+    if(filename.isEmpty() == false)
+    {
+        QFile file(filename);
+        bool isok = file.open(QIODevice::ReadOnly);     //Open the file as read-only
+        if(isok == true)
+        {
+            QByteArray array;
+            QByteArray configline;
+            int index_b=0,index_e=0;
+            while(file.atEnd() == false)
+            {
+                configline = file.readLine();      //For each row read
+                array += configline;        //stores the reads in the file in a byte array
+                QString tekline;
+                tekline.prepend(configline);
+//              qDebug() << acqline;
+
+                //Gets the input data's path and name
+                if(tekline[0]=="D" && tekline[1]=="A")
+                {
+                    QString DataName;
+                    int n_name = tekline.length() - 13;
+                    DataName = tekline.mid(11,n_name);
+                    ui->TekDATA_namelineEdit->setText(DataName);
+                }
+                //Gets the output file's path and name
+                if(tekline[0]=="o" && tekline[1]=="u")
+                {
+                    QString AcqOutName;
+                    int n_name = tekline.length() - 12;
+                    AcqOutName = tekline.mid(10,n_name);
+                    ui->TekOut_namelineEdit->setText(AcqOutName);
+                    //qDebug() <<  AcqOutPathandName;
+                    //ui ->textEdit_2 ->setText(AcqOutPathandName);
+                }
+                //Get the total amount
+                if(tekline[0]=="I" && tekline[6]=="B")
+                {
+                    QString i_b;
+                    int n = tekline.length() - 8;
+                    i_b = tekline.mid(8,n);
+                    index_b = i_b.toInt();
+                    TekBeginIndex = index_b;
+                    ui->TekIndexBspinBox->setValue(index_b);
+                }
+                if(tekline[0]=="I" && tekline[6]=="E")
+                {
+                    QString i_e;
+                    int n = tekline.length() - 8;
+                    i_e = tekline.mid(8,n);
+                    index_e = i_e.toInt();
+                    TekTotalIndex = index_e - index_b + 1;
+                    QString total = QString::number(TotalIndex);
+                    ui->TektextEdit->setText("\nTek2File Total: " + total);
+                    ui->TekIndexEspinBox->setValue(index_e);
+                }
+            }
+            ui->TektextEdit->setText(array);
+        }
+        file.close();       //Close the file after it has been read
+    }
+
+    ui->TekWriteCpushButton->setEnabled(true);
+    ui->TekStartpushButton->setEnabled(true);
+    ui->TekEndpushButton->setEnabled(true);
+}
+
+/*********************************************************************************************
+* sun 20200805
+* By sunguiyu96@gmail.com
+* Tek2File Part
+* Write TEK.conifg
+* input:
+* output:
+* Process:
+* 2020/08/05 sun 23:57:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::on_TekWriteCpushButton_clicked()
+{
+    //Write config
+    QString currentpath = QApplication::applicationDirPath();       //读入.exe所在的路径
+    QString configpath = currentpath + "/config/";
+    //QString filename = QFileDialog::getOpenFileName(this, "打开文件", configpath, "config files(*.config);;Txt(*.txt)");
+    QString filename = configpath + "TEK.config";
+    QString str;
+    if(filename.isEmpty() == false)
+    {
+        QFile file(filename);
+        bool isok = file.open(QIODevice::WriteOnly);
+        if(isok == true)
+        {
+            //Reading information from the interface is overridden
+            str = "20200805TekV1.2\n\n";
+            str += "#TEK\n";
+            QString DataName;
+            DataName = ui->TekDATA_namelineEdit->text();
+            str = str + "DATA_name:\"" + DataName + "\"\n";
+            QString OutName;
+            OutName = ui->TekOut_namelineEdit->text();
+            str = str + "out_name:\"" + OutName + "\"\n";
+            int index1;
+            index1 = ui->TekIndexBspinBox->value();
+            str = str + "INDEX_B:" + QString::number(index1) +"\n";
+            index1 = ui->TekIndexEspinBox->value();
+            str = str + "INDEX_E:" + QString::number(index1) +"\n";
+            double db;
+            file.write(str.toUtf8());
+        }
+        file.close();
+        //ui->AcqConfigtextEdit->setText(str + "\n" + "Write " + filename + " OK!!");
+    }
+
+    //Read the config file written above (the default configuration file)
+    if(filename.isEmpty() == false)
+    {
+        QFile file(filename);
+        bool isok = file.open(QIODevice::ReadOnly);     //Open the file as read-only
+        if(isok == true)
+        {
+            QByteArray array;
+            QByteArray configline;
+            int index_b=0,index_e=0;
+            while(file.atEnd() == false)
+            {
+                configline = file.readLine();      //For each row read
+                array += configline;        //stores the reads in the file in a byte array
+                QString tekline;
+                tekline.prepend(configline);
+//              qDebug() << acqline;
+
+                //Gets the input data's path and name
+                if(tekline[0]=="D" && tekline[1]=="A")
+                {
+                    QString DataName;
+                    int n_name = tekline.length() - 13;
+                    DataName = tekline.mid(11,n_name);
+                    ui->TekDATA_namelineEdit->setText(DataName);
+                }
+                //Gets the output file's path and name
+                if(tekline[0]=="o" && tekline[1]=="u")
+                {
+                    QString AcqOutName;
+                    int n_name = tekline.length() - 12;
+                    AcqOutName = tekline.mid(10,n_name);
+                    ui->TekOut_namelineEdit->setText(AcqOutName);
+                    //qDebug() <<  AcqOutPathandName;
+                    //ui ->textEdit_2 ->setText(AcqOutPathandName);
+                }
+                //Get the total amount
+                if(tekline[0]=="I" && tekline[6]=="B")
+                {
+                    QString i_b;
+                    int n = tekline.length() - 8;
+                    i_b = tekline.mid(8,n);
+                    index_b = i_b.toInt();
+                    TekBeginIndex = index_b;
+                    ui->TekIndexBspinBox->setValue(index_b);
+                }
+                if(tekline[0]=="I" && tekline[6]=="E")
+                {
+                    QString i_e;
+                    int n = tekline.length() - 8;
+                    i_e = tekline.mid(8,n);
+                    index_e = i_e.toInt();
+                    TekTotalIndex = index_e - index_b + 1;
+                    QString total = QString::number(TotalIndex);
+                    ui->TektextEdit->setText("\nTek2File Total: " + total);
+                    ui->TekIndexEspinBox->setValue(index_e);
+                }
+            }
+            ui->TektextEdit->setText(array);
+        }
+        file.close();       //Close the file after it has been read
+    }
+
+
+    //Write success signs
+    QString currentText = ui->TektextEdit->toPlainText();
+    ui->TektextEdit->setText(currentText + "\n\nWrite " + filename + " OK!!");
+    //Keep at the bottom
+    QTextCursor cursor = ui->TektextEdit->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->TektextEdit->setTextCursor(cursor);
+}
+
+/*********************************************************************************************
+* sun 20200805
+* By sunguiyu96@gmail.com
+* Tek2File Part
+* Run Tek2File.exe
+* input:
+* output:
+* Process:
+* 2020/08/06 sun 00:10:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::on_TekStartpushButton_clicked()
+{
+    //Run Tek2File.exe
+    QString currentpath = QApplication::applicationDirPath();       //Read in the path of. Exe
+    QString exepath = currentpath + "/Tek2File.exe";
+    //qDebug() << "exepath:" << exepath << endl;
+    QString workpath = currentpath;
+    //QMessageBox::warning(0,"PATH",exepath,QMessageBox::Yes);           //View current path
+
+    QDateTime current_date_time =QDateTime::currentDateTime();
+    QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
+    QString currentText = ui->TektextEdit->toPlainText();
+    ui->TektextEdit->setText(currentText + "\n\n" + current_dt + ":TEK@FILE.EXE HAS START!!  \n");
+    //使保持在最下面
+    QTextCursor cursor = ui->TektextEdit->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->TektextEdit->setTextCursor(cursor);
+
+    QProcess *TekProcess;
+    if (QFileInfo(exepath).exists())
+    {
+        TekProcess = new QProcess(this);
+        connect(TekProcess, SIGNAL(readyRead()),this, SLOT(refreshtekout()));
+        QStringList AcqList("TEK is running...");
+        TekProcess->setWorkingDirectory(workpath);
+        TekProcess->start(exepath,AcqList);
+        //AcqProcess->startDetached(exepath,QStringList(),workpath);
+    }
+}
+
+/*********************************************************************************************
+* sun 20200806
+* By sunguiyu96@gmail.com
+* Tek2File Part
+* kill Tek2File.exe
+* input:
+* output:
+* Process:
+* 2020/08/06 sun 00:13:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::on_TekEndpushButton_clicked()
+{
+    //close Tek2File.exe Process
+    QString c = "taskkill /im Tek2File.exe /f";
+    int pInt = QProcess::execute(c);    //Close the background Tek2File.exeProcess, run blocking mode, using CPU all the time, return 0 on success, return 1 on failure
+    if(pInt==0)
+    {
+        QMessageBox::warning(0,"PATH","SUCCESS KILL TEK2FILE.EXE!",QMessageBox::Yes);
+    }
+}
+
+/*********************************************************************************************
+* sun 20200806
+* By sunguiyu96@gmail.com
+* Tek2File Part
+* Refresh Tek2File's std output
+* input:
+* output:
+* Process:
+* 2020/08/06 sun 00:21:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::refreshtekout(void)
+{
+    QProcess *TekProcess = (QProcess *)sender();
+    QString TekCout1 = TekProcess->readAll();
+    TekCout += TekCout1;
+    ui->TektextEdit->setText(TekCout);
+    //Move the cursor to the end
+    QTextCursor cursor = ui->TektextEdit->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->TektextEdit->setTextCursor(cursor);
+
+    //qDebug() << AcqCout1;
+    QChar qch = TekCout1.at(0);
+    char ch = qch.toLatin1();
+    int ind = 0;
+    for(int i = 2;i < 8; i++)
+    {
+        qch = TekCout1.at(i);
+        ch = qch.toLatin1();
+        if(ch==' ')
+        {
+            continue;
+        }
+        if(ch >= 48 && ch < 58)
+        {
+            ind = ind * 10 + ch - 48;
+        }
+        //qDebug() << i <<  " qch:" << qch <<  " ch:" << ch;
+    }
+
+
+    //qDebug() <<  " Ind:" << ind << endl;
+    int x = round(double((ind - TekBeginIndex) * 100) / TekTotalIndex);
+    //qDebug() << ind << x;
+    ui->TekprogressBar->setValue(x);
+}
+
 
 /*********************************************************************************************
 * sun 20200802
@@ -890,7 +1212,7 @@ void PositionSystem::refreshacqout(void)
         {
             continue;
         }
-        if(ch >= 48 && ch <= 58)
+        if(ch >= 48 && ch < 58)
         {
             ind = ind * 10 + ch - 48;
         }
@@ -1035,7 +1357,7 @@ void PositionSystem::RefreshBar(int ind)
 {
     //qDebug() << CurruntIndex;
     //qDebug() << TotalIndex;
-    int x = round(double(ind * 100) / TotalIndex);
+    int x = round(double((ind - BeginIndex) * 100) / TotalIndex);
     //qDebug() << ind << x;
     ui->AcqprogressBar->setValue(x);
 }
@@ -2821,6 +3143,7 @@ void PositionSystem::on_LocEndLoc_clicked()
 * output:
 * Process:
 * 2020/08/03 sun 00:13:Complete the modification to make it run within the integral program；
+* 2020/08/06 sun 00:45:The serial number can be read and the progress can be refreshed；
 **********************************************************************************************/
 void PositionSystem::refreshlocout(void)
 {
@@ -2846,6 +3169,33 @@ void PositionSystem::refreshlocout(void)
         cursor.movePosition(QTextCursor::End);
         ui->LoctextEdit_2->setTextCursor(cursor);
     }
+
+    int ind = 0;
+    if(LocCout1.contains("index",Qt::CaseSensitive))
+    {
+        QChar qch = LocCout1.at(0);
+        char ch = qch.toLatin1();
+        for(int i = 8;i < 14; i++)
+        {
+            qch = LocCout1.at(i);
+            ch = qch.toLatin1();
+            if(ch >= 48 && ch < 58)
+            {
+                ind = ind * 10 + ch - 48;
+            }
+            //qDebug() << i <<  " qch:" << qch <<  " ch:" << ch << "ind: " << ind;
+        }
+    }
+
+    if(ind !=0)
+    {
+        int x = round(double(ind * 100) / Iter);
+        //qDebug() << " x:" << x ;
+        ui->LocprogressBar->setValue(x);
+    }
+
+
+
 //    QString filename = LoCoutPathandName_L;
 //    //qDebug() << "refresh" << filename << endl;
 //    if(filename.isEmpty() == false)
@@ -2860,5 +3210,3 @@ void PositionSystem::refreshlocout(void)
 //        ui->LoctextEdit_2->setTextCursor(cursor);
 //    }
 }
-
-

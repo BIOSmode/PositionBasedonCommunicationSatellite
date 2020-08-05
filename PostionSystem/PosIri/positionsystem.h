@@ -18,6 +18,8 @@
 * 2020/08/05 sun 12:31:Modify IridiumAcq.exe mode to read its output and refresh the interface display；
 * 2020/08/05 sun 19:46:Modify IridiumLoc.exe mode to read its output and refresh the interface display；
 * 2020/08/05 sun 19:46:The method of determining the end of exe has been modified to make it more reliable；
+* 2020/08/06 sun 00:47:Tek data preprocessing interface has been added to modify;
+* 2020/08/06 sun 00:47:Location: serial number can be read and progress can be refreshed as the sunmber;
 ***************************************************************************************************************************/
 
 #ifndef POSITIONSYSTEM_H
@@ -105,6 +107,17 @@ private slots:
     void on_GPSReceive_clicked();
 
     void on_GPSSentCommand_clicked();
+
+    //Tek2File
+    void on_TekReadpushButton_clicked();
+
+    void on_TekWriteCpushButton_clicked();
+
+    void on_TekStartpushButton_clicked();
+
+    void on_TekEndpushButton_clicked();
+
+    void refreshtekout(void);
 
     //Acquisition
     void on_AcqReadApushButton_clicked();

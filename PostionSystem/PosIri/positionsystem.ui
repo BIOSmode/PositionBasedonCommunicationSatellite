@@ -39,7 +39,7 @@
      <enum>QTabWidget::Triangular</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="Home">
      <attribute name="title">
@@ -66,10 +66,10 @@
      <widget class="QPushButton" name="GPSOpenPort">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>220</y>
-        <width>311</width>
-        <height>41</height>
+        <x>160</x>
+        <y>110</y>
+        <width>161</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -82,8 +82,8 @@
      <widget class="QLabel" name="GPSLati">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>549</y>
+        <x>10</x>
+        <y>309</y>
         <width>61</width>
         <height>31</height>
        </rect>
@@ -98,10 +98,10 @@
      <widget class="QPushButton" name="GPSSearchPort">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>160</y>
-        <width>311</width>
-        <height>41</height>
+        <x>10</x>
+        <y>110</y>
+        <width>121</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -114,9 +114,9 @@
      <widget class="QComboBox" name="GPSRatecomboBox">
       <property name="geometry">
        <rect>
-        <x>190</x>
-        <y>340</y>
-        <width>161</width>
+        <x>240</x>
+        <y>150</y>
+        <width>81</width>
         <height>31</height>
        </rect>
       </property>
@@ -147,23 +147,10 @@
      <widget class="QLineEdit" name="GPSHighlineEdit">
       <property name="geometry">
        <rect>
-        <x>130</x>
-        <y>650</y>
+        <x>100</x>
+        <y>390</y>
         <width>221</width>
         <height>31</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
-      </property>
-     </widget>
-     <widget class="QTextEdit" name="GPStextEdit">
-      <property name="geometry">
-       <rect>
-        <x>380</x>
-        <y>110</y>
-        <width>651</width>
-        <height>161</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -173,8 +160,8 @@
      <widget class="QLabel" name="GPSHigh">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>650</y>
+        <x>10</x>
+        <y>390</y>
         <width>61</width>
         <height>31</height>
        </rect>
@@ -189,10 +176,10 @@
      <widget class="QPushButton" name="GPSReceive">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>690</y>
-        <width>311</width>
-        <height>41</height>
+        <x>160</x>
+        <y>190</y>
+        <width>161</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -205,8 +192,8 @@
      <widget class="QLineEdit" name="GPSLonglineEdit">
       <property name="geometry">
        <rect>
-        <x>130</x>
-        <y>600</y>
+        <x>100</x>
+        <y>350</y>
         <width>221</width>
         <height>31</height>
        </rect>
@@ -218,8 +205,8 @@
      <widget class="QLabel" name="GPSPort">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>280</y>
+        <x>10</x>
+        <y>150</y>
         <width>81</width>
         <height>41</height>
        </rect>
@@ -234,8 +221,8 @@
      <widget class="QLineEdit" name="GPSSatNumlineEdit">
       <property name="geometry">
        <rect>
-        <x>130</x>
-        <y>452</y>
+        <x>100</x>
+        <y>232</y>
         <width>131</width>
         <height>31</height>
        </rect>
@@ -247,8 +234,8 @@
      <widget class="QLabel" name="GPSTitle">
       <property name="geometry">
        <rect>
-        <x>300</x>
-        <y>30</y>
+        <x>290</x>
+        <y>10</y>
         <width>481</width>
         <height>51</height>
        </rect>
@@ -264,8 +251,8 @@
      <widget class="QLabel" name="GPSLong">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>600</y>
+        <x>10</x>
+        <y>350</y>
         <width>71</width>
         <height>31</height>
        </rect>
@@ -280,8 +267,8 @@
      <widget class="QLabel" name="GPSSatNum">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>452</y>
+        <x>10</x>
+        <y>232</y>
         <width>61</width>
         <height>31</height>
        </rect>
@@ -296,8 +283,8 @@
      <widget class="QLabel" name="GPSState">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>505</y>
+        <x>10</x>
+        <y>275</y>
         <width>61</width>
         <height>21</height>
        </rect>
@@ -312,8 +299,8 @@
      <widget class="QLineEdit" name="GPSLatilineEdit">
       <property name="geometry">
        <rect>
-        <x>130</x>
-        <y>550</y>
+        <x>100</x>
+        <y>310</y>
         <width>221</width>
         <height>31</height>
        </rect>
@@ -325,9 +312,9 @@
      <widget class="QComboBox" name="GPSPortcomboBox">
       <property name="geometry">
        <rect>
-        <x>190</x>
-        <y>280</y>
-        <width>161</width>
+        <x>60</x>
+        <y>150</y>
+        <width>71</width>
         <height>31</height>
        </rect>
       </property>
@@ -343,9 +330,9 @@
      <widget class="QLabel" name="GPSPortRate">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>340</y>
-        <width>91</width>
+        <x>160</x>
+        <y>150</y>
+        <width>61</width>
         <height>31</height>
        </rect>
       </property>
@@ -359,8 +346,8 @@
      <widget class="QLineEdit" name="GPSStatelineEdit">
       <property name="geometry">
        <rect>
-        <x>130</x>
-        <y>500</y>
+        <x>100</x>
+        <y>270</y>
         <width>221</width>
         <height>31</height>
        </rect>
@@ -372,8 +359,8 @@
      <widget class="QCheckBox" name="GPSLogcheckBox">
       <property name="geometry">
        <rect>
-        <x>280</x>
-        <y>450</y>
+        <x>250</x>
+        <y>230</y>
         <width>71</width>
         <height>31</height>
        </rect>
@@ -388,10 +375,10 @@
      <widget class="QPushButton" name="GPSSentCommand">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>390</y>
-        <width>311</width>
-        <height>41</height>
+        <x>10</x>
+        <y>190</y>
+        <width>141</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -404,8 +391,8 @@
      <widget class="QDateTimeEdit" name="GPSdateTimeEdit">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>110</y>
+        <x>10</x>
+        <y>70</y>
         <width>311</width>
         <height>31</height>
        </rect>
@@ -417,16 +404,258 @@
      <widget class="QWebEngineView" name="GPSMapView" native="true">
       <property name="geometry">
        <rect>
-        <x>380</x>
-        <y>290</y>
-        <width>651</width>
-        <height>431</height>
+        <x>630</x>
+        <y>70</y>
+        <width>421</width>
+        <height>351</height>
        </rect>
       </property>
       <property name="styleSheet">
        <string notr="true">font: 12pt &quot;Times New Roman&quot;;
 border:1px solid grey
 </string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="GPStextEdit">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>70</y>
+        <width>271</width>
+        <height>351</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="GPSTitle_2">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>440</y>
+        <width>691</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 100 30pt &quot;Times New Roman&quot;;
+</string>
+      </property>
+      <property name="text">
+       <string>TEKTRONIX DATA PRE-PROCESSING</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="TekStartpushButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>690</y>
+        <width>241</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Start Tek2File</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="TekIndexEspinBox">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>580</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="maximum">
+       <number>100000</number>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="TekEndpushButton">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>690</y>
+        <width>231</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="text">
+       <string>End Tek2File</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="TekOut_namelineEdit">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>540</y>
+        <width>371</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+     </widget>
+     <widget class="QProgressBar" name="TekprogressBar">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>700</y>
+        <width>511</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="value">
+       <number>0</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="TekIndexE">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>580</y>
+        <width>91</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Index_End</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="TekIndexBspinBox">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>580</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="TekOut_name">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>540</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="text">
+       <string>DataOut_name</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="TekDATA_name">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>500</y>
+        <width>101</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="text">
+       <string>DATA_name</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="TekIndexB">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>580</y>
+        <width>101</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Index_Begin</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="TekWriteCpushButton">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>630</y>
+        <width>231</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Write TEK.config</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="TekDATA_namelineEdit">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>500</y>
+        <width>371</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="TekReadpushButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>630</y>
+        <width>241</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Read TEK.config</string>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="TektextEdit">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>500</y>
+        <width>491</width>
+        <height>171</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
       </property>
      </widget>
     </widget>
@@ -562,9 +791,9 @@ border:1px solid grey
      <widget class="QPushButton" name="AcqWriteCpushButton">
       <property name="geometry">
        <rect>
-        <x>380</x>
+        <x>370</x>
         <y>620</y>
-        <width>141</width>
+        <width>151</width>
         <height>41</height>
        </rect>
       </property>
@@ -572,7 +801,7 @@ border:1px solid grey
        <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
       </property>
       <property name="text">
-       <string>Write Config</string>
+       <string>Write Acq.config</string>
       </property>
      </widget>
      <widget class="QCustomPlot" name="AcqFigure" native="true">
@@ -747,9 +976,9 @@ border:1px solid grey
      <widget class="QPushButton" name="AcqReadCpushButton">
       <property name="geometry">
        <rect>
-        <x>210</x>
+        <x>200</x>
         <y>620</y>
-        <width>131</width>
+        <width>141</width>
         <height>41</height>
        </rect>
       </property>
@@ -965,7 +1194,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>50</x>
-        <y>90</y>
+        <y>70</y>
         <width>151</width>
         <height>31</height>
        </rect>
@@ -981,7 +1210,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>220</y>
+        <y>190</y>
         <width>71</width>
         <height>41</height>
        </rect>
@@ -997,7 +1226,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>800</x>
-        <y>90</y>
+        <y>70</y>
         <width>141</width>
         <height>31</height>
        </rect>
@@ -1013,7 +1242,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>160</x>
-        <y>180</y>
+        <y>150</y>
         <width>211</width>
         <height>31</height>
        </rect>
@@ -1026,7 +1255,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>350</x>
-        <y>270</y>
+        <y>240</y>
         <width>21</width>
         <height>21</height>
        </rect>
@@ -1042,7 +1271,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>500</x>
-        <y>90</y>
+        <y>70</y>
         <width>101</width>
         <height>31</height>
        </rect>
@@ -1058,7 +1287,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>160</x>
-        <y>220</y>
+        <y>190</y>
         <width>211</width>
         <height>31</height>
        </rect>
@@ -1071,7 +1300,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>300</x>
-        <y>300</y>
+        <y>270</y>
         <width>71</width>
         <height>31</height>
        </rect>
@@ -1084,7 +1313,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>190</x>
-        <y>290</y>
+        <y>260</y>
         <width>101</width>
         <height>51</height>
        </rect>
@@ -1100,7 +1329,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>190</y>
+        <y>160</y>
         <width>71</width>
         <height>21</height>
        </rect>
@@ -1116,7 +1345,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>160</x>
-        <y>260</y>
+        <y>230</y>
         <width>171</width>
         <height>31</height>
        </rect>
@@ -1129,7 +1358,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>390</x>
-        <y>90</y>
+        <y>70</y>
         <width>101</width>
         <height>31</height>
        </rect>
@@ -1145,7 +1374,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>610</x>
-        <y>90</y>
+        <y>70</y>
         <width>181</width>
         <height>31</height>
        </rect>
@@ -1161,7 +1390,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>290</y>
+        <y>260</y>
         <width>107</width>
         <height>51</height>
        </rect>
@@ -1177,9 +1406,9 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>50</x>
-        <y>340</y>
+        <y>310</y>
         <width>321</width>
-        <height>351</height>
+        <height>361</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -1190,7 +1419,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>260</y>
+        <y>230</y>
         <width>54</width>
         <height>31</height>
        </rect>
@@ -1206,7 +1435,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>950</x>
-        <y>90</y>
+        <y>70</y>
         <width>111</width>
         <height>31</height>
        </rect>
@@ -1222,7 +1451,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>150</y>
+        <y>120</y>
         <width>41</width>
         <height>21</height>
        </rect>
@@ -1238,9 +1467,9 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>390</x>
-        <y>140</y>
+        <y>580</y>
         <width>671</width>
-        <height>131</height>
+        <height>161</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -1251,7 +1480,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>390</x>
-        <y>280</y>
+        <y>110</y>
         <width>671</width>
         <height>461</height>
        </rect>
@@ -1266,7 +1495,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>310</x>
-        <y>20</y>
+        <y>10</y>
         <width>491</width>
         <height>51</height>
        </rect>
@@ -1283,7 +1512,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>220</x>
-        <y>90</y>
+        <y>70</y>
         <width>151</width>
         <height>31</height>
        </rect>
@@ -1331,13 +1560,29 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>160</x>
-        <y>141</y>
+        <y>111</y>
         <width>211</width>
         <height>31</height>
        </rect>
       </property>
       <property name="styleSheet">
        <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+     </widget>
+     <widget class="QProgressBar" name="LocprogressBar">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>680</y>
+        <width>321</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="value">
+       <number>0</number>
       </property>
      </widget>
     </widget>
