@@ -15,6 +15,7 @@
 * 2020/08/03 sun 11:50:IridiumLoc.exe can be run, the Loc part is fully completed;
 * 2020/08/03 sun 11:52:Added a tool to automatically copy the updated .tle to the TLE folder;
 * 2020/08/03 sun 15:28:Refer to other people's Js to modify the homepage and initial page;
+* 2020/08/05 sun 12:31:Modify exE mode to read its output and refresh the interface display；
 **********************************************************************************************/
 
 #include "positionsystem.h"
@@ -107,6 +108,7 @@ QVector<int>Index(10);
 QVector<double>Time(10);
 QVector<double>Dop(10);
 QString AcqOutPathandName;
+QString AcqCout = "";
 
 //TLEupdate's Global Varible
 //QString currentTLEname;
@@ -317,7 +319,7 @@ void PositionSystem::on_GPSOpenPort_clicked()
     serial_c->open(QIODevice::ReadWrite);
 
     //3 设置波特率
-    qDebug() << ui->GPSRatecomboBox->currentText();
+    //qDebug() << ui->GPSRatecomboBox->currentText();
     serial_c->setBaudRate(ui->GPSRatecomboBox->currentText().toInt());
 
     //4 设置数据位
@@ -589,13 +591,15 @@ void PositionSystem::on_AcqReadCpushButton_clicked()
 * output：
 * Process：
 * 2020/08/02 sun 18:07:Complete the modification to make it run within the integral program；
+* 2020/08/05 sun 11:19:Write ACQ.config only；
 **********************************************************************************************/
 void PositionSystem::on_AcqWriteCpushButton_clicked()
 {
-    //写config
+    //Write config
     QString currentpath = QApplication::applicationDirPath();       //读入.exe所在的路径
     QString configpath = currentpath + "/config/";
-    QString filename = QFileDialog::getOpenFileName(this, "打开文件", configpath, "config files(*.config);;Txt(*.txt)");
+    //QString filename = QFileDialog::getOpenFileName(this, "打开文件", configpath, "config files(*.config);;Txt(*.txt)");
+    QString filename = configpath + "ACQ.config";
     QString str;
     if(filename.isEmpty() == false)
     {
@@ -603,7 +607,7 @@ void PositionSystem::on_AcqWriteCpushButton_clicked()
         bool isok = file.open(QIODevice::WriteOnly);
         if(isok == true)
         {
-            //从界面重写
+            //Reading information from the interface is overridden
             str = "20200802AcqV2.4\n\n";
             str += "#ACQ\n";
             QString DataName;
@@ -628,7 +632,7 @@ void PositionSystem::on_AcqWriteCpushButton_clicked()
         //ui->AcqConfigtextEdit->setText(str + "\n" + "Write " + filename + " OK!!");
     }
 
-    //读上面写的config文件（默认的配置文件）
+    //Read the config file written above (the default configuration file)
     if(filename.isEmpty() == false)
     {
         QFile file(filename);
@@ -640,12 +644,12 @@ void PositionSystem::on_AcqWriteCpushButton_clicked()
             int index_b=0,index_e=0;
             while(file.atEnd() == false)
             {
-                configline = file.readLine();      //读的每行
-                array += configline;//将文件中的读取的内容保存在字节数组中。
+                configline = file.readLine();      //Open the file as read-only
+                array += configline;//将The reads in the file are stored in a byte array
                 QString acqline;
                 acqline.prepend(configline);
                 //qDebug() << acqline;
-                //得到数据路径及数据名
+                //Gets the data path and the data name
                 if(acqline[0]=="D" && acqline[1]=="A")
                 {
                     QString DataName;
@@ -653,7 +657,7 @@ void PositionSystem::on_AcqWriteCpushButton_clicked()
                     DataName = acqline.mid(11,n_name);
                     ui->AcqDATA_namelineEdit->setText(DataName);
                 }
-                //得到捕获结果文件路径及名字
+                //Gets the path and name of the acquisition result file
                 if(acqline[0]=="a" && acqline[7]=="n")
                 {
                     QString AcqOutName;
@@ -664,7 +668,7 @@ void PositionSystem::on_AcqWriteCpushButton_clicked()
                     //qDebug() <<  AcqOutPathandName;
                     //ui ->textEdit_2 ->setText(AcqOutPathandName);
                 }
-                //得到总的数量
+                //Get the total amount
                 if(acqline[0]=="I" && acqline[6]=="B")
                 {
                     QString i_b;
@@ -685,7 +689,7 @@ void PositionSystem::on_AcqWriteCpushButton_clicked()
                     ui ->AcqStatetextEdit ->setText(AcqOutPathandName + "\n" + "Total:" + total);
                     ui->AcqIndexEspinBox->setValue(index_e);
                 }
-                //得到捕获门限
+                //Get the threshold
                 if(acqline[0]=="c" && acqline[35]=="1")
                 {
                     QString db1;
@@ -705,13 +709,13 @@ void PositionSystem::on_AcqWriteCpushButton_clicked()
             }
             ui->AcqConfigtextEdit->setText(array);
         }
-        file.close();//文件读取完毕后关闭文件。
+        file.close();//Close the file after it has been read
     }
 
-    //写成功标志
+    //Write success signs
     QString currentText = ui->AcqStatetextEdit->toPlainText();
     ui->AcqStatetextEdit->setText(currentText + "\n\nWrite " + filename + " OK!!");
-    //使保持在最下面
+    //Keep at the bottom
     QTextCursor cursor = ui->AcqStatetextEdit->textCursor();
     cursor.movePosition(QTextCursor::End);
     ui->AcqStatetextEdit->setTextCursor(cursor);
@@ -731,10 +735,11 @@ void PositionSystem::on_AcqWriteCpushButton_clicked()
 void PositionSystem::on_AcqStartpushButton_clicked()
 {
     //调用本文件中的IridiumAcq.exe
-    QString currentpath = QApplication::applicationDirPath();       //读入.exe所在的路径
+    QString currentpath = QApplication::applicationDirPath();       //Read in the path of. Exe
     QString exepath = currentpath + "/IridiumAcq.exe";
+    //qDebug() << "exepath:" << exepath << endl;
     QString workpath = currentpath;
-    //QMessageBox::warning(0,"PATH",exepath,QMessageBox::Yes);           //查看当前路径
+    //QMessageBox::warning(0,"PATH",exepath,QMessageBox::Yes);           //View current path
     QString currentText = ui->AcqStatetextEdit->toPlainText();
     ui->AcqStatetextEdit->setText(currentText + "\n\nIRIDIUMACQ.EXE HAS START!!  \n");
     //使保持在最下面
@@ -742,19 +747,15 @@ void PositionSystem::on_AcqStartpushButton_clicked()
     cursor.movePosition(QTextCursor::End);
     ui->AcqStatetextEdit->setTextCursor(cursor);
 
-    QProcess *pro;
+    QProcess *AcqProcess;
     if (QFileInfo(exepath).exists())
     {
-        pro = new QProcess(this);
-        connect(pro, SIGNAL(readyReadStandardOutput()),this, SLOT(readFromStdOut()));
-        pro->startDetached(exepath,QStringList(),workpath);
-//        pro->start(exepath,QStringList(),workpath);
-        //ui->textEdit_2->setText("END2   \n");
-
-        QByteArray res = pro->readAllStandardOutput();
-        ui->AcqStatetextEdit->append(QString::fromLocal8Bit(res));
-        //ui->textEdit_2->setText(pro->readAllStandardOutput());
-        //ui->textEdit_2->append("\n END");
+        AcqProcess = new QProcess(this);
+        connect(AcqProcess, SIGNAL(readyRead()),this, SLOT(refreshacqout()));
+        QStringList AcqList("ACQ is running...");
+        AcqProcess->setWorkingDirectory(workpath);
+        AcqProcess->start(exepath,AcqList);
+        //AcqProcess->startDetached(exepath,QStringList(),workpath);
     }
 }
 
@@ -784,41 +785,78 @@ void PositionSystem::on_AcqEndpushButton_clicked()
 * sun 20200802
 * By sunguiyu96@gmail.com
 * Acquisition Part
-* （自动）执行刷新程序
+* Execute the refresh program (automatically)
 * input：
 * output：
 * Process：
 * 2020/08/02 sun 18:18:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
-void PositionSystem::on_AcqRefreshpushButton_clicked()
-{
-    if(ui->AcqFreshcheckBox->isChecked()==true)
-    {
-        QTimer *timerrefresh = new QTimer(this);
-        connect(timerrefresh,SIGNAL(timeout()),this,SLOT(refreshacqout()));
-        timerrefresh->start(1000 * 5);        //5s刷新一次
-    }
-    else
-    {
-        refreshacqout();
-    }
-}
+//void PositionSystem::on_AcqRefreshpushButton_clicked()
+//{
+//    if(ui->AcqFreshcheckBox->isChecked()==true)
+//    {
+//        QTimer *timerrefresh = new QTimer(this);
+//        connect(timerrefresh,SIGNAL(timeout()),this,SLOT(refreshacqout()));
+//        timerrefresh->start(1000 * 5);        //5s刷新一次
+//    }
+//    else
+//    {
+//        refreshacqout();
+//    }
+//}
 
 /*********************************************************************************************
 * sun 20200802
 * By sunguiyu96@gmail.com
 * Acquisition Part
-* 读取、画图、显示进展总函数
+* Read, draw, display progress slot function from exe's std out
 * input：
 * output：
 * Process：
 * 2020/08/02 sun 18:18:Complete the modification to make it run within the integral program；
+* 2020/08/05 sun 12:31:Modify to read program Cout, identify the sequence number and refresh；
 **********************************************************************************************/
 void PositionSystem::refreshacqout(void)
 {
-    ReadData();     //读取捕获结果
-    PlotData();     //画图
-    RefreshBar();   //显示进展
+    QProcess *AcqProcess = (QProcess *)sender();
+    QString AcqCout1 = AcqProcess->readAll();
+    AcqCout += AcqCout1;
+    ui->AcqConfigtextEdit->setText(AcqCout);
+    //Move the cursor to the end
+    QTextCursor cursor = ui->AcqConfigtextEdit->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->AcqConfigtextEdit->setTextCursor(cursor);
+
+    qDebug() << AcqCout1;
+    QChar qch = AcqCout1.at(0);
+    char ch = qch.toLatin1();
+    int ind = 0;
+    for(int i = 2;i < 7; i++)
+    {
+        qch = AcqCout1.at(i);
+        ch = qch.toLatin1();
+        if(ch==' ')
+        {
+            continue;
+        }
+        if(ch >= 48 && ch <= 58)
+        {
+            ind = ind * 10 + ch - 48;
+        }
+        qDebug() << i <<  " qch:" << qch <<  " ch:" << ch;
+    }
+
+
+    qDebug() <<  " Ind:" << ind << endl;
+    if(ind != 0)
+    {
+        ReadData();     //读取捕获结果
+        PlotData();     //画图
+
+        RefreshBar(ind);   //显示进展
+    }
+
+
 }
 
 /*********************************************************************************************
@@ -851,7 +889,7 @@ void PositionSystem::ReadData()
         file.close();
     }
 
-    qDebug() << "NUM OF LINE: " << NLine ;
+    //qDebug() << "NUM OF LINE: " << NLine ;
     int N = NLine + 10;
     double Fi = 28270833;
     Index.resize(N);
@@ -869,7 +907,7 @@ void PositionSystem::ReadData()
             QVector<QStringRef> lineRef;
             lineRef = str.splitRef(' ',QString::SkipEmptyParts);
 
-            qDebug() << str;
+            //qDebug() << str;
 
             Index[i] = lineRef[0].toInt();
             Time[i] = lineRef[1].toDouble();
@@ -934,18 +972,19 @@ void PositionSystem::PlotData()
 * sun 20200802
 * By sunguiyu96@gmail.com
 * Acquisition Part
-* 刷新processBar,展示捕获的进展
-* input：
+* Refresh processBar to show the progress captured
+* input：current index
 * output：
 * Process：
 * 2019/12/13 sun 0:22:开始；
 * 2020/08/02 sun 18:25:Complete the modification to make it run within the integral program；
+* 2020/08/05 sun 11:34:Modify input；
 **********************************************************************************************/
-void PositionSystem::RefreshBar()
+void PositionSystem::RefreshBar(int ind)
 {
-    qDebug() << CurruntIndex;
-    int x = round((CurruntIndex * 100)/TotalIndex);
-    ui->AcqprogressBar->setValue(x);
+    //qDebug() << CurruntIndex;
+    //int x = round((CurruntIndex * 100)/TotalIndex);
+    ui->AcqprogressBar->setValue((ind + 1)* 100 / TotalIndex);
 }
 
 
@@ -984,7 +1023,7 @@ void PositionSystem::on_Iridium_clicked()
     QEventLoop loop;
     QNetworkReply *reply;
 
-    qDebug() << "Reading code from " << pathIridium;
+    //qDebug() << "Reading code from " << pathIridium;
 
     reply = manager.get(QNetworkRequest(urlIridium));
 
@@ -1000,7 +1039,7 @@ void PositionSystem::on_Iridium_clicked()
 
     if( !file.open(QIODevice::WriteOnly | QIODevice::Text) )
     {
-        qDebug() << "Cannot open the file: " << FILE_NAME;
+        //qDebug() << "Cannot open the file: " << FILE_NAME;
     }
     QTextStream out(&file);
     QString codeContent = reply->readAll();
@@ -1057,7 +1096,7 @@ void PositionSystem::on_IridiumNext_clicked()
     QEventLoop loop;
     QNetworkReply *reply;
 
-    qDebug() << "Reading code from " << pathIridium;
+    //qDebug() << "Reading code from " << pathIridium;
 
     reply = manager.get(QNetworkRequest(urlIridium));
 
@@ -1073,7 +1112,7 @@ void PositionSystem::on_IridiumNext_clicked()
 
     if( !file.open(QIODevice::WriteOnly | QIODevice::Text) )
     {
-        qDebug() << "Cannot open the file: " << FILE_NAME;
+        //qDebug() << "Cannot open the file: " << FILE_NAME;
     }
     QTextStream out(&file);
     QString codeContent = reply->readAll();
@@ -1236,7 +1275,7 @@ void PositionSystem::on_UpdateTLE_clicked()
         QFile file(outfileName);
         if( !file.open(QIODevice::WriteOnly | QIODevice::Text) )
         {
-            qDebug() << "Cannot open the file: " << outfileName;
+            //qDebug() << "Cannot open the file: " << outfileName;
         }
         QTextStream out(&file);
 
@@ -2511,7 +2550,7 @@ void PositionSystem::on_LocMapRefCircle_clicked()
                     lineRef = str.splitRef(' ',QString::SkipEmptyParts);
 
                     dis[i] = lineRef[1].toDouble();
-                    qDebug("%d %f",i + 1, dis[i]);
+                    //qDebug("%d %f",i + 1, dis[i]);
 
                     i++;
                 }
@@ -2529,7 +2568,7 @@ void PositionSystem::on_LocMapRefCircle_clicked()
     qSort(dis.begin(),dis.end());
     double radius_50 = dis[int(Iter/2)];
     double radius_100 = dis[Iter - 1];
-    qDebug("radius:50: %f,100: %f",radius_50,radius_100);
+    //qDebug("radius:50: %f,100: %f",radius_50,radius_100);
 
     //Cooperate with Js to draw a circle with center as the center and radius respectively
     QString commandCir = QString("addcirclereal(%1,%2,%3,%4)").arg(QString::number(Loc_Ititude.longitude)).arg(QString::number(Loc_Ititude.latitude)).arg(QString::number(radius_50)).arg(QString::number(radius_100));
@@ -2602,7 +2641,7 @@ void PositionSystem::on_LocMapResCircle_clicked()
                     X[i] = lineRef[1].toDouble();
                     Y[i] = lineRef[2].toDouble();
                     Z[i] = lineRef[3].toDouble();
-                    qDebug("%d (%f,%f,%f)",i + 1, X[i],Y[i],Z[i]);
+                    //qDebug("%d (%f,%f,%f)",i + 1, X[i],Y[i],Z[i]);
 
                     i++;
                 }
@@ -2642,7 +2681,7 @@ void PositionSystem::on_LocMapResCircle_clicked()
     qSort(dis.begin(),dis.end());
     radius_50 = dis[int(Iter/2)];
     radius_100 = dis[Iter - 1];
-    qDebug("radius:50: %f,100: %f",radius_50,radius_100);
+    //qDebug("radius:50: %f,100: %f",radius_50,radius_100);
 
 
     //Cooperate with Js to draw a circle with center as the center and radius respectively

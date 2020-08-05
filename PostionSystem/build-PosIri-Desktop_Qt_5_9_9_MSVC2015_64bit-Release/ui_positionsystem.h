@@ -82,7 +82,6 @@ public:
     QLabel *AcqIndexB;
     QPushButton *AcqStartpushButton;
     QLabel *AcqDb1;
-    QPushButton *AcqRefreshpushButton;
     QPushButton *AcqReadApushButton;
     QProgressBar *AcqprogressBar;
     QPushButton *AcqWriteCpushButton;
@@ -92,7 +91,6 @@ public:
     QLabel *AcqDATA_name;
     QTextEdit *AcqConfigtextEdit;
     QLabel *AcqOut_name;
-    QCheckBox *AcqFreshcheckBox;
     QDoubleSpinBox *AcqDb1doubleSpinBox;
     QLabel *AcqPro;
     QSpinBox *AcqIndexEspinBox;
@@ -303,17 +301,13 @@ public:
         AcqDb1->setObjectName(QStringLiteral("AcqDb1"));
         AcqDb1->setGeometry(QRect(30, 560, 121, 41));
         AcqDb1->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
-        AcqRefreshpushButton = new QPushButton(Acq);
-        AcqRefreshpushButton->setObjectName(QStringLiteral("AcqRefreshpushButton"));
-        AcqRefreshpushButton->setGeometry(QRect(550, 700, 91, 31));
-        AcqRefreshpushButton->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         AcqReadApushButton = new QPushButton(Acq);
         AcqReadApushButton->setObjectName(QStringLiteral("AcqReadApushButton"));
         AcqReadApushButton->setGeometry(QRect(20, 620, 151, 41));
         AcqReadApushButton->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         AcqprogressBar = new QProgressBar(Acq);
         AcqprogressBar->setObjectName(QStringLiteral("AcqprogressBar"));
-        AcqprogressBar->setGeometry(QRect(690, 700, 371, 31));
+        AcqprogressBar->setGeometry(QRect(550, 700, 511, 31));
         AcqprogressBar->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         AcqprogressBar->setValue(0);
         AcqWriteCpushButton = new QPushButton(Acq);
@@ -344,11 +338,6 @@ public:
         AcqOut_name->setObjectName(QStringLiteral("AcqOut_name"));
         AcqOut_name->setGeometry(QRect(30, 440, 101, 31));
         AcqOut_name->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
-        AcqFreshcheckBox = new QCheckBox(Acq);
-        AcqFreshcheckBox->setObjectName(QStringLiteral("AcqFreshcheckBox"));
-        AcqFreshcheckBox->setEnabled(true);
-        AcqFreshcheckBox->setGeometry(QRect(650, 700, 41, 41));
-        AcqFreshcheckBox->setChecked(true);
         AcqDb1doubleSpinBox = new QDoubleSpinBox(Acq);
         AcqDb1doubleSpinBox->setObjectName(QStringLiteral("AcqDb1doubleSpinBox"));
         AcqDb1doubleSpinBox->setGeometry(QRect(150, 560, 111, 31));
@@ -570,7 +559,7 @@ public:
 
         retranslateUi(PositionSystem);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(PositionSystem);
@@ -619,13 +608,11 @@ public:
         AcqIndexB->setText(QApplication::translate("PositionSystem", "Index_Begin", Q_NULLPTR));
         AcqStartpushButton->setText(QApplication::translate("PositionSystem", "Start Acq", Q_NULLPTR));
         AcqDb1->setText(QApplication::translate("PositionSystem", "Db1_comparition", Q_NULLPTR));
-        AcqRefreshpushButton->setText(QApplication::translate("PositionSystem", "Refresh", Q_NULLPTR));
         AcqReadApushButton->setText(QApplication::translate("PositionSystem", "Read ACQ.config", Q_NULLPTR));
         AcqWriteCpushButton->setText(QApplication::translate("PositionSystem", "Write Config", Q_NULLPTR));
         AcqEndpushButton->setText(QApplication::translate("PositionSystem", "End Acq", Q_NULLPTR));
         AcqDATA_name->setText(QApplication::translate("PositionSystem", "DATA_name", Q_NULLPTR));
         AcqOut_name->setText(QApplication::translate("PositionSystem", "AcqOut_name", Q_NULLPTR));
-        AcqFreshcheckBox->setText(QString());
         AcqPro->setText(QApplication::translate("PositionSystem", "ACQUISITION PRO", Q_NULLPTR));
         AcqReadCpushButton->setText(QApplication::translate("PositionSystem", "Read Config", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(Acq), QApplication::translate("PositionSystem", "Acquisition", Q_NULLPTR));

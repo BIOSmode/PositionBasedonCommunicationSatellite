@@ -39,7 +39,7 @@
      <enum>QTabWidget::Triangular</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="Home">
      <attribute name="title">
@@ -512,22 +512,6 @@
        <string>Db1_comparition</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="AcqRefreshpushButton">
-      <property name="geometry">
-       <rect>
-        <x>550</x>
-        <y>700</y>
-        <width>91</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
-      </property>
-      <property name="text">
-       <string>Refresh</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="AcqReadApushButton">
       <property name="geometry">
        <rect>
@@ -547,9 +531,9 @@
      <widget class="QProgressBar" name="AcqprogressBar">
       <property name="geometry">
        <rect>
-        <x>690</x>
+        <x>550</x>
         <y>700</y>
-        <width>371</width>
+        <width>511</width>
         <height>31</height>
        </rect>
       </property>
@@ -661,25 +645,6 @@
       </property>
       <property name="text">
        <string>AcqOut_name</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="AcqFreshcheckBox">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>650</x>
-        <y>700</y>
-        <width>41</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
       </property>
      </widget>
      <widget class="QDoubleSpinBox" name="AcqDb1doubleSpinBox">

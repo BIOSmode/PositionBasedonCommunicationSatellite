@@ -15,6 +15,7 @@
 * 2020/08/03 sun 11:50:IridiumLoc.exe can be run, the Loc part is fully completed;
 * 2020/08/03 sun 11:52：Added a tool to automatically copy the updated .tle to the TLE folder;
 * 2020/08/03 sun 15:28:Refer to other people's Js to modify the homepage and initial page;
+* 2020/08/05 sun 12:31:Modify exE mode to read its output and refresh the interface display；
 **********************************************************************************************/
 
 #ifndef POSITIONSYSTEM_H
@@ -114,7 +115,7 @@ private slots:
 
     void on_AcqEndpushButton_clicked();
 
-    void on_AcqRefreshpushButton_clicked();
+    //void on_AcqRefreshpushButton_clicked();
 
     void refreshacqout();
 
@@ -122,7 +123,7 @@ private slots:
 
     void PlotData();
 
-    void RefreshBar();
+    void RefreshBar(int ind);
 
     //Update TLE
     void on_Iridium_clicked();
