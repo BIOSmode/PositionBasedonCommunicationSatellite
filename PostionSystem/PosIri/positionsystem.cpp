@@ -1,4 +1,4 @@
-/*********************************************************************************************
+/************************************************************************************************************************
 * sun 20200801
 * By sunguiyu96@gmail.com
 * The overall interface program based on the positioning of the Communication Satellite signal,
@@ -15,8 +15,10 @@
 * 2020/08/03 sun 11:50:IridiumLoc.exe can be run, the Loc part is fully completed;
 * 2020/08/03 sun 11:52:Added a tool to automatically copy the updated .tle to the TLE folder;
 * 2020/08/03 sun 15:28:Refer to other people's Js to modify the homepage and initial page;
-* 2020/08/05 sun 12:31:Modify exE mode to read its output and refresh the interface display；
-**********************************************************************************************/
+* 2020/08/05 sun 12:31:Modify IridiumAcq.exe mode to read its output and refresh the interface display；
+* 2020/08/05 sun 19:46:Modify IridiumLoc.exe mode to read its output and refresh the interface display；
+* 2020/08/05 sun 19:46:The method of determining the end of exe has been modified to make it more reliable；
+***************************************************************************************************************************/
 
 #include "positionsystem.h"
 #include "ui_positionsystem.h"
@@ -39,12 +41,30 @@ PositionSystem::PositionSystem(QWidget *parent)
     ui->AcqIndexBspinBox->setRange(0,100000);
     ui->AcqIndexEspinBox->setRange(0,100000);
 
+    //Set GPS Location's button disabled
+    ui->GPSOpenPort->setEnabled(false);
+    ui->GPSSentCommand->setEnabled(false);
+    ui->GPSReceive->setEnabled(false);
+
+    //Set Acqisition's button disabled
+    ui->AcqWriteCpushButton->setEnabled(false);
+    ui->AcqStartpushButton->setEnabled(false);
+    ui->AcqEndpushButton->setEnabled(false);
+
+    //Set TLEUpdate's button disabled
+    ui->UpCopypushButton->setEnabled(false);
+
+
+
     //Set Location's button disabled
+    ui->LocConfigWrite->setEnabled(false);
     ui->LocMapDisplay->setEnabled(false);
     ui->LocMapAll->setEnabled(false);
     ui->LocMapOne->setEnabled(false);
     ui->LocMapRefCircle->setEnabled(false);
     ui->LocMapResCircle->setEnabled(false);
+    ui->LocStartLoc->setEnabled(false);
+    ui->LocEndLoc->setEnabled(false);
 
     //Set Homepage
     ui->tabWidget->setCurrentIndex(0);
@@ -55,6 +75,10 @@ PositionSystem::PositionSystem(QWidget *parent)
     ui->HomWelcome->show();
 
     //Initialize part of the interface
+    QString pathGPS = currentpath + "/Json/GPSWelcome.html";
+    QUrl urlGPS(pathGPS);
+    ui->GPSMapView->load(urlGPS);
+    ui->GPSMapView->show();
     QString pathUpd = currentpath + "/Json/UpdWelcome.html";
     QUrl urlUpd(pathUpd);
     ui->TLEVIew->load(urlUpd);
@@ -121,6 +145,7 @@ QVector<int>index(10);
 static PositionSystem::ititude Loc_Ititude;
 static int Iter = 0;
 static int current_i = 0;
+QString LocCout = "";
 
 /*********************************************************************************************
 * sun 20200801
@@ -159,21 +184,25 @@ void PositionSystem::on_GPSSearchPort_clicked()
     ui->GPSPortcomboBox->setCurrentIndex(n-1);
 
 //    ui->comboBox->setEnabled(false);        //关闭该选项
+
+    //Set GPS Location's button disabled
+    ui->GPSOpenPort->setEnabled(true);
 }
 
 /*********************************************************************************************
 * sun 20200801
 * By sunguiyu96@gmail.com
 * GPS Loc and Log Part
-* 接收串口的数据并分包（为接收Novatel数据）
+* Receive serial port data, subcontract and display on the interface (for receiving Novatel data)
 * input：
-* output：存储在GPS文件夹
+* output：Store in the GPS folder
 * Process：
-* 2020/01/02 sun 18:52:开始；
-* 2020/01/08 sun 11:15:达到预想效果；
-* 2020/01/08 sun 21:10:ASCII有效数据分离，写文件完成；
-* 2020/01/09 sun 00:20:根据数据头尾分包程序完成，实测数据通过；
+* 2020/01/02 sun 18:52:Start；
+* 2020/01/08 sun 11:15:Achieve the desired effect；
+* 2020/01/08 sun 21:10:Complete ASCII valid data separation and write file function；
+* 2020/01/09 sun 00:20:Complete the subcontracting procedure according to the data head and tail；
 * 2020/08/01 sun 20:31:Complete the modification to make it run within the integral program；
+* 2020/08/05 sun 15:03:Show the location of the record on baidu map；
 **********************************************************************************************/
 void PositionSystem::ReadPort()
 {
@@ -184,32 +213,32 @@ void PositionSystem::ReadPort()
 //    QString buf_string = buf;
 //    qDebug() << "YYY:" <<buf_string;
 
-    //根据数据头尾分包，解决数据不完整的问题
+    //Solve the problem of incomplete data according to data subcontracting
     QByteArray ReadyDATA = NULL;
-    //无头且变量为空
+    //Headless and null variables
     if((!buf.contains("#")) & (currentDATA.isNull()))
     {
         return;
     }
-    //有头无尾，清空原有内容再附加
+    //Head and tailess,empty the contents and add more
     if((buf.contains("#")) & (!buf.contains("\n")))
     {
         currentDATA.clear();
         currentDATA.append(buf);
     }
-    //无头无尾且变量已有内容，数据中端，直接附加
+    //Headless, tailless and variable with existing content->middle end of data, directly attached
     if((!buf.contains("#")) & (!buf.contains("\n")) & (!currentDATA.isNull()))
     {
         currentDATA.append(buf);
     }
-    //无头有尾且变量已有内容，已完整读取，附加后output再清空
+    //Headless, tail and variable with existing content->complete reading，the output will be emptied after attachment
     if((!buf.contains("#")) & (buf.contains("\n")) & (!currentDATA.isNull()))
     {
         currentDATA.append(buf);
         ReadyDATA = currentDATA;
         currentDATA.clear();
     }
-    //有头有尾，先清空原内容，再附加，然后output再清空
+    //head and tail，first empty the original content, then attach, and then output again empty
     if((buf.contains("#")) & (buf.contains("\n")))
     {
         currentDATA.clear();
@@ -222,7 +251,7 @@ void PositionSystem::ReadPort()
 
     if(!ReadyDATA.isEmpty())
     {
-        //接收ASCII的GPS信息
+        //Receive ASCII GPS information
         QString bufstr = ReadyDATA;
 //        qDebug() << bufstr << "\n";
         int Length = 0;
@@ -244,42 +273,52 @@ void PositionSystem::ReadPort()
         GPSOut.satnum = datalist[15].toInt();
 //        qDebug() << datalist[15];
 
-        //output到界面
+        //output at interface
         ui->GPSLatilineEdit->setText(datalist[2]);
         ui->GPSLonglineEdit->setText(datalist[3]);
         ui->GPSHighlineEdit->setText(datalist[4]);
         ui->GPSStatelineEdit->setText(GPSOut.sol_state);
         ui->GPSSatNumlineEdit->setText(datalist[15]);
+        //output at BaiduMap
+        QString currentpath = QApplication::applicationDirPath();       //Read the path where the .exe is located
+        QString path = currentpath + "/LoctiononBaiduMap.html";
+    //    QString path = "C:/Qt/BaiduMapTest/BaiduMap2/BaiduMap2.html";        //Fixed path
+        QUrl url(path);
 
-        QString str = ui->GPStextEdit->toPlainText();       //将字符串与文本联系起来
+        ui->LocMapView->load(url);
+        ui->LocMapView->show();
+
+        QString command = QString("addpoint(%1,%2)").arg(QString::number(GPSOut.longitude)).arg(QString::number(GPSOut.latitude));
+        ui->LocMapView->page()->runJavaScript(command);
+
+        QString str = ui->GPStextEdit->toPlainText();       //Associate a string with text
         int n =0 ;
         str += QString("\n%1: ").arg(nn + 1);
         str += QDateTime::currentDateTime().toString("hh:mm:ss");
         str += "\n";
 
-        //如果记录标志为是则output文件
-        if(ui->GPSLogcheckBox->isChecked()==true) //记录数据
+        //Output the file if the record flag is Yes
+        if(ui->GPSLogcheckBox->isChecked()==true) //Record the data
         {
-            //写入文件
-            QString currentpath = QApplication::applicationDirPath();       //读入.exe所在的路径
+            //Written to the file
+            QString currentpath = QApplication::applicationDirPath();       //Read in the path of .exe
             QString logpath = currentpath + "/GPS/";
             QString filename = logpath + GPSOut.posname;
             QString strout;
-                if(filename.isEmpty() == false)
+            if(filename.isEmpty() == false)
+            {
+                QFile file(filename);
+                bool isok = file.open(QIODevice::WriteOnly|QIODevice::Append);
+                if(isok == true)
                 {
-                    QFile file(filename);
-                    bool isok = file.open(QIODevice::WriteOnly|QIODevice::Append);
-                    if(isok == true)
-                    {
-                        strout = GPSOut.time.toString("yyyy-MM-dd hh:mm:ss") + " ";
-                        strout = strout + QString::number(GPSOut.latitude,'f',8) + " " + QString::number(GPSOut.longitude,'f',8)+ " " + QString::number(GPSOut.high,'f',8) + " ";
-                        strout = strout + QString::number(GPSOut.deltalatitude,'f',8) + " " + QString::number(GPSOut.deltalongitude,'f',8)+ " " + QString::number(GPSOut.deltahigh,'f',8) + " " + QString::number(GPSOut.satnum) +"\n";
-                        file.write(strout.toUtf8());
-                    }
-                    file.close();
-                    str += "LOG SUCCESS\n";
+                    strout = GPSOut.time.toString("yyyy-MM-dd hh:mm:ss") + " ";
+                    strout = strout + QString::number(GPSOut.latitude,'f',8) + " " + QString::number(GPSOut.longitude,'f',8)+ " " + QString::number(GPSOut.high,'f',8) + " ";
+                    strout = strout + QString::number(GPSOut.deltalatitude,'f',8) + " " + QString::number(GPSOut.deltalongitude,'f',8)+ " " + QString::number(GPSOut.deltahigh,'f',8) + " " + QString::number(GPSOut.satnum) +"\n";
+                    file.write(strout.toUtf8());
                 }
-
+                file.close();
+                str += "LOG SUCCESS\n";
+            }
         }
 
 
@@ -290,11 +329,13 @@ void PositionSystem::ReadPort()
         nn++;
 
     }
-    if(nn > 200)            //读入的太多会阻塞
+    if(nn > 200)            //Too much reading will block
     {
         ui->GPStextEdit->setPlainText("");
         nn = 0;
     }
+
+
 }
 
 /*********************************************************************************************
@@ -338,6 +379,8 @@ void PositionSystem::on_GPSOpenPort_clicked()
     //ui->comboBox_2->setEnabled(false);
 
     ui->GPStextEdit->setText("Port has been opened!");
+    ui->GPSSentCommand->setEnabled(true);
+    ui->GPSReceive->setEnabled(true);
 }
 
 /*********************************************************************************************
@@ -580,6 +623,11 @@ void PositionSystem::on_AcqReadCpushButton_clicked()
         }
         file.close();//文件读取完毕后关闭文件。
     }
+
+    //Enable Acqisition's button
+    ui->AcqWriteCpushButton->setEnabled(true);
+    ui->AcqStartpushButton->setEnabled(true);
+    ui->AcqEndpushButton->setEnabled(true);
 }
 
 /*********************************************************************************************
@@ -740,8 +788,11 @@ void PositionSystem::on_AcqStartpushButton_clicked()
     //qDebug() << "exepath:" << exepath << endl;
     QString workpath = currentpath;
     //QMessageBox::warning(0,"PATH",exepath,QMessageBox::Yes);           //View current path
+
+    QDateTime current_date_time =QDateTime::currentDateTime();
+    QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
     QString currentText = ui->AcqStatetextEdit->toPlainText();
-    ui->AcqStatetextEdit->setText(currentText + "\n\nIRIDIUMACQ.EXE HAS START!!  \n");
+    ui->AcqStatetextEdit->setText(currentText + "\n\n" + current_dt + ":IRIDIUMACQ.EXE HAS START!!  \n");
     //使保持在最下面
     QTextCursor cursor = ui->AcqStatetextEdit->textCursor();
     cursor.movePosition(QTextCursor::End);
@@ -827,7 +878,7 @@ void PositionSystem::refreshacqout(void)
     cursor.movePosition(QTextCursor::End);
     ui->AcqConfigtextEdit->setTextCursor(cursor);
 
-    qDebug() << AcqCout1;
+    //qDebug() << AcqCout1;
     QChar qch = AcqCout1.at(0);
     char ch = qch.toLatin1();
     int ind = 0;
@@ -843,11 +894,11 @@ void PositionSystem::refreshacqout(void)
         {
             ind = ind * 10 + ch - 48;
         }
-        qDebug() << i <<  " qch:" << qch <<  " ch:" << ch;
+        //qDebug() << i <<  " qch:" << qch <<  " ch:" << ch;
     }
 
 
-    qDebug() <<  " Ind:" << ind << endl;
+    //qDebug() <<  " Ind:" << ind << endl;
     if(ind != 0)
     {
         ReadData();     //读取捕获结果
@@ -983,8 +1034,10 @@ void PositionSystem::PlotData()
 void PositionSystem::RefreshBar(int ind)
 {
     //qDebug() << CurruntIndex;
-    //int x = round((CurruntIndex * 100)/TotalIndex);
-    ui->AcqprogressBar->setValue((ind + 1)* 100 / TotalIndex);
+    //qDebug() << TotalIndex;
+    int x = round(double(ind * 100) / TotalIndex);
+    //qDebug() << ind << x;
+    ui->AcqprogressBar->setValue(x);
 }
 
 
@@ -1297,6 +1350,7 @@ void PositionSystem::on_UpdateTLE_clicked()
     ui->Iridium->setEnabled(true);
     ui->IridiumNext->setEnabled(true);
     ui->UpdateTLE->setEnabled(true);
+    ui->UpCopypushButton->setEnabled(true);
 }
 
 /*********************************************************************************************
@@ -1642,6 +1696,7 @@ void PositionSystem::on_LocConfigRead_clicked()
     ui->LocMapOne->setEnabled(false);
 
 
+
     int syear = 0,smonth = 0,sday = 0,shour = 0,sminute = 0;
     double ssecond = 0.0;
     double loc_x = 0.0,loc_y = 0.0,loc_z = 0.0;
@@ -1820,6 +1875,9 @@ void PositionSystem::on_LocConfigRead_clicked()
 
     //After .config has been read, enable the next button
     ui->LocMapDisplay->setEnabled(true);
+    ui->LocConfigWrite->setEnabled(true);
+    ui->LocStartLoc->setEnabled(true);
+    ui->LocEndLoc->setEnabled(true);
 }
 
 /*********************************************************************************************
@@ -1841,11 +1899,14 @@ void PositionSystem::on_LocConfigWrite_clicked()
     ui->LocMapOne->setEnabled(false);
     ui->LocMapRefCircle->setEnabled(false);
     ui->LocMapResCircle->setEnabled(false);
+    ui->LocStartLoc->setEnabled(false);
+    ui->LocEndLoc->setEnabled(false);
 
     //Write config
     QString currentpath = QApplication::applicationDirPath();       //Read the path where the .exe is located
     QString configpath = currentpath + "/config/";
-    QString filename = QFileDialog::getOpenFileName(this, "打开文件", configpath, "config files(*.config);;Txt(*.txt)");
+    //QString filename = QFileDialog::getOpenFileName(this, "打开文件", configpath, "config files(*.config);;Txt(*.txt)");
+    QString filename = configpath + "LOC.config";
     QString str;
     if(filename.isEmpty() == false)
     {
@@ -2709,30 +2770,25 @@ void PositionSystem::on_LocStartLoc_clicked()
     QString exepath = currentpath + "/IridiumLoc.exe";
     QString workpath = currentpath;
     //QMessageBox::warning(0,"PATH",exepath,QMessageBox::Yes);
+
+    QDateTime current_date_time =QDateTime::currentDateTime();
+    QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
     QString currentText = ui->AcqStatetextEdit->toPlainText();
-    ui->LoctextEdit_2->setText(currentText + "\n\nIRIDIUMLOC.EXE HAS START!!  \n");
+    ui->LoctextEdit_2->setText(currentText + "\n\n" + current_dt + ":IRIDIUMLOC.EXE HAS START!!  \n");
     //Keep it at the bottom
     QTextCursor cursor = ui->LoctextEdit_2->textCursor();
     cursor.movePosition(QTextCursor::End);
     ui->LoctextEdit_2->setTextCursor(cursor);
 
-    QTimer *timerrefresh = new QTimer(this);
-    connect(timerrefresh,SIGNAL(timeout()),this,SLOT(refreshlocout()));
-    timerrefresh->start(1000 * 5);        //Refresh every 5s
-
-    QProcess *pro;
+    QProcess *LocProcess;
     if (QFileInfo(exepath).exists())
     {
-        pro = new QProcess(this);
-        connect(pro, SIGNAL(readyReadStandardOutput()),this, SLOT(readFromStdOut()));
-        pro->startDetached(exepath,QStringList(),workpath);
-//        pro->start(exepath,QStringList(),workpath);
-        //ui->textEdit_2->setText("END2   \n");
-
-        QByteArray res = pro->readAllStandardOutput();
-        ui->LoctextEdit_2->append(QString::fromLocal8Bit(res));
-        //ui->textEdit_2->setText(pro->readAllStandardOutput());
-        //ui->textEdit_2->append("\n END");
+        LocProcess = new QProcess(this);
+        connect(LocProcess, SIGNAL(readyRead()),this, SLOT(refreshlocout()));
+        QStringList AcqList("ACQ is running...");
+        LocProcess->setWorkingDirectory(workpath);
+        LocProcess->start(exepath,AcqList);
+       //AcqProcess->startDetached(exepath,QStringList(),workpath);
     }
 }
 
@@ -2768,17 +2824,41 @@ void PositionSystem::on_LocEndLoc_clicked()
 **********************************************************************************************/
 void PositionSystem::refreshlocout(void)
 {
-    QString filename = LoCoutPathandName_L;
-    //qDebug() << "refresh" << filename << endl;
-    if(filename.isEmpty() == false)
+    QProcess *LocProcess = (QProcess *)sender();
+    QString LocCout1 = LocProcess->readAll();
+    LocCout += LocCout1;
+    ui->LoctextEdit_2->setText(LocCout);
+    //Move the cursor to the end
+    QTextCursor cursor = ui->LoctextEdit_2->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->LoctextEdit_2->setTextCursor(cursor);
+
+    //qDebug() << LocCout1 << endl;
+
+    if(LocCout1.contains("output successfuly!",Qt::CaseSensitive))
     {
+        QDateTime current_date_time =QDateTime::currentDateTime();
+        QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
         QString Currunt_textEdit = ui->LoctextEdit_2->toPlainText();
-        ui->LoctextEdit_2->setText(Currunt_textEdit + "\n" + filename + "\n output successfully!\nLocation has finished!!  ");
+        ui->LoctextEdit_2->setText(Currunt_textEdit + "\n\n" + current_dt + ":" + LoCoutPathandName_L + " output successfully!\nLocation has finished!!  ");
         //Move the cursor to the end
-        QTextCursor cursor = ui->LoctextEdit_2->textCursor();
+        cursor = ui->LoctextEdit_2->textCursor();
         cursor.movePosition(QTextCursor::End);
         ui->LoctextEdit_2->setTextCursor(cursor);
     }
+//    QString filename = LoCoutPathandName_L;
+//    //qDebug() << "refresh" << filename << endl;
+//    if(filename.isEmpty() == false)
+//    {
+//        QDateTime current_date_time =QDateTime::currentDateTime();
+//        QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
+//        QString Currunt_textEdit = ui->LoctextEdit_2->toPlainText();
+//        ui->LoctextEdit_2->setText(Currunt_textEdit + "\n\n" + current_dt + ":" + filename + " output successfully!\nLocation has finished!!  ");
+//        //Move the cursor to the end
+//        cursor = ui->LoctextEdit_2->textCursor();
+//        cursor.movePosition(QTextCursor::End);
+//        ui->LoctextEdit_2->setTextCursor(cursor);
+//    }
 }
 
 

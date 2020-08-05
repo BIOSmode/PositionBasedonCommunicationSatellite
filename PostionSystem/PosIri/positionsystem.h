@@ -1,4 +1,4 @@
-/*********************************************************************************************
+/************************************************************************************************************************
 * sun 20200801
 * By sunguiyu96@gmail.com
 * The overall interface program based on the positioning of the Communication Satellite signal,
@@ -13,10 +13,12 @@
 * 2020/08/02 sun 23:23:Position part's original function is completed;
 * 2020/08/03 sun 00:34:Almost all parts are completed;
 * 2020/08/03 sun 11:50:IridiumLoc.exe can be run, the Loc part is fully completed;
-* 2020/08/03 sun 11:52：Added a tool to automatically copy the updated .tle to the TLE folder;
+* 2020/08/03 sun 11:52:Added a tool to automatically copy the updated .tle to the TLE folder;
 * 2020/08/03 sun 15:28:Refer to other people's Js to modify the homepage and initial page;
-* 2020/08/05 sun 12:31:Modify exE mode to read its output and refresh the interface display；
-**********************************************************************************************/
+* 2020/08/05 sun 12:31:Modify IridiumAcq.exe mode to read its output and refresh the interface display；
+* 2020/08/05 sun 19:46:Modify IridiumLoc.exe mode to read its output and refresh the interface display；
+* 2020/08/05 sun 19:46:The method of determining the end of exe has been modified to make it more reliable；
+***************************************************************************************************************************/
 
 #ifndef POSITIONSYSTEM_H
 #define POSITIONSYSTEM_H
