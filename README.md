@@ -4,8 +4,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/BIOSmode/PositionBasedonCommunicationSatellite/blob/master/Pic/">
-    <img src="./logo.jpg" alt="Logo" width="80" height="80">
+  <a href="https://github.com/BIOSmode/PositionBasedonCommunicationSatellite/">
+    <img src="./blob/master/Pic/logo.jpg" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">TLE Downloader based on QT</h3>
