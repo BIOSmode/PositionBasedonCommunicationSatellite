@@ -19,7 +19,8 @@
 * 2020/08/05 sun 19:46:Modify IridiumLoc.exe mode to read its output and refresh the interface display；
 * 2020/08/05 sun 19:46:The method of determining the end of exe has been modified to make it more reliable；
 * 2020/08/06 sun 00:47:Tek data preprocessing interface has been added to modify;
-* 2020/08/06 sun 00:47:Location: serial number can be read and progress can be refreshed as the sunmber;
+* 2020/08/06 sun 00:47:Location: serial number can be read and progress can be refreshed as the number;
+* 2020/08/07 sun 00:48:Add Icon、Title and rersion.rc for the system;
 ***************************************************************************************************************************/
 
 #include "positionsystem.h"
@@ -33,6 +34,9 @@ PositionSystem::PositionSystem(QWidget *parent)
 {
     ui->setupUi(this);
 
+    //set Icon and Title
+    setWindowIcon(QIcon(":/image/position.ico"));
+    setWindowTitle("IPoS -- IPositon System");
 
     //In order to show current time
     QTimer *timer = new QTimer(this);
@@ -769,86 +773,90 @@ void PositionSystem::on_AcqReadApushButton_clicked()
 {
     //读acq.config（默认的配置文件）
     QString currentpath = QApplication::applicationDirPath();       //读入.exe所在的路径
-        QString configpath = currentpath + "/config/" + "ACQ.config";
-        QString filename = configpath;
-            if(filename.isEmpty() == false)
+    QString configpath = currentpath + "/config/" + "ACQ.config";
+    QString filename = configpath;
+    if(filename.isEmpty() == false)
+    {
+        QFile file(filename);
+        bool isok = file.open(QIODevice::ReadOnly);//以只读的方式打开文件
+        if(isok == true)
+        {
+            QByteArray array;
+            QByteArray configline;
+            int index_b=0,index_e=0;
+            while(file.atEnd() == false)
             {
-                QFile file(filename);
-                bool isok = file.open(QIODevice::ReadOnly);//以只读的方式打开文件
-                if(isok == true)
-                {
-                    QByteArray array;
-                    QByteArray configline;
-                    int index_b=0,index_e=0;
-                    while(file.atEnd() == false)
-                    {
-                        configline = file.readLine();      //读的每行
-                        array += configline;//将文件中的读取的内容保存在字节数组中。
-                        QString acqline;
-                        acqline.prepend(configline);
+                configline = file.readLine();      //读的每行
+                array += configline;//将文件中的读取的内容保存在字节数组中。
+                QString acqline;
+                acqline.prepend(configline);
 //                        qDebug() << acqline;
-                        //得到数据路径及数据名
-                        if(acqline[0]=="D" && acqline[1]=="A")
-                        {
-                            QString DataName;
-                            int n_name = acqline.length() - 13;
-                            DataName = acqline.mid(11,n_name);
-                            ui->AcqDATA_namelineEdit->setText(DataName);
-                        }
-                        //得到捕获结果文件路径及名字
-                        if(acqline[0]=="a" && acqline[7]=="n")
-                        {
-                            QString AcqOutName;
-                            int n_name = acqline.length() - 15;
-                            AcqOutName = acqline.mid(13,n_name);
-                            AcqOutPathandName = currentpath + "/ACQ/" +AcqOutName;
-                            ui->AcqOut_namelineEdit->setText(AcqOutName);
-                            //qDebug() <<  AcqOutPathandName;
-                            //ui ->textEdit_2 ->setText(AcqOutPathandName);
-                        }
-                        //得到总的数量
-                        if(acqline[0]=="I" && acqline[6]=="B")
-                        {
-                            QString i_b;
-                            int n = acqline.length() - 8;
-                            i_b = acqline.mid(8,n);
-                            index_b = i_b.toInt();
-                            BeginIndex = index_b;
-                            ui->AcqIndexBspinBox->setValue(index_b);
-                        }
-                        if(acqline[0]=="I" && acqline[6]=="E")
-                        {
-                            QString i_e;
-                            int n = acqline.length() - 8;
-                            i_e = acqline.mid(8,n);
-                            index_e = i_e.toInt();
-                            TotalIndex = index_e - index_b + 1;
-                            QString total = QString::number(TotalIndex);
-                            ui->AcqStatetextEdit->setText(AcqOutPathandName + "\n" + "Total:" + total);
-                            ui->AcqIndexEspinBox->setValue(index_e);
-                        }
-                        //得到捕获门限
-                        if(acqline[0]=="c" && acqline[35]=="1")
-                        {
-                            QString db1;
-                            int n = acqline.length() - 37;
-                            db1 = acqline.mid(37,n);
-                            double c_db1 = db1.toDouble();
-                            ui->AcqDb1doubleSpinBox->setValue(c_db1);
-                        }
-                        if(acqline[0]=="c" && acqline[35]=="2")
-                        {
-                            QString db2;
-                            int n = acqline.length() - 37;
-                            db2 = acqline.mid(37,n);
-                            double c_db2 = db2.toDouble();
-                            ui->AcqDb2doubleSpinBox->setValue(c_db2);
-                        }
-                    }
-                    ui->AcqConfigtextEdit->setText(array);
+                //得到数据路径及数据名
+                if(acqline[0]=="D" && acqline[1]=="A")
+                {
+                    QString DataName;
+                    int n_name = acqline.length() - 13;
+                    DataName = acqline.mid(11,n_name);
+                    ui->AcqDATA_namelineEdit->setText(DataName);
                 }
-                file.close();//文件读取完毕后关闭文件。
+                //得到捕获结果文件路径及名字
+                if(acqline[0]=="a" && acqline[7]=="n")
+                {
+                    QString AcqOutName;
+                    int n_name = acqline.length() - 15;
+                    AcqOutName = acqline.mid(13,n_name);
+                    AcqOutPathandName = currentpath + "/ACQ/" +AcqOutName;
+                    ui->AcqOut_namelineEdit->setText(AcqOutName);
+                    //qDebug() <<  AcqOutPathandName;
+                    //ui ->textEdit_2 ->setText(AcqOutPathandName);
+                }
+                //得到总的数量
+                if(acqline[0]=="I" && acqline[6]=="B")
+                {
+                    QString i_b;
+                    int n = acqline.length() - 8;
+                    i_b = acqline.mid(8,n);
+                    index_b = i_b.toInt();
+                    BeginIndex = index_b;
+                    ui->AcqIndexBspinBox->setValue(index_b);
+                }
+                if(acqline[0]=="I" && acqline[6]=="E")
+                {
+                    QString i_e;
+                    int n = acqline.length() - 8;
+                    i_e = acqline.mid(8,n);
+                    index_e = i_e.toInt();
+                    TotalIndex = index_e - index_b + 1;
+                    QString total = QString::number(TotalIndex);
+                    ui->AcqStatetextEdit->setText(AcqOutPathandName + "\n" + "Total:" + total);
+                    ui->AcqIndexEspinBox->setValue(index_e);
+                }
+                //得到捕获门限
+                if(acqline[0]=="c" && acqline[35]=="1")
+                {
+                    QString db1;
+                    int n = acqline.length() - 37;
+                    db1 = acqline.mid(37,n);
+                    double c_db1 = db1.toDouble();
+                    ui->AcqDb1doubleSpinBox->setValue(c_db1);
+                }
+                if(acqline[0]=="c" && acqline[35]=="2")
+                {
+                    QString db2;
+                    int n = acqline.length() - 37;
+                    db2 = acqline.mid(37,n);
+                    double c_db2 = db2.toDouble();
+                    ui->AcqDb2doubleSpinBox->setValue(c_db2);
+                }
             }
+            ui->AcqConfigtextEdit->setText(array);
+        }
+        file.close();//文件读取完毕后关闭文件。
+    }
+    //Enable Acqisition's button
+    ui->AcqWriteCpushButton->setEnabled(true);
+    ui->AcqStartpushButton->setEnabled(true);
+    ui->AcqEndpushButton->setEnabled(true);
 }
 
 /*********************************************************************************************

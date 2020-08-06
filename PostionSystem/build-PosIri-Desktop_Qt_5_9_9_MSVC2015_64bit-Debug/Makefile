@@ -468,13 +468,13 @@ qmake_all: FORCE
 make_first: debug-make_first release-make_first  FORCE
 all: debug-all release-all  FORCE
 clean: debug-clean release-clean  FORCE
-	-$(DEL_FILE) PosIri.exp
+	-$(DEL_FILE) PosIri1.exp
 	-$(DEL_FILE) PosIri.vc.pdb
-	-$(DEL_FILE) PosIri.ilk
-	-$(DEL_FILE) PosIri.idb
+	-$(DEL_FILE) PosIri1.ilk
+	-$(DEL_FILE) PosIri1.idb
 distclean: debug-distclean release-distclean  FORCE
 	-$(DEL_FILE) Makefile
-	-$(DEL_FILE) .qmake.stash PosIri.lib PosIri.pdb
+	-$(DEL_FILE) .qmake.stash PosIri1.lib PosIri1.pdb
 
 debug-mocclean:
 	@set MAKEFLAGS=$(MAKEFLAGS)

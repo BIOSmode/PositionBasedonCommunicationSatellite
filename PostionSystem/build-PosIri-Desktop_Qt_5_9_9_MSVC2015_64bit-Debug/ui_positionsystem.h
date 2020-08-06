@@ -165,7 +165,7 @@ public:
     {
         if (PositionSystem->objectName().isEmpty())
             PositionSystem->setObjectName(QStringLiteral("PositionSystem"));
-        PositionSystem->resize(1085, 848);
+        PositionSystem->resize(1085, 854);
         actionAcqiration = new QAction(PositionSystem);
         actionAcqiration->setObjectName(QStringLiteral("actionAcqiration"));
         actionTLEupdation = new QAction(PositionSystem);
@@ -188,7 +188,7 @@ public:
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         tabWidget = new QTabWidget(centralwidget);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
-        tabWidget->setGeometry(QRect(10, 10, 1071, 781));
+        tabWidget->setGeometry(QRect(10, 10, 1071, 801));
         tabWidget->setMinimumSize(QSize(0, 50));
         tabWidget->setAutoFillBackground(true);
         tabWidget->setStyleSheet(QStringLiteral("font: 16pt \"Arial\";"));
@@ -299,7 +299,7 @@ public:
         GPStextEdit->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         GPSTitle_2 = new QLabel(GPS);
         GPSTitle_2->setObjectName(QStringLiteral("GPSTitle_2"));
-        GPSTitle_2->setGeometry(QRect(200, 440, 691, 41));
+        GPSTitle_2->setGeometry(QRect(100, 440, 861, 41));
         GPSTitle_2->setStyleSheet(QLatin1String("font: 100 30pt \"Times New Roman\";\n"
 ""));
         TekStartpushButton = new QPushButton(GPS);
@@ -624,7 +624,7 @@ public:
         PositionSystem->setCentralWidget(centralwidget);
         menubar = new QMenuBar(PositionSystem);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1085, 22));
+        menubar->setGeometry(QRect(0, 0, 1085, 26));
         menubar->setAutoFillBackground(true);
         menuPosition_System_based_on_Iridium = new QMenu(menubar);
         menuPosition_System_based_on_Iridium->setObjectName(QStringLiteral("menuPosition_System_based_on_Iridium"));
@@ -650,7 +650,7 @@ public:
 
         retranslateUi(PositionSystem);
 
-        tabWidget->setCurrentIndex(4);
+        tabWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(PositionSystem);

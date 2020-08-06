@@ -1,0 +1,43 @@
+IDI_ICON1 ICON DISCARDABLE "position.ico"
+#pragma code_page(65001)
+ 
+#if defined(UNDER_CE)
+#include <winbase.h>
+#else
+#include <winver.h>
+#endif
+ 
+VS_VERSION_INFO VERSIONINFO
+    FILEVERSION 1,0,0,10
+    PRODUCTVERSION 1,0,0,10
+    FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+    FILEFLAGS VS_FF_DEBUG
+#else
+    FILEFLAGS 0x0L
+#endif
+    FILEOS VOS__WINDOWS32
+    FILETYPE VFT_DLL
+    FILESUBTYPE 0x0L
+    BEGIN
+        BLOCK "StringFileInfo"
+        BEGIN
+            BLOCK "080404b0"
+            BEGIN
+                VALUE "CompanyName", "木"
+                VALUE "FileDescription", "软件描述"
+                VALUE "FileVersion", "1.0.0.10\0"
+                VALUE "ProductVersion", "1.0.0.10\0"
+                VALUE "LegalCopyright", "合法版权\0"
+                VALUE "LegalTrademarks", "合法"
+                VALUE "OriginalFilename", "version.exe\0"
+                VALUE "ProductName", "软件名称"
+                VALUE "InternalName", "version.exe\0"
+           END
+        END
+ 
+        BLOCK "VarFileInfo"
+        BEGIN
+            VALUE "Translation", 0x804, 1200
+        END
+    END

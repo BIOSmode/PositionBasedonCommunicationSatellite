@@ -20,6 +20,7 @@
 * 2020/08/05 sun 19:46:The method of determining the end of exe has been modified to make it more reliable；
 * 2020/08/06 sun 00:47:Tek data preprocessing interface has been added to modify;
 * 2020/08/06 sun 00:47:Location: serial number can be read and progress can be refreshed as the sunmber;
+* 2020/08/07 sun 00:48:Add Icon、Title and rersion.rc for the system;
 ***************************************************************************************************************************/
 
 #ifndef POSITIONSYSTEM_H

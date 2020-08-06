@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1085</width>
-    <height>848</height>
+    <height>854</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>10</x>
       <y>10</y>
       <width>1071</width>
-      <height>781</height>
+      <height>801</height>
      </rect>
     </property>
     <property name="minimumSize">
@@ -39,7 +39,7 @@
      <enum>QTabWidget::Triangular</enum>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="Home">
      <attribute name="title">
@@ -432,9 +432,9 @@ border:1px solid grey
      <widget class="QLabel" name="GPSTitle_2">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>100</x>
         <y>440</y>
-        <width>691</width>
+        <width>861</width>
         <height>41</height>
        </rect>
       </property>
@@ -1594,7 +1594,7 @@ border:1px solid grey
      <x>0</x>
      <y>0</y>
      <width>1085</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="autoFillBackground">
