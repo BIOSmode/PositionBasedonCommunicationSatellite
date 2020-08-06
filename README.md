@@ -58,7 +58,7 @@ Base on C/QT/C++/Js
 ## Usage
 
 You can edit/use/run this project in QT Creator directly.  
-If you want to use the IPoS directly on windows, please clone the [all files in PositionSystem/IPositionSystem](https://github.com/BIOSmode/PositionBasedonCommunicationSatellite/tree/master/PostionSystem/IProsionSystem).
+If you want to use the IPoS directly on windows, please clone the [IPoS.zip in PositionSystem](https://github.com/BIOSmode/PositionBasedonCommunicationSatellite/tree/master/PostionSystem/IPoS.zip).
 
 
 
