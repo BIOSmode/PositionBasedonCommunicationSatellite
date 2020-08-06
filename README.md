@@ -5,10 +5,10 @@
 <br />
 <p align="center">
   <a href="https://github.com/BIOSmode/PositionBasedonCommunicationSatellite/">
-    <img src="https://github.com/BIOSmode/PositionBasedonCommunicationSatellite/blob/master/Pic/logo.jpg" alt="Logo" width="150" height="90">
+    <img src="https://github.com/BIOSmode/PositionBasedonCommunicationSatellite/blob/master/Pic/logo.jpg" alt="Logo" width="200" height="120">
   </a>
 
-  <h3 align="center">TLE Downloader based on QT</h3>
+  <h3 align="center">IPoS -- Position Based on Communication Satellite</h3>
 
 </p>
 
