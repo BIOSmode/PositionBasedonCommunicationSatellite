@@ -3,9 +3,9 @@
 
 #define PRODUCT_ICON           "image/position.ico" // 图标
 
-#define FILE_VERSION           1,1,1,1   // 文件版本
+#define FILE_VERSION           1,2,1,1   // 文件版本
 #define FILE_VERSION_STR       "1.1.1.1"
-#define PRODUCT_VERSION        1,1,1,1   // 产品版本
+#define PRODUCT_VERSION        1,2,1,1   // 产品版本
 #define PRODUCT_VERSION_STR    "1.1.1.1"
 #define COMPANY_NAME           "CNTLAB"
 #define INTERNAL_NAME          "PosIri.exe"

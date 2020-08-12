@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_PositionSystem_t {
-    QByteArrayData data[37];
-    char stringdata0[782];
+    QByteArrayData data[41];
+    char stringdata0[831];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -49,25 +49,29 @@ QT_MOC_LITERAL(14, 313, 30), // "on_AcqWriteCpushButton_clicked"
 QT_MOC_LITERAL(15, 344, 29), // "on_AcqStartpushButton_clicked"
 QT_MOC_LITERAL(16, 374, 27), // "on_AcqEndpushButton_clicked"
 QT_MOC_LITERAL(17, 402, 13), // "refreshacqout"
-QT_MOC_LITERAL(18, 416, 8), // "ReadData"
-QT_MOC_LITERAL(19, 425, 8), // "PlotData"
-QT_MOC_LITERAL(20, 434, 10), // "RefreshBar"
-QT_MOC_LITERAL(21, 445, 3), // "ind"
-QT_MOC_LITERAL(22, 449, 18), // "on_Iridium_clicked"
-QT_MOC_LITERAL(23, 468, 22), // "on_IridiumNext_clicked"
-QT_MOC_LITERAL(24, 491, 20), // "on_UpdateTLE_clicked"
-QT_MOC_LITERAL(25, 512, 27), // "on_UpCopypushButton_clicked"
-QT_MOC_LITERAL(26, 540, 24), // "on_LocConfigRead_clicked"
-QT_MOC_LITERAL(27, 565, 25), // "on_LocConfigWrite_clicked"
-QT_MOC_LITERAL(28, 591, 24), // "on_LocMapDisplay_clicked"
-QT_MOC_LITERAL(29, 616, 20), // "on_LocMapAll_clicked"
-QT_MOC_LITERAL(30, 637, 20), // "on_LocMapOne_clicked"
-QT_MOC_LITERAL(31, 658, 26), // "on_LocMapRefCircle_clicked"
-QT_MOC_LITERAL(32, 685, 26), // "on_LocMapResCircle_clicked"
-QT_MOC_LITERAL(33, 712, 22), // "on_LocStartLoc_clicked"
-QT_MOC_LITERAL(34, 735, 20), // "on_LocEndLoc_clicked"
-QT_MOC_LITERAL(35, 756, 13), // "refreshlocout"
-QT_MOC_LITERAL(36, 770, 11) // "timerUpdate"
+QT_MOC_LITERAL(18, 416, 17), // "refreshacqoutSort"
+QT_MOC_LITERAL(19, 434, 8), // "ReadData"
+QT_MOC_LITERAL(20, 443, 8), // "PlotData"
+QT_MOC_LITERAL(21, 452, 10), // "RefreshBar"
+QT_MOC_LITERAL(22, 463, 3), // "ind"
+QT_MOC_LITERAL(23, 467, 14), // "onAcqModeClick"
+QT_MOC_LITERAL(24, 482, 18), // "on_Iridium_clicked"
+QT_MOC_LITERAL(25, 501, 22), // "on_IridiumNext_clicked"
+QT_MOC_LITERAL(26, 524, 20), // "on_UpdateTLE_clicked"
+QT_MOC_LITERAL(27, 545, 27), // "on_UpCopypushButton_clicked"
+QT_MOC_LITERAL(28, 573, 24), // "on_LocConfigRead_clicked"
+QT_MOC_LITERAL(29, 598, 25), // "on_LocConfigWrite_clicked"
+QT_MOC_LITERAL(30, 624, 24), // "on_LocMapDisplay_clicked"
+QT_MOC_LITERAL(31, 649, 20), // "on_LocMapAll_clicked"
+QT_MOC_LITERAL(32, 670, 20), // "on_LocMapOne_clicked"
+QT_MOC_LITERAL(33, 691, 26), // "on_LocMapRefCircle_clicked"
+QT_MOC_LITERAL(34, 718, 26), // "on_LocMapResCircle_clicked"
+QT_MOC_LITERAL(35, 745, 22), // "on_LocStartLoc_clicked"
+QT_MOC_LITERAL(36, 768, 20), // "on_LocEndLoc_clicked"
+QT_MOC_LITERAL(37, 789, 13), // "refreshlocout"
+QT_MOC_LITERAL(38, 803, 11), // "timerUpdate"
+QT_MOC_LITERAL(39, 815, 10), // "Delay_MSec"
+QT_MOC_LITERAL(40, 826, 4) // "msec"
 
     },
     "PositionSystem\0on_GPSSearchPort_clicked\0"
@@ -82,7 +86,8 @@ QT_MOC_LITERAL(36, 770, 11) // "timerUpdate"
     "on_AcqWriteCpushButton_clicked\0"
     "on_AcqStartpushButton_clicked\0"
     "on_AcqEndpushButton_clicked\0refreshacqout\0"
-    "ReadData\0PlotData\0RefreshBar\0ind\0"
+    "refreshacqoutSort\0ReadData\0PlotData\0"
+    "RefreshBar\0ind\0onAcqModeClick\0"
     "on_Iridium_clicked\0on_IridiumNext_clicked\0"
     "on_UpdateTLE_clicked\0on_UpCopypushButton_clicked\0"
     "on_LocConfigRead_clicked\0"
@@ -91,7 +96,8 @@ QT_MOC_LITERAL(36, 770, 11) // "timerUpdate"
     "on_LocMapOne_clicked\0on_LocMapRefCircle_clicked\0"
     "on_LocMapResCircle_clicked\0"
     "on_LocStartLoc_clicked\0on_LocEndLoc_clicked\0"
-    "refreshlocout\0timerUpdate"
+    "refreshlocout\0timerUpdate\0Delay_MSec\0"
+    "msec"
 };
 #undef QT_MOC_LITERAL
 
@@ -101,7 +107,7 @@ static const uint qt_meta_data_PositionSystem[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      34,   14, // methods
+      37,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -109,40 +115,43 @@ static const uint qt_meta_data_PositionSystem[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  184,    2, 0x08 /* Private */,
-       3,    0,  185,    2, 0x08 /* Private */,
-       4,    0,  186,    2, 0x08 /* Private */,
-       5,    0,  187,    2, 0x08 /* Private */,
-       6,    0,  188,    2, 0x08 /* Private */,
-       7,    0,  189,    2, 0x08 /* Private */,
-       8,    0,  190,    2, 0x08 /* Private */,
-       9,    0,  191,    2, 0x08 /* Private */,
-      10,    0,  192,    2, 0x08 /* Private */,
-      11,    0,  193,    2, 0x08 /* Private */,
-      12,    0,  194,    2, 0x08 /* Private */,
-      13,    0,  195,    2, 0x08 /* Private */,
-      14,    0,  196,    2, 0x08 /* Private */,
-      15,    0,  197,    2, 0x08 /* Private */,
-      16,    0,  198,    2, 0x08 /* Private */,
-      17,    0,  199,    2, 0x08 /* Private */,
-      18,    0,  200,    2, 0x08 /* Private */,
-      19,    0,  201,    2, 0x08 /* Private */,
-      20,    1,  202,    2, 0x08 /* Private */,
-      22,    0,  205,    2, 0x08 /* Private */,
-      23,    0,  206,    2, 0x08 /* Private */,
-      24,    0,  207,    2, 0x08 /* Private */,
-      25,    0,  208,    2, 0x08 /* Private */,
-      26,    0,  209,    2, 0x08 /* Private */,
-      27,    0,  210,    2, 0x08 /* Private */,
-      28,    0,  211,    2, 0x08 /* Private */,
-      29,    0,  212,    2, 0x08 /* Private */,
-      30,    0,  213,    2, 0x08 /* Private */,
-      31,    0,  214,    2, 0x08 /* Private */,
-      32,    0,  215,    2, 0x08 /* Private */,
-      33,    0,  216,    2, 0x08 /* Private */,
-      34,    0,  217,    2, 0x08 /* Private */,
-      35,    0,  218,    2, 0x08 /* Private */,
-      36,    0,  219,    2, 0x08 /* Private */,
+       1,    0,  199,    2, 0x08 /* Private */,
+       3,    0,  200,    2, 0x08 /* Private */,
+       4,    0,  201,    2, 0x08 /* Private */,
+       5,    0,  202,    2, 0x08 /* Private */,
+       6,    0,  203,    2, 0x08 /* Private */,
+       7,    0,  204,    2, 0x08 /* Private */,
+       8,    0,  205,    2, 0x08 /* Private */,
+       9,    0,  206,    2, 0x08 /* Private */,
+      10,    0,  207,    2, 0x08 /* Private */,
+      11,    0,  208,    2, 0x08 /* Private */,
+      12,    0,  209,    2, 0x08 /* Private */,
+      13,    0,  210,    2, 0x08 /* Private */,
+      14,    0,  211,    2, 0x08 /* Private */,
+      15,    0,  212,    2, 0x08 /* Private */,
+      16,    0,  213,    2, 0x08 /* Private */,
+      17,    0,  214,    2, 0x08 /* Private */,
+      18,    0,  215,    2, 0x08 /* Private */,
+      19,    0,  216,    2, 0x08 /* Private */,
+      20,    0,  217,    2, 0x08 /* Private */,
+      21,    1,  218,    2, 0x08 /* Private */,
+      23,    0,  221,    2, 0x08 /* Private */,
+      24,    0,  222,    2, 0x08 /* Private */,
+      25,    0,  223,    2, 0x08 /* Private */,
+      26,    0,  224,    2, 0x08 /* Private */,
+      27,    0,  225,    2, 0x08 /* Private */,
+      28,    0,  226,    2, 0x08 /* Private */,
+      29,    0,  227,    2, 0x08 /* Private */,
+      30,    0,  228,    2, 0x08 /* Private */,
+      31,    0,  229,    2, 0x08 /* Private */,
+      32,    0,  230,    2, 0x08 /* Private */,
+      33,    0,  231,    2, 0x08 /* Private */,
+      34,    0,  232,    2, 0x08 /* Private */,
+      35,    0,  233,    2, 0x08 /* Private */,
+      36,    0,  234,    2, 0x08 /* Private */,
+      37,    0,  235,    2, 0x08 /* Private */,
+      38,    0,  236,    2, 0x08 /* Private */,
+      39,    1,  237,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -163,7 +172,8 @@ static const uint qt_meta_data_PositionSystem[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   21,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   22,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -179,6 +189,8 @@ static const uint qt_meta_data_PositionSystem[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::UInt,   40,
 
        0        // eod
 };
@@ -205,24 +217,27 @@ void PositionSystem::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 13: _t->on_AcqStartpushButton_clicked(); break;
         case 14: _t->on_AcqEndpushButton_clicked(); break;
         case 15: _t->refreshacqout(); break;
-        case 16: _t->ReadData(); break;
-        case 17: _t->PlotData(); break;
-        case 18: _t->RefreshBar((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 19: _t->on_Iridium_clicked(); break;
-        case 20: _t->on_IridiumNext_clicked(); break;
-        case 21: _t->on_UpdateTLE_clicked(); break;
-        case 22: _t->on_UpCopypushButton_clicked(); break;
-        case 23: _t->on_LocConfigRead_clicked(); break;
-        case 24: _t->on_LocConfigWrite_clicked(); break;
-        case 25: _t->on_LocMapDisplay_clicked(); break;
-        case 26: _t->on_LocMapAll_clicked(); break;
-        case 27: _t->on_LocMapOne_clicked(); break;
-        case 28: _t->on_LocMapRefCircle_clicked(); break;
-        case 29: _t->on_LocMapResCircle_clicked(); break;
-        case 30: _t->on_LocStartLoc_clicked(); break;
-        case 31: _t->on_LocEndLoc_clicked(); break;
-        case 32: _t->refreshlocout(); break;
-        case 33: _t->timerUpdate(); break;
+        case 16: _t->refreshacqoutSort(); break;
+        case 17: _t->ReadData(); break;
+        case 18: _t->PlotData(); break;
+        case 19: _t->RefreshBar((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 20: _t->onAcqModeClick(); break;
+        case 21: _t->on_Iridium_clicked(); break;
+        case 22: _t->on_IridiumNext_clicked(); break;
+        case 23: _t->on_UpdateTLE_clicked(); break;
+        case 24: _t->on_UpCopypushButton_clicked(); break;
+        case 25: _t->on_LocConfigRead_clicked(); break;
+        case 26: _t->on_LocConfigWrite_clicked(); break;
+        case 27: _t->on_LocMapDisplay_clicked(); break;
+        case 28: _t->on_LocMapAll_clicked(); break;
+        case 29: _t->on_LocMapOne_clicked(); break;
+        case 30: _t->on_LocMapRefCircle_clicked(); break;
+        case 31: _t->on_LocMapResCircle_clicked(); break;
+        case 32: _t->on_LocStartLoc_clicked(); break;
+        case 33: _t->on_LocEndLoc_clicked(); break;
+        case 34: _t->refreshlocout(); break;
+        case 35: _t->timerUpdate(); break;
+        case 36: _t->Delay_MSec((*reinterpret_cast< uint(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -253,13 +268,13 @@ int PositionSystem::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 34)
+        if (_id < 37)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 34;
+        _id -= 37;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 34)
+        if (_id < 37)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 34;
+        _id -= 37;
     }
     return _id;
 }

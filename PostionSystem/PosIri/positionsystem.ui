@@ -667,7 +667,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>300</x>
-        <y>500</y>
+        <y>510</y>
         <width>91</width>
         <height>41</height>
        </rect>
@@ -712,7 +712,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>500</y>
+        <y>510</y>
         <width>101</width>
         <height>41</height>
        </rect>
@@ -821,7 +821,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>150</x>
-        <y>380</y>
+        <y>390</y>
         <width>371</width>
         <height>31</height>
        </rect>
@@ -850,7 +850,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>380</y>
+        <y>390</y>
         <width>101</width>
         <height>31</height>
        </rect>
@@ -879,7 +879,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>440</y>
+        <y>450</y>
         <width>101</width>
         <height>31</height>
        </rect>
@@ -907,9 +907,9 @@ border:1px solid grey
      <widget class="QLabel" name="AcqPro">
       <property name="geometry">
        <rect>
-        <x>340</x>
+        <x>330</x>
         <y>20</y>
-        <width>431</width>
+        <width>361</width>
         <height>51</height>
        </rect>
       </property>
@@ -925,7 +925,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>420</x>
-        <y>500</y>
+        <y>510</y>
         <width>101</width>
         <height>31</height>
        </rect>
@@ -938,7 +938,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>150</x>
-        <y>500</y>
+        <y>510</y>
         <width>111</width>
         <height>31</height>
        </rect>
@@ -951,7 +951,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>150</x>
-        <y>440</y>
+        <y>450</y>
         <width>371</width>
         <height>31</height>
        </rect>
@@ -987,6 +987,54 @@ border:1px solid grey
       </property>
       <property name="text">
        <string>Read Config</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="AcqRawradioButton">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>360</y>
+        <width>131</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="text">
+       <string> Raw Tek DATA</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="AcqProradioButton">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>360</y>
+        <width>131</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="text">
+       <string>  Pro Tek DATA</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="AcqSelfradioButton">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>360</y>
+        <width>131</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="text">
+       <string> Raw Self DATA</string>
       </property>
      </widget>
     </widget>
@@ -1594,7 +1642,7 @@ border:1px solid grey
      <x>0</x>
      <y>0</y>
      <width>1085</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="autoFillBackground">

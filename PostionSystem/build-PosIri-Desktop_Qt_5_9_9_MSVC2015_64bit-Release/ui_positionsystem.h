@@ -114,6 +114,9 @@ public:
     QLineEdit *AcqOut_namelineEdit;
     QTextEdit *AcqStatetextEdit;
     QPushButton *AcqReadCpushButton;
+    QRadioButton *AcqRawradioButton;
+    QRadioButton *AcqProradioButton;
+    QRadioButton *AcqSelfradioButton;
     QWidget *Upd;
     QDateTimeEdit *UpdateTimeEdit;
     QWebEngineView *TLEVIew;
@@ -365,7 +368,7 @@ public:
         Acq->setObjectName(QStringLiteral("Acq"));
         AcqIndexE = new QLabel(Acq);
         AcqIndexE->setObjectName(QStringLiteral("AcqIndexE"));
-        AcqIndexE->setGeometry(QRect(300, 500, 91, 41));
+        AcqIndexE->setGeometry(QRect(300, 510, 91, 41));
         AcqIndexE->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         AcqDb2 = new QLabel(Acq);
         AcqDb2->setObjectName(QStringLiteral("AcqDb2"));
@@ -377,7 +380,7 @@ public:
         AcqDb2doubleSpinBox->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         AcqIndexB = new QLabel(Acq);
         AcqIndexB->setObjectName(QStringLiteral("AcqIndexB"));
-        AcqIndexB->setGeometry(QRect(30, 500, 101, 41));
+        AcqIndexB->setGeometry(QRect(30, 510, 101, 41));
         AcqIndexB->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         AcqStartpushButton = new QPushButton(Acq);
         AcqStartpushButton->setObjectName(QStringLiteral("AcqStartpushButton"));
@@ -406,7 +409,7 @@ public:
         AcqFigure->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         AcqDATA_namelineEdit = new QLineEdit(Acq);
         AcqDATA_namelineEdit->setObjectName(QStringLiteral("AcqDATA_namelineEdit"));
-        AcqDATA_namelineEdit->setGeometry(QRect(150, 380, 371, 31));
+        AcqDATA_namelineEdit->setGeometry(QRect(150, 390, 371, 31));
         AcqDATA_namelineEdit->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         AcqEndpushButton = new QPushButton(Acq);
         AcqEndpushButton->setObjectName(QStringLiteral("AcqEndpushButton"));
@@ -414,7 +417,7 @@ public:
         AcqEndpushButton->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         AcqDATA_name = new QLabel(Acq);
         AcqDATA_name->setObjectName(QStringLiteral("AcqDATA_name"));
-        AcqDATA_name->setGeometry(QRect(30, 380, 101, 31));
+        AcqDATA_name->setGeometry(QRect(30, 390, 101, 31));
         AcqDATA_name->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         AcqConfigtextEdit = new QTextEdit(Acq);
         AcqConfigtextEdit->setObjectName(QStringLiteral("AcqConfigtextEdit"));
@@ -422,7 +425,7 @@ public:
         AcqConfigtextEdit->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         AcqOut_name = new QLabel(Acq);
         AcqOut_name->setObjectName(QStringLiteral("AcqOut_name"));
-        AcqOut_name->setGeometry(QRect(30, 440, 101, 31));
+        AcqOut_name->setGeometry(QRect(30, 450, 101, 31));
         AcqOut_name->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         AcqDb1doubleSpinBox = new QDoubleSpinBox(Acq);
         AcqDb1doubleSpinBox->setObjectName(QStringLiteral("AcqDb1doubleSpinBox"));
@@ -430,20 +433,20 @@ public:
         AcqDb1doubleSpinBox->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         AcqPro = new QLabel(Acq);
         AcqPro->setObjectName(QStringLiteral("AcqPro"));
-        AcqPro->setGeometry(QRect(340, 20, 431, 51));
+        AcqPro->setGeometry(QRect(330, 20, 361, 51));
         AcqPro->setStyleSheet(QLatin1String("font: 100 30pt \"Times New Roman\";\n"
 ""));
         AcqIndexEspinBox = new QSpinBox(Acq);
         AcqIndexEspinBox->setObjectName(QStringLiteral("AcqIndexEspinBox"));
-        AcqIndexEspinBox->setGeometry(QRect(420, 500, 101, 31));
+        AcqIndexEspinBox->setGeometry(QRect(420, 510, 101, 31));
         AcqIndexEspinBox->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         AcqIndexBspinBox = new QSpinBox(Acq);
         AcqIndexBspinBox->setObjectName(QStringLiteral("AcqIndexBspinBox"));
-        AcqIndexBspinBox->setGeometry(QRect(150, 500, 111, 31));
+        AcqIndexBspinBox->setGeometry(QRect(150, 510, 111, 31));
         AcqIndexBspinBox->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         AcqOut_namelineEdit = new QLineEdit(Acq);
         AcqOut_namelineEdit->setObjectName(QStringLiteral("AcqOut_namelineEdit"));
-        AcqOut_namelineEdit->setGeometry(QRect(150, 440, 371, 31));
+        AcqOut_namelineEdit->setGeometry(QRect(150, 450, 371, 31));
         AcqOut_namelineEdit->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         AcqStatetextEdit = new QTextEdit(Acq);
         AcqStatetextEdit->setObjectName(QStringLiteral("AcqStatetextEdit"));
@@ -453,6 +456,18 @@ public:
         AcqReadCpushButton->setObjectName(QStringLiteral("AcqReadCpushButton"));
         AcqReadCpushButton->setGeometry(QRect(200, 620, 141, 41));
         AcqReadCpushButton->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
+        AcqRawradioButton = new QRadioButton(Acq);
+        AcqRawradioButton->setObjectName(QStringLiteral("AcqRawradioButton"));
+        AcqRawradioButton->setGeometry(QRect(30, 360, 131, 16));
+        AcqRawradioButton->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
+        AcqProradioButton = new QRadioButton(Acq);
+        AcqProradioButton->setObjectName(QStringLiteral("AcqProradioButton"));
+        AcqProradioButton->setGeometry(QRect(210, 360, 131, 16));
+        AcqProradioButton->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
+        AcqSelfradioButton = new QRadioButton(Acq);
+        AcqSelfradioButton->setObjectName(QStringLiteral("AcqSelfradioButton"));
+        AcqSelfradioButton->setGeometry(QRect(390, 360, 131, 16));
+        AcqSelfradioButton->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         tabWidget->addTab(Acq, QString());
         Upd = new QWidget();
         Upd->setObjectName(QStringLiteral("Upd"));
@@ -624,7 +639,7 @@ public:
         PositionSystem->setCentralWidget(centralwidget);
         menubar = new QMenuBar(PositionSystem);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1085, 26));
+        menubar->setGeometry(QRect(0, 0, 1085, 22));
         menubar->setAutoFillBackground(true);
         menuPosition_System_based_on_Iridium = new QMenu(menubar);
         menuPosition_System_based_on_Iridium->setObjectName(QStringLiteral("menuPosition_System_based_on_Iridium"));
@@ -715,6 +730,9 @@ public:
         AcqOut_name->setText(QApplication::translate("PositionSystem", "AcqOut_name", Q_NULLPTR));
         AcqPro->setText(QApplication::translate("PositionSystem", "ACQUISITION PRO", Q_NULLPTR));
         AcqReadCpushButton->setText(QApplication::translate("PositionSystem", "Read Config", Q_NULLPTR));
+        AcqRawradioButton->setText(QApplication::translate("PositionSystem", " Raw Tek DATA", Q_NULLPTR));
+        AcqProradioButton->setText(QApplication::translate("PositionSystem", "  Pro Tek DATA", Q_NULLPTR));
+        AcqSelfradioButton->setText(QApplication::translate("PositionSystem", " Raw Self DATA", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(Acq), QApplication::translate("PositionSystem", "Acquisition", Q_NULLPTR));
         UpdateTLE->setText(QApplication::translate("PositionSystem", "Update", Q_NULLPTR));
         IridiumNext->setText(QApplication::translate("PositionSystem", "Update Iridium NEXT TLE from Network", Q_NULLPTR));

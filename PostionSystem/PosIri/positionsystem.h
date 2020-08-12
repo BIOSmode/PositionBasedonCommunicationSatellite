@@ -21,6 +21,8 @@
 * 2020/08/06 sun 00:47:Tek data preprocessing interface has been added to modify;
 * 2020/08/06 sun 00:47:Location: serial number can be read and progress can be refreshed as the sunmber;
 * 2020/08/07 sun 00:48:Add Icon、Title and rersion.rc for the system;
+* 2020/08/12 sun 15:38:Added multiple capture modes: including multi-process, and capture after preprocessing;
+* 2020/08/12 sun 18:26:Modified the way to judge the end of the Acqisition;
 ***************************************************************************************************************************/
 
 #ifndef POSITIONSYSTEM_H
@@ -45,6 +47,7 @@
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 #include <QWebEngineView>
+#include <QButtonGroup>
 
 
 QT_BEGIN_NAMESPACE
@@ -76,6 +79,8 @@ public:
         QString sol_state;
         QString posname;
     };
+
+    QButtonGroup *AcqMode;
 
     //Update TLE
     struct DateTime
@@ -135,11 +140,15 @@ private slots:
 
     void refreshacqout();
 
+    void refreshacqoutSort(void);
+
     void ReadData();
 
     void PlotData();
 
     void RefreshBar(int ind);
+
+    void onAcqModeClick();
 
     //Update TLE
     void on_Iridium_clicked();
@@ -174,6 +183,8 @@ private slots:
 
     //Mutiple Part
     void timerUpdate();
+
+    void Delay_MSec(unsigned int msec);
 
 private:
 

@@ -21,6 +21,8 @@
 * 2020/08/06 sun 00:47:Tek data preprocessing interface has been added to modify;
 * 2020/08/06 sun 00:47:Location: serial number can be read and progress can be refreshed as the number;
 * 2020/08/07 sun 00:48:Add Icon、Title and rersion.rc for the system;
+* 2020/08/12 sun 15:38:Added multiple capture modes: including multi-process, and capture after preprocessing;
+* 2020/08/12 sun 18:26:Modified the way to judge the end of the Acqisition;
 ***************************************************************************************************************************/
 
 #include "positionsystem.h"
@@ -65,8 +67,6 @@ PositionSystem::PositionSystem(QWidget *parent)
     //Set TLEUpdate's button disabled
     ui->UpCopypushButton->setEnabled(false);
 
-
-
     //Set Location's button disabled
     ui->LocConfigWrite->setEnabled(false);
     ui->LocMapDisplay->setEnabled(false);
@@ -98,6 +98,13 @@ PositionSystem::PositionSystem(QWidget *parent)
     QUrl urlLoc(pathLoc);
     ui->LocMapView->load(urlLoc);
     ui->LocMapView->show();
+
+    //add QButtonGroup
+    AcqMode = new QButtonGroup(this);
+    AcqMode->addButton(ui->AcqRawradioButton,0);
+    AcqMode->addButton(ui->AcqProradioButton,1);
+    AcqMode->addButton(ui->AcqSelfradioButton,2);
+    connect(ui->AcqRawradioButton,SIGNAL(clicked()),this,SLOT(onAcqModeClick()));
 }
 
 
@@ -129,6 +136,26 @@ void PositionSystem::timerUpdate(void)
 
 }
 
+/*********************************************************************************************
+* sun 20200801
+* By sunguiyu96@gmail.com
+* Multiple Part
+* Time Non-blocking delay
+* input：
+* output：
+* Process：
+* 2020/06/14 sun 01:08:Finished；
+* 2020/08/01 sun 19:38:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::Delay_MSec(unsigned int msec)
+{
+    QTime _Timer = QTime::currentTime().addMSecs(msec);
+
+    while( QTime::currentTime() < _Timer )
+
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+}
+
 //GPS Loc and Log's Global Variable
 QByteArray currentDATA;     //串口读取数据
 QSerialPort *serial_c = new QSerialPort;        //打开并读取数据的串口
@@ -149,6 +176,7 @@ QVector<double>Time(10);
 QVector<double>Dop(10);
 QString AcqOutPathandName;
 QString AcqCout = "";
+int AcqExemode = 10;
 
 //TLEupdate's Global Varible
 //QString currentTLEname;
@@ -1104,40 +1132,126 @@ void PositionSystem::on_AcqWriteCpushButton_clicked()
 * sun 20200802
 * By sunguiyu96@gmail.com
 * Acquisition Part
-* 开始执行Acq程序
+* Start the Acq.exe
 * input：
 * output：
 * Process：
 * 2020/08/02 sun 18:12:Complete the modification to make it run within the integral program；
+* 2020/08/12 sun 11:40:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
 void PositionSystem::on_AcqStartpushButton_clicked()
 {
-    //调用本文件中的IridiumAcq.exe
+    //Get acq mode
+    onAcqModeClick();
+
+    //Call IridiumAcq.exe in this file
     QString currentpath = QApplication::applicationDirPath();       //Read in the path of. Exe
-    QString exepath = currentpath + "/IridiumAcq.exe";
     //qDebug() << "exepath:" << exepath << endl;
-    QString workpath = currentpath;
+    QString workpath = currentpath;     //set the workpath of .Exe
     //QMessageBox::warning(0,"PATH",exepath,QMessageBox::Yes);           //View current path
 
     QDateTime current_date_time =QDateTime::currentDateTime();
     QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
     QString currentText = ui->AcqStatetextEdit->toPlainText();
-    ui->AcqStatetextEdit->setText(currentText + "\n\n" + current_dt + ":IRIDIUMACQ.EXE HAS START!!  \n");
-    //使保持在最下面
-    QTextCursor cursor = ui->AcqStatetextEdit->textCursor();
-    cursor.movePosition(QTextCursor::End);
-    ui->AcqStatetextEdit->setTextCursor(cursor);
 
-    QProcess *AcqProcess;
-    if (QFileInfo(exepath).exists())
+    qDebug() << AcqExemode << endl;
+    switch(AcqExemode)
     {
-        AcqProcess = new QProcess(this);
-        connect(AcqProcess, SIGNAL(readyRead()),this, SLOT(refreshacqout()));
-        QStringList AcqList("ACQ is running...");
-        AcqProcess->setWorkingDirectory(workpath);
-        AcqProcess->start(exepath,AcqList);
-        //AcqProcess->startDetached(exepath,QStringList(),workpath);
+    case 0:
+        {
+            //Three processes to achieve Acqsition
+            QString exepath1 = currentpath + "/IridiumAcq1.exe";
+            QString exepath2 = currentpath + "/IridiumAcq2.exe";
+            QString exepath3 = currentpath + "/IridiumAcq3.exe";
+            QProcess *AcqProcess1;
+            QProcess *AcqProcess2;
+            QProcess *AcqProcess3;
+            if (QFileInfo(exepath1).exists() )//&& QFileInfo(exepath2).exists() && QFileInfo(exepath3).exists())
+            {
+                AcqProcess1 = new QProcess(this);
+                AcqProcess2 = new QProcess(this);
+                AcqProcess3 = new QProcess(this);
+                int readOutput = TotalIndex % 3;
+                switch(readOutput)
+                {
+                case 0:
+                    connect(AcqProcess3, SIGNAL(readyRead()),this, SLOT(refreshacqout()));
+                    break;
+                case 1:
+                    connect(AcqProcess1, SIGNAL(readyRead()),this, SLOT(refreshacqout()));
+                    break;
+                case 2:
+                    connect(AcqProcess2, SIGNAL(readyRead()),this, SLOT(refreshacqout()));
+                    break;
+                }
+
+                QStringList AcqList("ACQ for raw Tek Data is running...");
+                AcqProcess1->setWorkingDirectory(workpath);
+                AcqProcess2->setWorkingDirectory(workpath);
+                AcqProcess3->setWorkingDirectory(workpath);
+                AcqProcess1->start(exepath1,AcqList);
+                AcqProcess2->start(exepath2,AcqList);
+                AcqProcess3->start(exepath3,AcqList);
+                //AcqProcess->startDetached(exepath,QStringList(),workpath);
+                ui->AcqStatetextEdit->setText(currentText + "\n\n" + current_dt + ":IRIDIUMACQ.EXE FOR RAW TEK DATA HAS START!!  \n");
+                //Keep it at the bottom
+                QTextCursor cursor = ui->AcqStatetextEdit->textCursor();
+                cursor.movePosition(QTextCursor::End);
+                ui->AcqStatetextEdit->setTextCursor(cursor);
+            }
+        }
+        break;
+    case 1:
+        {
+            //Capture program for preprocessing data
+            QString exepath = currentpath + "/IridiumAcq.exe";
+            QProcess *AcqProcess;
+            if (QFileInfo(exepath).exists())
+            {
+                AcqProcess = new QProcess(this);
+                connect(AcqProcess, SIGNAL(readyRead()),this, SLOT(refreshacqout()));
+
+                QStringList AcqList("ACQ for raw Tek Data is running...");
+                AcqProcess->setWorkingDirectory(workpath);
+                AcqProcess->start(exepath,AcqList);
+
+                //AcqProcess->startDetached(exepath,QStringList(),workpath);
+                QDateTime current_date_time =QDateTime::currentDateTime();
+                QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
+                QString currentText = ui->AcqStatetextEdit->toPlainText();
+                ui->AcqStatetextEdit->setText(currentText + "\n\n" + current_dt + ":IRIDIUMACQ.EXE FOR PRO TEK DATA HAS START!!  \n");
+                //Keep it at the bottom
+                QTextCursor cursor = ui->AcqStatetextEdit->textCursor();
+                cursor.movePosition(QTextCursor::End);
+                ui->AcqStatetextEdit->setTextCursor(cursor);
+            }
+        }
+        break;
+    case 2:
+        {
+            //Capture program for preprocessing data
+            QString exepath = currentpath + "/IridiumAcqJ.exe";
+            QProcess *AcqProcess;
+            if (QFileInfo(exepath).exists())
+            {
+                AcqProcess = new QProcess(this);
+                connect(AcqProcess, SIGNAL(readyRead()),this, SLOT(refreshacqout()));
+
+                QStringList AcqList("ACQ for raw Tek Data is running...");
+                AcqProcess->setWorkingDirectory(workpath);
+                AcqProcess->start(exepath,AcqList);
+
+                //AcqProcess->startDetached(exepath,QStringList(),workpath);
+                ui->AcqStatetextEdit->setText(currentText + "\n\n" + current_dt + ":IRIDIUMACQ.EXE FOR SELF DATA HAS START!!  \n");
+                //Keep it at the bottom
+                QTextCursor cursor = ui->AcqStatetextEdit->textCursor();
+                cursor.movePosition(QTextCursor::End);
+                ui->AcqStatetextEdit->setTextCursor(cursor);
+            }
+        }
+        break;
     }
+
 }
 
 /*********************************************************************************************
@@ -1152,12 +1266,77 @@ void PositionSystem::on_AcqStartpushButton_clicked()
 **********************************************************************************************/
 void PositionSystem::on_AcqEndpushButton_clicked()
 {
-    //关闭IridiumAcq.exeProcess
-    QString c = "taskkill /im IridiumAcq.exe /f";
-    int pInt = QProcess::execute(c);    //关闭后台notepad.exeProcess，阻塞式运行,一直占用cpu,成功返回0，失败返回1
-    if(pInt==0)
+    //close IridiumAcq.exeProcess
+    switch(AcqExemode)
     {
-        QMessageBox::warning(0,"PATH","SUCCESS KILL IRIDIUMACQ.EXE!",QMessageBox::Yes);           //查看当前路径
+    case 0:
+        {
+            QString c = "taskkill /im IridiumAcq1.exe /f";
+            int pInt = QProcess::execute(c);    //Close the background notepad.exeProcess, blocking operation, always occupy the cpu, success returns 0, failure returns 1
+            if(pInt==0)
+            {
+                QMessageBox::warning(0,"PATH","SUCCESS KILL IRIDIUMACQ1.EXE!",QMessageBox::Yes);           //查看当前路径
+            }
+            c = "taskkill /im IridiumAcq2.exe /f";
+            pInt = QProcess::execute(c);
+            if(pInt==0)
+            {
+                QMessageBox::warning(0,"PATH","SUCCESS KILL IRIDIUMACQ2.EXE!",QMessageBox::Yes);           //查看当前路径
+            }
+            c = "taskkill /im IridiumAcq3.exe /f";
+            pInt = QProcess::execute(c);
+            if(pInt==0)
+            {
+                QMessageBox::warning(0,"PATH","SUCCESS KILL IRIDIUMACQ3.EXE!",QMessageBox::Yes);           //查看当前路径
+            }
+            //Call IridiumAcq.exe in this file
+            QString currentpath = QApplication::applicationDirPath();       //Read in the path of. Exe
+            //qDebug() << "exepath:" << exepath << endl;
+            QString workpath = currentpath;     //set the workpath of .Exe
+            //sort for acqout
+            QString exepath = currentpath + "/IridiumAcqoutSort.exe";
+            QProcess *AcqProcess;
+            if (QFileInfo(exepath).exists())
+            {
+                AcqProcess = new QProcess(this);
+                connect(AcqProcess, SIGNAL(readyRead()),this, SLOT(refreshacqout()));
+
+                QStringList AcqList("ACQ for raw Tek Data is running...");
+                AcqProcess->setWorkingDirectory(workpath);
+                AcqProcess->start(exepath,AcqList);
+
+                //AcqProcess->startDetached(exepath,QStringList(),workpath);
+                QDateTime current_date_time =QDateTime::currentDateTime();
+                QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
+                QString currentText = ui->AcqStatetextEdit->toPlainText();
+                ui->AcqStatetextEdit->setText(currentText + "\n\n" + current_dt + ":IRIDIUMACQSORT.EXE HAS START!!  \n");
+                //Keep it at the bottom
+                QTextCursor cursor = ui->AcqStatetextEdit->textCursor();
+                cursor.movePosition(QTextCursor::End);
+                ui->AcqStatetextEdit->setTextCursor(cursor);
+            }
+        }
+        break;
+    case 1:
+        {
+            QString c = "taskkill /im IridiumAcq.exe /f";
+            int pInt = QProcess::execute(c);    //Close the background notepad.exeProcess, blocking operation, always occupy the cpu, success returns 0, failure returns 1
+            if(pInt==0)
+            {
+                QMessageBox::warning(0,"PATH","SUCCESS KILL IRIDIUMACQ.EXE!",QMessageBox::Yes);           //查看当前路径
+            }
+        }
+        break;
+    case 2:
+        {
+            QString c = "taskkill /im IridiumAcqf.exe /f";
+            int pInt = QProcess::execute(c);    //Close the background notepad.exeProcess, blocking operation, always occupy the cpu, success returns 0, failure returns 1
+            if(pInt==0)
+            {
+                QMessageBox::warning(0,"PATH","SUCCESS KILL IRIDIUMACQf.EXE!",QMessageBox::Yes);           //查看当前路径
+            }
+        }
+
     }
 
 }
@@ -1237,7 +1416,62 @@ void PositionSystem::refreshacqout(void)
         RefreshBar(ind);   //显示进展
     }
 
+    if(AcqCout1.startsWith("* All m"))
+    {
+        if(AcqExemode == 0)
+        {
+            Delay_MSec(20000);       //delay 20s->20000ms
+            //Call IridiumAcq.exe in this file
+            QString currentpath = QApplication::applicationDirPath();       //Read in the path of. Exe
+            //qDebug() << "exepath:" << exepath << endl;
+            QString workpath = currentpath;     //set the workpath of .Exe
+            //sort for acqout
+            QString exepath = currentpath + "/IridiumAcqoutSort.exe";
+            QProcess *AcqProcess1;
+            if (QFileInfo(exepath).exists())
+            {
+                AcqProcess1 = new QProcess(this);
+                connect(AcqProcess1, SIGNAL(readyRead()),this, SLOT(refreshacqoutSort()));
 
+                QStringList AcqList("ACQ for raw Tek Data is running...");
+                AcqProcess1->setWorkingDirectory(workpath);
+                AcqProcess1->start(exepath,AcqList);
+
+                //AcqProcess->startDetached(exepath,QStringList(),workpath);
+                QDateTime current_date_time =QDateTime::currentDateTime();
+                QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
+                QString currentText = ui->AcqStatetextEdit->toPlainText();
+                ui->AcqStatetextEdit->setText(currentText + "\n\n" + current_dt + ":IRIDIUMACQSORT.EXE HAS START!!  \n");
+                //Keep it at the bottom
+                cursor = ui->AcqStatetextEdit->textCursor();
+                cursor.movePosition(QTextCursor::End);
+                ui->AcqStatetextEdit->setTextCursor(cursor);
+            }
+        }
+    }
+
+}
+
+/*********************************************************************************************
+* sun 20200802
+* By sunguiyu96@gmail.com
+* Acquisition Part
+* Read slot function from IridiumSort.exe's std out
+* input：
+* output：
+* Process：
+* 2020/08/12 sun 16:57:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::refreshacqoutSort(void)
+{
+    QProcess *AcqProcess = (QProcess *)sender();
+    QString AcqCout1 = AcqProcess->readAll();
+    AcqCout += AcqCout1;
+    ui->AcqConfigtextEdit->setText(AcqCout);
+    //Move the cursor to the end
+    QTextCursor cursor = ui->AcqConfigtextEdit->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->AcqConfigtextEdit->setTextCursor(cursor);
 }
 
 /*********************************************************************************************
@@ -1370,6 +1604,32 @@ void PositionSystem::RefreshBar(int ind)
     ui->AcqprogressBar->setValue(x);
 }
 
+/*********************************************************************************************
+* sun 20200812
+* By sunguiyu96@gmail.com
+* Acquisition Part
+* Get Acq mode(which acq.exe will be execuated)
+* input：
+* output：
+* Process：
+* 2020/08/12 sun 11:08:Complete the modification to make it run within the integral program；
+* 2020/08/05 sun 11:34:Modify input；
+**********************************************************************************************/
+void PositionSystem::onAcqModeClick()
+{
+    switch(AcqMode->checkedId())
+    {
+    case 0:
+        AcqExemode = 0;
+        break;
+    case 1:
+        AcqExemode = 1;
+        break;
+    case 2:
+        AcqExemode = 2;
+        break;
+    }
+}
 
 /*********************************************************************************************
 * sun 20200801
@@ -3218,3 +3478,4 @@ void PositionSystem::refreshlocout(void)
 //        ui->LoctextEdit_2->setTextCursor(cursor);
 //    }
 }
+
