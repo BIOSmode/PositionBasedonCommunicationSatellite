@@ -23,6 +23,7 @@
 * 2020/08/07 sun 00:48:Add Icon、Title and rersion.rc for the system;
 * 2020/08/12 sun 15:38:Added multiple capture modes: including multi-process, and capture after preprocessing;
 * 2020/08/12 sun 18:26:Modified the way to judge the end of the Acqisition;
+* 2020/08/13 sun 13:38:Modified GPS page, added TekAPI-based deployed and collection function;
 ***************************************************************************************************************************/
 
 #ifndef POSITIONSYSTEM_H
@@ -114,7 +115,9 @@ private slots:
 
     void on_GPSSentCommand_clicked();
 
-    //Tek2File
+    //Tek2File   
+    void on_TekCapturepushButton_clicked();
+
     void on_TekReadpushButton_clicked();
 
     void on_TekWriteCpushButton_clicked();

@@ -23,6 +23,7 @@
 * 2020/08/07 sun 00:48:Add Icon、Title and rersion.rc for the system;
 * 2020/08/12 sun 15:38:Added multiple capture modes: including multi-process, and capture after preprocessing;
 * 2020/08/12 sun 18:26:Modified the way to judge the end of the Acqisition;
+* 2020/08/13 sun 13:38:Modified GPS page, added TekAPI-based deployed and collection function;
 ***************************************************************************************************************************/
 
 #include "positionsystem.h"
@@ -475,6 +476,82 @@ void PositionSystem::on_GPSSentCommand_clicked()
     QString str = ui->GPStextEdit->toPlainText();
     ui->GPStextEdit->setText(str + "\n" + "Command has been sent!");
 }
+
+/*********************************************************************************************
+* sun 20200813
+* By sunguiyu96@gmail.com
+* Tek2File Part
+* Read information, deploy r3fcapture.bat and start r3fcapture.exe
+* input:
+* output:
+* Process:
+* 2020/08/13 sun 12:49:Complete the modification to make it run within the integral program；
+* 2020/08/13 sun 13:37:Finished moditfication；
+**********************************************************************************************/
+void PositionSystem::on_TekCapturepushButton_clicked()
+{
+    //Call r3fcature.bat in this folder
+    QString currentpath = QApplication::applicationDirPath();       //Read the path where the .rat is located
+    QString batpath = currentpath + "/r3fcapture/r3fcapture.bat";
+    QString workpath = currentpath + "/r3fcapture";
+
+    if(batpath.isEmpty() == false)
+    {
+        QFile file(batpath);
+        bool isok = file.open(QIODevice::WriteOnly);     //Open the file as read-only
+        if(isok == true)
+        {
+            int DEV = ui->TekDEV_lineEdit->text().toInt();           // ID of device connect
+            int RL= ui->TekRL_lineEdit->text().toInt();          //Reference Level
+            double CF = ui->TekCF_lineEdit->text().toDouble();       //Center Frequency  MHz
+            double SEC = ui->TekTREC_lineEdit->text().toDouble();       //Output time length in sec
+            int MSEC = SEC * 1000;      //Output time length in msec
+            QString FP = ui->TekFP_lineEdit->text();     // Output File Path
+
+            //qDebug() << "DEV=" << DEV << " RL=" << RL << " FP=" << FP << endl;
+            QString bat;
+            bat = ":run\nr3fcapture dev=" + QString::number(DEV) + " rl=" + QString::number(RL) + " cf=" + QString::number(CF)
+                    + "e6 msec=" + QString::number(MSEC) + " fp=" + FP + " fnsfx=-1 fm=0";
+
+            //qDebug() << bat << endl;
+            file.write(bat.toUtf8());
+        }
+        file.close();
+    }
+
+    //QMessageBox::warning(0,"PATH",exepath,QMessageBox::Yes);
+
+    QDateTime current_date_time =QDateTime::currentDateTime();
+    QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
+    QString currentText = ui->TektextEdit->toPlainText();
+    ui->TektextEdit->setText(currentText + "\n" + current_dt + ":C3FCAPTURE.BAT HAS DEPLOYED!!  \n");
+    //Keep it at the bottom
+    QTextCursor cursor = ui->TektextEdit->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->TektextEdit->setTextCursor(cursor);
+
+    QProcess *TekProcess;
+    if (QFileInfo(batpath).exists())
+    {
+        TekProcess = new QProcess(this);
+        //connect(LocProcess, SIGNAL(readyRead()),this, SLOT(refreshlocout()));
+        QStringList TekList("R3fcapture is running...");
+        TekProcess->setWorkingDirectory(workpath);
+        TekProcess->start(batpath,TekList);
+       //AcqProcess->startDetached(exepath,QStringList(),workpath);
+
+        current_date_time =QDateTime::currentDateTime();
+        current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
+        currentText = ui->TektextEdit->toPlainText();
+        ui->TektextEdit->setText(currentText + "\n" + current_dt + ":C3FCAPTURE.BAT HAS STARTED!!  \n");
+        //Keep it at the bottom
+        cursor = ui->TektextEdit->textCursor();
+        cursor.movePosition(QTextCursor::End);
+        ui->TektextEdit->setTextCursor(cursor);
+    }
+
+}
+
 
 /*********************************************************************************************
 * sun 20200805
@@ -3478,4 +3555,5 @@ void PositionSystem::refreshlocout(void)
 //        ui->LoctextEdit_2->setTextCursor(cursor);
 //    }
 }
+
 
