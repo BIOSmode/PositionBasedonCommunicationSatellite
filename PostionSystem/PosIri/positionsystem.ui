@@ -450,7 +450,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>700</y>
+        <y>730</y>
         <width>241</width>
         <height>31</height>
        </rect>
@@ -466,7 +466,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>410</x>
-        <y>630</y>
+        <y>660</y>
         <width>101</width>
         <height>21</height>
        </rect>
@@ -482,7 +482,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>280</x>
-        <y>700</y>
+        <y>730</y>
         <width>231</width>
         <height>31</height>
        </rect>
@@ -498,7 +498,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>140</x>
-        <y>590</y>
+        <y>620</y>
         <width>371</width>
         <height>31</height>
        </rect>
@@ -511,7 +511,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>540</x>
-        <y>700</y>
+        <y>730</y>
         <width>511</width>
         <height>31</height>
        </rect>
@@ -527,7 +527,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>620</y>
+        <y>650</y>
         <width>91</width>
         <height>41</height>
        </rect>
@@ -543,7 +543,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>140</x>
-        <y>630</y>
+        <y>660</y>
         <width>111</width>
         <height>21</height>
        </rect>
@@ -556,7 +556,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>590</y>
+        <y>620</y>
         <width>101</width>
         <height>31</height>
        </rect>
@@ -572,7 +572,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>550</y>
+        <y>580</y>
         <width>101</width>
         <height>31</height>
        </rect>
@@ -588,7 +588,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>620</y>
+        <y>650</y>
         <width>101</width>
         <height>41</height>
        </rect>
@@ -604,7 +604,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>280</x>
-        <y>660</y>
+        <y>690</y>
         <width>231</width>
         <height>31</height>
        </rect>
@@ -620,7 +620,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>140</x>
-        <y>550</y>
+        <y>580</y>
         <width>371</width>
         <height>31</height>
        </rect>
@@ -633,7 +633,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>660</y>
+        <y>690</y>
         <width>241</width>
         <height>31</height>
        </rect>
@@ -649,7 +649,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>540</x>
-        <y>550</y>
+        <y>580</y>
         <width>511</width>
         <height>141</height>
        </rect>
@@ -663,7 +663,7 @@ border:1px solid grey
        <rect>
         <x>20</x>
         <y>500</y>
-        <width>41</width>
+        <width>51</width>
         <height>31</height>
        </rect>
       </property>
@@ -677,7 +677,7 @@ border:1px solid grey
      <widget class="QLineEdit" name="TekDEV_lineEdit">
       <property name="geometry">
        <rect>
-        <x>70</x>
+        <x>80</x>
         <y>500</y>
         <width>31</width>
         <height>31</height>
@@ -693,7 +693,7 @@ border:1px solid grey
      <widget class="QLineEdit" name="TekRL_lineEdit">
       <property name="geometry">
        <rect>
-        <x>160</x>
+        <x>210</x>
         <y>500</y>
         <width>41</width>
         <height>31</height>
@@ -709,9 +709,9 @@ border:1px solid grey
      <widget class="QLabel" name="TekRL">
       <property name="geometry">
        <rect>
-        <x>130</x>
+        <x>170</x>
         <y>500</y>
-        <width>21</width>
+        <width>31</width>
         <height>31</height>
        </rect>
       </property>
@@ -725,7 +725,7 @@ border:1px solid grey
      <widget class="QLabel" name="TekCF">
       <property name="geometry">
        <rect>
-        <x>270</x>
+        <x>340</x>
         <y>500</y>
         <width>21</width>
         <height>31</height>
@@ -741,9 +741,9 @@ border:1px solid grey
      <widget class="QLineEdit" name="TekCF_lineEdit">
       <property name="geometry">
        <rect>
-        <x>300</x>
+        <x>370</x>
         <y>500</y>
-        <width>71</width>
+        <width>91</width>
         <height>31</height>
        </rect>
       </property>
@@ -757,7 +757,7 @@ border:1px solid grey
      <widget class="QLabel" name="TekMHz">
       <property name="geometry">
        <rect>
-        <x>380</x>
+        <x>470</x>
         <y>500</y>
         <width>41</width>
         <height>31</height>
@@ -773,7 +773,7 @@ border:1px solid grey
      <widget class="QLabel" name="TekdBm">
       <property name="geometry">
        <rect>
-        <x>210</x>
+        <x>260</x>
         <y>500</y>
         <width>41</width>
         <height>31</height>
@@ -789,8 +789,8 @@ border:1px solid grey
      <widget class="QLineEdit" name="TekTREC_lineEdit">
       <property name="geometry">
        <rect>
-        <x>490</x>
-        <y>500</y>
+        <x>80</x>
+        <y>540</y>
         <width>51</width>
         <height>31</height>
        </rect>
@@ -805,8 +805,8 @@ border:1px solid grey
      <widget class="QLabel" name="TekS">
       <property name="geometry">
        <rect>
-        <x>550</x>
-        <y>500</y>
+        <x>140</x>
+        <y>540</y>
         <width>16</width>
         <height>31</height>
        </rect>
@@ -821,9 +821,9 @@ border:1px solid grey
      <widget class="QLabel" name="TekTREC">
       <property name="geometry">
        <rect>
-        <x>440</x>
-        <y>500</y>
-        <width>41</width>
+        <x>20</x>
+        <y>540</y>
+        <width>51</width>
         <height>31</height>
        </rect>
       </property>
@@ -837,9 +837,9 @@ border:1px solid grey
      <widget class="QLabel" name="TekFP">
       <property name="geometry">
        <rect>
-        <x>590</x>
-        <y>500</y>
-        <width>21</width>
+        <x>170</x>
+        <y>540</y>
+        <width>31</width>
         <height>31</height>
        </rect>
       </property>
@@ -853,9 +853,9 @@ border:1px solid grey
      <widget class="QLineEdit" name="TekFP_lineEdit">
       <property name="geometry">
        <rect>
-        <x>620</x>
-        <y>500</y>
-        <width>231</width>
+        <x>210</x>
+        <y>540</y>
+        <width>301</width>
         <height>31</height>
        </rect>
       </property>
@@ -869,9 +869,9 @@ border:1px solid grey
      <widget class="QPushButton" name="TekCapturepushButton">
       <property name="geometry">
        <rect>
-        <x>890</x>
+        <x>680</x>
         <y>500</y>
-        <width>161</width>
+        <width>171</width>
         <height>31</height>
        </rect>
       </property>
@@ -879,7 +879,55 @@ border:1px solid grey
        <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
       </property>
       <property name="text">
-       <string>Start r3acapture</string>
+       <string>Start R3ACapture</string>
+      </property>
+     </widget>
+     <widget class="QProgressBar" name="TekprogressBar_2">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>540</y>
+        <width>511</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="value">
+       <number>0</number>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="TekExtcheckBox">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>498</y>
+        <width>171</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="text">
+       <string>External Ref</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="TekEndCapturepushButton">
+      <property name="geometry">
+       <rect>
+        <x>870</x>
+        <y>500</y>
+        <width>171</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="text">
+       <string>End R3ACapture</string>
       </property>
      </widget>
     </widget>

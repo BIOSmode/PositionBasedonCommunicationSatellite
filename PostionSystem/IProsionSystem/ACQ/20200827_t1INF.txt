@@ -1,0 +1,24 @@
+#ACQ 1th part
+DATA : D:\DATA\DATA-2019.11.14.16.16.15.759.r3a  
+NUM OF BLOCK : 10000   
+db1 : 10.00   
+db2 : 9.50   
+TIME START : Thu Aug 27 18:54:05 2020
+
+
+
+#ACQ 2nd part
+DATA : D:\DATA\DATA-2019.11.14.16.16.15.759.r3a  
+NUM OF BLOCK : 10000   
+db1 : 10.00   
+db2 : 9.50   
+TIME START : Thu Aug 27 18:54:05 2020
+
+
+
+#ACQ 3rd part
+DATA : D:\DATA\DATA-2019.11.14.16.16.15.759.r3a  
+NUM OF BLOCK : 10000   
+db1 : 10.00   
+db2 : 9.50   
+TIME START : Thu Aug 27 18:54:05 2020

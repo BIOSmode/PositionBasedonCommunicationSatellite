@@ -166,6 +166,7 @@ int nn = 0;         //从上一次清空text接收到的信息次数
 //Tek2File's Global Variable
 static int TekTotalIndex = 0;     //总的块数
 static int TekBeginIndex = 0;  //起始块数
+QString Tekout = "";
 QString TekCout = "";
 
 //Acquisition's Global Variable
@@ -487,6 +488,7 @@ void PositionSystem::on_GPSSentCommand_clicked()
 * Process:
 * 2020/08/13 sun 12:49:Complete the modification to make it run within the integral program；
 * 2020/08/13 sun 13:37:Finished moditfication；
+* 2020/08/27 sun 19:45:Add External Rel input option;
 **********************************************************************************************/
 void PositionSystem::on_TekCapturepushButton_clicked()
 {
@@ -510,8 +512,16 @@ void PositionSystem::on_TekCapturepushButton_clicked()
 
             //qDebug() << "DEV=" << DEV << " RL=" << RL << " FP=" << FP << endl;
             QString bat;
-            bat = ":run\nr3fcapture dev=" + QString::number(DEV) + " rl=" + QString::number(RL) + " cf=" + QString::number(CF)
-                    + "e6 msec=" + QString::number(MSEC) + " fp=" + FP + " fnsfx=-1 fm=0";
+            if(ui->TekExtcheckBox->isChecked())
+            {
+                bat = ":run\nr3fcapture dev=" + QString::number(DEV) + " extref rl=" + QString::number(RL) + " cf=" + QString::number(CF)
+                        + "e6 msec=" + QString::number(MSEC) + " fp=" + FP + " fn=I fnsfx=-1 fm=0";
+            }
+            {
+                bat = ":run\nr3fcapture dev=" + QString::number(DEV) + " rl=" + QString::number(RL) + " cf=" + QString::number(CF)
+                        + "e6 msec=" + QString::number(MSEC) + " fp=" + FP + " fn=I fnsfx=-1 fm=0";
+
+            }
 
             //qDebug() << bat << endl;
             file.write(bat.toUtf8());
@@ -534,7 +544,7 @@ void PositionSystem::on_TekCapturepushButton_clicked()
     if (QFileInfo(batpath).exists())
     {
         TekProcess = new QProcess(this);
-        //connect(LocProcess, SIGNAL(readyRead()),this, SLOT(refreshlocout()));
+        connect(TekProcess, SIGNAL(readyRead()),this, SLOT(refreshTekout()));
         QStringList TekList("R3fcapture is running...");
         TekProcess->setWorkingDirectory(workpath);
         TekProcess->start(batpath,TekList);
@@ -550,6 +560,48 @@ void PositionSystem::on_TekCapturepushButton_clicked()
         ui->TektextEdit->setTextCursor(cursor);
     }
 
+}
+
+/*********************************************************************************************
+* sun 20200827
+* By sunguiyu96@gmail.com
+* Location Part
+* turn off R3Fcapture.exe
+* input:
+* output:
+* Process:
+* 2020/08/27 sun 19:55:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::on_TekEndCapturepushButton_clicked()
+{
+    QString c = "taskkill /im R3Fcapture.exe /f";
+    int pInt = QProcess::execute(c);    //Close the background R3Fcaptyre.exe Process, blocking operation, always occupy the cpu, success returns 0, failure returns 1
+    if(pInt == 0)
+    {
+        QMessageBox::warning(0,"PATH","SUCCESS KILL R3FCAPTURE.EXE!",QMessageBox::Yes);
+    }
+}
+
+/*********************************************************************************************
+* sun 20200827
+* By sunguiyu96@gmail.com
+* Tek2File Part
+* Read R3FCapture.bat's std out
+* input：
+* output：
+* Process：
+* 2020/08/27 sun 19:27:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::refreshTekout(void)
+{
+    QProcess *AcqProcess = (QProcess *)sender();
+    QString TekCout1 = AcqProcess->readAll();
+    Tekout += TekCout1;
+    ui->TektextEdit->setText(Tekout);
+    //Move the cursor to the end
+    QTextCursor cursor = ui->TektextEdit->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->TektextEdit->setTextCursor(cursor);
 }
 
 
@@ -3555,5 +3607,4 @@ void PositionSystem::refreshlocout(void)
 //        ui->LoctextEdit_2->setTextCursor(cursor);
 //    }
 }
-
 

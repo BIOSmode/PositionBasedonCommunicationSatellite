@@ -118,6 +118,10 @@ private slots:
     //Tek2File   
     void on_TekCapturepushButton_clicked();
 
+    void on_TekEndCapturepushButton_clicked();
+
+    void refreshTekout();
+
     void on_TekReadpushButton_clicked();
 
     void on_TekWriteCpushButton_clicked();
@@ -188,6 +192,7 @@ private slots:
     void timerUpdate();
 
     void Delay_MSec(unsigned int msec);
+
 
 private:
 
