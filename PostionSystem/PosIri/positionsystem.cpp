@@ -24,6 +24,7 @@
 * 2020/08/12 sun 15:38:Added multiple capture modes: including multi-process, and capture after preprocessing;
 * 2020/08/12 sun 18:26:Modified the way to judge the end of the Acqisition;
 * 2020/08/13 sun 13:38:Modified GPS page, added TekAPI-based deployed and collection function;
+* 2020/09/01 sun 15:07:Added TekAPI-based external Ref input and external Tirgger,and displayed progress in a bar;
 ***************************************************************************************************************************/
 
 #include "positionsystem.h"
@@ -168,6 +169,8 @@ static int TekTotalIndex = 0;     //总的块数
 static int TekBeginIndex = 0;  //起始块数
 QString Tekout = "";
 QString TekCout = "";
+static int TekLongth_msec = 0 ;
+static int TekCurrent_msec = 0;
 
 //Acquisition's Global Variable
 static int CurruntIndex = 0;
@@ -489,6 +492,7 @@ void PositionSystem::on_GPSSentCommand_clicked()
 * 2020/08/13 sun 12:49:Complete the modification to make it run within the integral program；
 * 2020/08/13 sun 13:37:Finished moditfication；
 * 2020/08/27 sun 19:45:Add External Rel input option;
+* 2020/08/31 sun 15:34:Add External Trigger option;
 **********************************************************************************************/
 void PositionSystem::on_TekCapturepushButton_clicked()
 {
@@ -508,20 +512,30 @@ void PositionSystem::on_TekCapturepushButton_clicked()
             double CF = ui->TekCF_lineEdit->text().toDouble();       //Center Frequency  MHz
             double SEC = ui->TekTREC_lineEdit->text().toDouble();       //Output time length in sec
             int MSEC = SEC * 1000;      //Output time length in msec
+            TekLongth_msec = MSEC;
             QString FP = ui->TekFP_lineEdit->text();     // Output File Path
 
             //qDebug() << "DEV=" << DEV << " RL=" << RL << " FP=" << FP << endl;
+
+            //set bat contains
             QString bat;
+            bat = ":run\nr3fcapture dev=" + QString::number(DEV);
             if(ui->TekExtcheckBox->isChecked())
             {
-                bat = ":run\nr3fcapture dev=" + QString::number(DEV) + " extref rl=" + QString::number(RL) + " cf=" + QString::number(CF)
-                        + "e6 msec=" + QString::number(MSEC) + " fp=" + FP + " fn=I fnsfx=-1 fm=0";
+                bat = bat + " extref";      //set external Ref input true;
             }
+            if(ui->TekTricomboBox->currentIndex() == 1)
             {
-                bat = ":run\nr3fcapture dev=" + QString::number(DEV) + " rl=" + QString::number(RL) + " cf=" + QString::number(CF)
-                        + "e6 msec=" + QString::number(MSEC) + " fp=" + FP + " fn=I fnsfx=-1 fm=0";
-
+                bat = bat + " trig=100";        //set external trigger
+                bat = bat + " trigx=1";         //Set rising edge trigger
             }
+            if(ui->TekTricomboBox->currentIndex() == 2)
+            {
+                bat = bat + " trig=100";        //set external trigger
+                bat = bat + " trigx=-1";         //Set falling edge trigger
+            }
+            bat = bat + " rl=" + QString::number(RL) + " cf=" + QString::number(CF)
+                    + "e6 msec=" + QString::number(MSEC) + " fp=" + FP + " fn=I fnsfx=-1 fm=0";
 
             //qDebug() << bat << endl;
             file.write(bat.toUtf8());
@@ -549,6 +563,11 @@ void PositionSystem::on_TekCapturepushButton_clicked()
         TekProcess->setWorkingDirectory(workpath);
         TekProcess->start(batpath,TekList);
        //AcqProcess->startDetached(exepath,QStringList(),workpath);
+
+        //In order to show current time
+        QTimer *timer1 = new QTimer(this);
+        connect(timer1,SIGNAL(timeout()),this,SLOT(TekCapProgressbarUpdate()));
+        timer1->start(1000);
 
         current_date_time =QDateTime::currentDateTime();
         current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
@@ -597,14 +616,35 @@ void PositionSystem::refreshTekout(void)
     QProcess *AcqProcess = (QProcess *)sender();
     QString TekCout1 = AcqProcess->readAll();
     Tekout += TekCout1;
-    ui->TektextEdit->setText(Tekout);
+
+    QString currentText = ui->TektextEdit->toPlainText();
+    ui->TektextEdit->setText(currentText + "\n" + Tekout);
     //Move the cursor to the end
     QTextCursor cursor = ui->TektextEdit->textCursor();
     cursor.movePosition(QTextCursor::End);
     ui->TektextEdit->setTextCursor(cursor);
 }
 
-
+/*********************************************************************************************
+* sun 20200831
+* By sunguiyu96@gmail.com
+* Tek2File Part
+* Refresh TekCap Progress bar
+* input：
+* output：
+* Process：
+* 2020/08/31 sun 15:49:Complete the modification to make it run within the integral program；
+**********************************************************************************************/
+void PositionSystem::TekCapProgressbarUpdate()
+{
+    if(TekCurrent_msec < TekLongth_msec)
+    {
+        TekCurrent_msec += 1000;
+        int value = (TekCurrent_msec * 100) / TekLongth_msec ;
+        //qDebug() << value << "="<<TekCurrent_msec << "/" << TekLongth_msec << endl;
+        ui->TekCapprogressBar->setValue(value);
+    }
+}
 /*********************************************************************************************
 * sun 20200805
 * By sunguiyu96@gmail.com
