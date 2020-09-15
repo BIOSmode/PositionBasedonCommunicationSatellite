@@ -1,0 +1,28 @@
+#ACQ 1th part
+DATA : D:\DATA\I-2020.09.02.09.47.51.684.r3a  
+NUM OF BLOCK : 10000   
+db1 : 9.50   
+db2 : 9.00   
+TIME START : Wed Sep 02 10:05:36 2020
+TIME END :   Wed Sep 02 10:15:39 2020
+    
+TIME TOTAL : 603.731000 s  
+TIME TOTAL : 0.167703 hour  
+BLOCK TOTAL : 171 
+
+
+#ACQ 2nd part
+DATA : D:\DATA\I-2020.09.02.09.47.51.684.r3a  
+NUM OF BLOCK : 10000   
+db1 : 9.50   
+db2 : 9.00   
+TIME START : Wed Sep 02 10:05:36 2020
+
+
+
+#ACQ 3rd part
+DATA : D:\DATA\I-2020.09.02.09.47.51.684.r3a  
+NUM OF BLOCK : 10000   
+db1 : 9.50   
+db2 : 9.00   
+TIME START : Wed Sep 02 10:05:36 2020

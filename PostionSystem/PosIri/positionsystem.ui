@@ -61,7 +61,7 @@
     </widget>
     <widget class="QWidget" name="GPS">
      <attribute name="title">
-      <string>GPS and R3aCapture</string>
+      <string>GPS and TekCapture</string>
      </attribute>
      <widget class="QPushButton" name="GPSOpenPort">
       <property name="geometry">
@@ -234,18 +234,18 @@
      <widget class="QLabel" name="GPSTitle">
       <property name="geometry">
        <rect>
-        <x>300</x>
+        <x>230</x>
         <y>10</y>
-        <width>481</width>
+        <width>561</width>
         <height>51</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 100 30pt &quot;Times New Roman&quot;;
+       <string notr="true">font: 80 24pt &quot;Times New Roman&quot;;
 </string>
       </property>
       <property name="text">
-       <string>GPS LOCATION AND LOG</string>
+       <string>GPS LOCATION AND RECORD</string>
       </property>
      </widget>
      <widget class="QLabel" name="GPSLong">
@@ -439,7 +439,7 @@ border:1px solid grey
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 100 30pt &quot;Times New Roman&quot;;
+       <string notr="true">font: 80 24pt &quot;Times New Roman&quot;;
 </string>
       </property>
       <property name="text">
@@ -703,7 +703,7 @@ border:1px solid grey
        <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
       </property>
       <property name="text">
-       <string>-30</string>
+       <string>-70</string>
       </property>
      </widget>
      <widget class="QLabel" name="TekRL">
@@ -897,6 +897,9 @@ border:1px solid grey
       <property name="text">
        <string>External Ref</string>
       </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QPushButton" name="TekEndCapturepushButton">
       <property name="geometry">
@@ -982,9 +985,9 @@ border:1px solid grey
      <widget class="QLabel" name="AcqDb2">
       <property name="geometry">
        <rect>
-        <x>290</x>
+        <x>320</x>
         <y>560</y>
-        <width>121</width>
+        <width>51</width>
         <height>41</height>
        </rect>
       </property>
@@ -992,7 +995,7 @@ border:1px solid grey
        <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
       </property>
       <property name="text">
-       <string>Db2_comparition</string>
+       <string>Db2</string>
       </property>
      </widget>
      <widget class="QDoubleSpinBox" name="AcqDb2doubleSpinBox">
@@ -1013,7 +1016,7 @@ border:1px solid grey
        <rect>
         <x>30</x>
         <y>510</y>
-        <width>101</width>
+        <width>111</width>
         <height>41</height>
        </rect>
       </property>
@@ -1029,7 +1032,7 @@ border:1px solid grey
        <rect>
         <x>20</x>
         <y>690</y>
-        <width>231</width>
+        <width>151</width>
         <height>41</height>
        </rect>
       </property>
@@ -1043,9 +1046,9 @@ border:1px solid grey
      <widget class="QLabel" name="AcqDb1">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>60</x>
         <y>560</y>
-        <width>121</width>
+        <width>51</width>
         <height>41</height>
        </rect>
       </property>
@@ -1053,7 +1056,7 @@ border:1px solid grey
        <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
       </property>
       <property name="text">
-       <string>Db1_comparition</string>
+       <string>Db1</string>
       </property>
      </widget>
      <widget class="QPushButton" name="AcqReadApushButton">
@@ -1108,9 +1111,9 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>550</x>
-        <y>210</y>
+        <y>200</y>
         <width>511</width>
-        <height>471</height>
+        <height>481</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -1133,9 +1136,9 @@ border:1px solid grey
      <widget class="QPushButton" name="AcqEndpushButton">
       <property name="geometry">
        <rect>
-        <x>300</x>
+        <x>200</x>
         <y>690</y>
-        <width>221</width>
+        <width>141</width>
         <height>41</height>
        </rect>
       </property>
@@ -1151,7 +1154,7 @@ border:1px solid grey
        <rect>
         <x>30</x>
         <y>390</y>
-        <width>101</width>
+        <width>111</width>
         <height>31</height>
        </rect>
       </property>
@@ -1166,9 +1169,9 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>100</y>
+        <y>70</y>
         <width>491</width>
-        <height>251</height>
+        <height>281</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -1180,7 +1183,7 @@ border:1px solid grey
        <rect>
         <x>30</x>
         <y>450</y>
-        <width>101</width>
+        <width>121</width>
         <height>31</height>
        </rect>
       </property>
@@ -1207,14 +1210,14 @@ border:1px solid grey
      <widget class="QLabel" name="AcqPro">
       <property name="geometry">
        <rect>
-        <x>330</x>
-        <y>20</y>
+        <x>360</x>
+        <y>10</y>
         <width>361</width>
         <height>51</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 100 30pt &quot;Times New Roman&quot;;
+       <string notr="true">font: 80 24pt &quot;Times New Roman&quot;;
 </string>
       </property>
       <property name="text">
@@ -1264,9 +1267,9 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>550</x>
-        <y>100</y>
+        <y>70</y>
         <width>511</width>
-        <height>91</height>
+        <height>111</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -1294,12 +1297,12 @@ border:1px solid grey
        <rect>
         <x>30</x>
         <y>360</y>
-        <width>131</width>
+        <width>141</width>
         <height>16</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+       <string notr="true">font: 10pt &quot;Times New Roman&quot;;</string>
       </property>
       <property name="text">
        <string> Raw Tek DATA</string>
@@ -1310,12 +1313,12 @@ border:1px solid grey
        <rect>
         <x>210</x>
         <y>360</y>
-        <width>131</width>
+        <width>141</width>
         <height>16</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+       <string notr="true">font: 10pt &quot;Times New Roman&quot;;</string>
       </property>
       <property name="text">
        <string>  Pro Tek DATA</string>
@@ -1324,17 +1327,33 @@ border:1px solid grey
      <widget class="QRadioButton" name="AcqSelfradioButton">
       <property name="geometry">
        <rect>
-        <x>390</x>
+        <x>380</x>
         <y>360</y>
-        <width>131</width>
+        <width>141</width>
         <height>16</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 10pt &quot;Times New Roman&quot;;</string>
+      </property>
+      <property name="text">
+       <string> Raw Lab DATA</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="AcqRefreshpushButton">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>690</y>
+        <width>151</width>
+        <height>41</height>
        </rect>
       </property>
       <property name="styleSheet">
        <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
       </property>
       <property name="text">
-       <string> Raw Self DATA</string>
+       <string>Plot result</string>
       </property>
      </widget>
     </widget>
@@ -1346,20 +1365,20 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>880</x>
-        <y>90</y>
+        <y>80</y>
         <width>181</width>
         <height>31</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+       <string notr="true">font: 10pt &quot;Times New Roman&quot;;</string>
       </property>
      </widget>
      <widget class="QWebEngineView" name="TLEVIew" native="true">
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>220</y>
+        <y>250</y>
         <width>571</width>
         <height>451</height>
        </rect>
@@ -1372,7 +1391,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>730</x>
-        <y>90</y>
+        <y>80</y>
         <width>131</width>
         <height>31</height>
        </rect>
@@ -1388,7 +1407,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>360</x>
-        <y>90</y>
+        <y>80</y>
         <width>351</width>
         <height>31</height>
        </rect>
@@ -1404,9 +1423,9 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>140</y>
+        <y>130</y>
         <width>571</width>
-        <height>71</height>
+        <height>111</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -1417,7 +1436,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>90</y>
+        <y>80</y>
         <width>311</width>
         <height>31</height>
        </rect>
@@ -1433,9 +1452,9 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>620</x>
-        <y>140</y>
+        <y>130</y>
         <width>441</width>
-        <height>531</height>
+        <height>571</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -1446,13 +1465,13 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>370</x>
-        <y>30</y>
+        <y>20</y>
         <width>371</width>
         <height>31</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 100 30pt &quot;Times New Roman&quot;;
+       <string notr="true">font: 80 24pt &quot;Times New Roman&quot;;
 </string>
       </property>
       <property name="text">
@@ -1463,7 +1482,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>820</x>
-        <y>700</y>
+        <y>720</y>
         <width>241</width>
         <height>31</height>
        </rect>
@@ -1476,7 +1495,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>350</x>
-        <y>700</y>
+        <y>720</y>
         <width>141</width>
         <height>41</height>
        </rect>
@@ -1492,7 +1511,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>500</x>
-        <y>700</y>
+        <y>720</y>
         <width>231</width>
         <height>31</height>
        </rect>
@@ -1505,7 +1524,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>250</x>
-        <y>700</y>
+        <y>720</y>
         <width>91</width>
         <height>41</height>
        </rect>
@@ -1521,7 +1540,7 @@ border:1px solid grey
       <property name="geometry">
        <rect>
         <x>740</x>
-        <y>700</y>
+        <y>720</y>
         <width>81</width>
         <height>41</height>
        </rect>
@@ -1849,7 +1868,7 @@ border:1px solid grey
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 100 30pt &quot;Times New Roman&quot;;
+       <string notr="true">font: 80 24pt &quot;Times New Roman&quot;;
 </string>
       </property>
       <property name="text">

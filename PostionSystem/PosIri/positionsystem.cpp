@@ -1,7 +1,7 @@
 /************************************************************************************************************************
 * sun 20200801
 * By sunguiyu96@gmail.com
-* The overall interface program based on the positioning of the Communication Satellite signal,
+* The overall interface program basedon the positioning of the Communication Satellite signal,
 * can cooperate with Novelta to achieve GPS reference recording
 * input：Hardware collection data + TLE
 * output：
@@ -21,10 +21,12 @@
 * 2020/08/06 sun 00:47:Tek data preprocessing interface has been added to modify;
 * 2020/08/06 sun 00:47:Location: serial number can be read and progress can be refreshed as the number;
 * 2020/08/07 sun 00:48:Add Icon、Title and rersion.rc for the system;
-* 2020/08/12 sun 15:38:Added multiple capture modes: including multi-process, and capture after preprocessing;
+* 2020/08/12 sun 15:38:Added multiple capturemodes: including multi-process, and capture after preprocessing;
 * 2020/08/12 sun 18:26:Modified the way to judge the end of the Acqisition;
 * 2020/08/13 sun 13:38:Modified GPS page, added TekAPI-based deployed and collection function;
 * 2020/09/01 sun 15:07:Added TekAPI-based external Ref input and external Tirgger,and displayed progress in a bar;
+* 2020/09/05 sun 20:54:Added the function of plotting the finished result in the interface;
+* 2020/09/12 sun 13:05:Added the function of adding GPS week's secondas in the save file name;
 ***************************************************************************************************************************/
 
 #include "positionsystem.h"
@@ -65,6 +67,7 @@ PositionSystem::PositionSystem(QWidget *parent)
     ui->AcqWriteCpushButton->setEnabled(false);
     ui->AcqStartpushButton->setEnabled(false);
     ui->AcqEndpushButton->setEnabled(false);
+    ui->AcqRefreshpushButton->setEnabled(false);
 
     //Set TLEUpdate's button disabled
     ui->UpCopypushButton->setEnabled(false);
@@ -163,6 +166,7 @@ QByteArray currentDATA;     //串口读取数据
 QSerialPort *serial_c = new QSerialPort;        //打开并读取数据的串口
 PositionSystem::GPSInfo GPSOut;     //储存所需的GPS信息
 int nn = 0;         //从上一次清空text接收到的信息次数
+QString current_time_GPS;   //得到的GPS时间
 
 //Tek2File's Global Variable
 static int TekTotalIndex = 0;     //总的块数
@@ -309,9 +313,12 @@ void PositionSystem::ReadPort()
         Length = bufstr.length();
         HeaderLength = bufstr.indexOf(";");
         CRCLength = bufstr.lastIndexOf("*");
+        QString datast = bufstr.left(HeaderLength);
         QString datastr = bufstr.mid(HeaderLength + 1,Length - 2 - HeaderLength - CRCLength);
+        QStringList datalis = datast.split(",");
         QStringList datalist = datastr.split(",");
 //        qDebug() << datalist[0] << datalist.length();
+        GPSOut.GPSSecondWeek=datalis[6].toDouble();
         GPSOut.sol_state=datalist[0];
         GPSOut.latitude = datalist[2].toDouble();
         GPSOut.longitude = datalist[3].toDouble();
@@ -361,6 +368,7 @@ void PositionSystem::ReadPort()
                 if(isok == true)
                 {
                     strout = GPSOut.time.toString("yyyy-MM-dd hh:mm:ss") + " ";
+                    //current_time_GPS = GPSOut.time.toString("yyyy_MM_dd_hh_mm_ss");
                     strout = strout + QString::number(GPSOut.latitude,'f',8) + " " + QString::number(GPSOut.longitude,'f',8)+ " " + QString::number(GPSOut.high,'f',8) + " ";
                     strout = strout + QString::number(GPSOut.deltalatitude,'f',8) + " " + QString::number(GPSOut.deltalongitude,'f',8)+ " " + QString::number(GPSOut.deltahigh,'f',8) + " " + QString::number(GPSOut.satnum) +"\n";
                     file.write(strout.toUtf8());
@@ -493,6 +501,7 @@ void PositionSystem::on_GPSSentCommand_clicked()
 * 2020/08/13 sun 13:37:Finished moditfication；
 * 2020/08/27 sun 19:45:Add External Rel input option;
 * 2020/08/31 sun 15:34:Add External Trigger option;
+* 2020/09/11 sun 17:29:Added the function of adding GPS week's secondas in the save file name;
 **********************************************************************************************/
 void PositionSystem::on_TekCapturepushButton_clicked()
 {
@@ -535,7 +544,19 @@ void PositionSystem::on_TekCapturepushButton_clicked()
                 bat = bat + " trigx=-1";         //Set falling edge trigger
             }
             bat = bat + " rl=" + QString::number(RL) + " cf=" + QString::number(CF)
-                    + "e6 msec=" + QString::number(MSEC) + " fp=" + FP + " fn=I fnsfx=-1 fm=0";
+                    + "e6 msec=" + QString::number(MSEC) + " fp=" + FP + " fn=DATA fnsfx=-1 fm=0";
+
+            //Sync GPS PPS
+//            bat = bat + " rl=" + QString::number(RL) + " cf=" + QString::number(CF)
+//                    + "e6 msec=" + QString::number(MSEC) + " fp=" + FP;
+//            if((ui->TekTricomboBox->currentIndex() == 1)||(ui->TekTricomboBox->currentIndex() == 2))
+//            {
+//                bat = bat + " fn=" + QString::number(GPSOut.GPSSecondWeek) + " fnsfx=-1 fm=0";      //Add week seconds in naming
+//            }
+//            else
+//            {
+//                bat = bat + " fn=DATA fnsfx=-1 fm=0";
+//            }
 
             //qDebug() << bat << endl;
             file.write(bat.toUtf8());
@@ -543,7 +564,7 @@ void PositionSystem::on_TekCapturepushButton_clicked()
         file.close();
     }
 
-    //QMessageBox::warning(0,"PATH",exepath,QMessageBox::Yes);
+    //QMessageBox::warning(0,"MESSAGE",exepath,QMessageBox::Yes);
 
     QDateTime current_date_time =QDateTime::currentDateTime();
     QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
@@ -567,7 +588,15 @@ void PositionSystem::on_TekCapturepushButton_clicked()
         //In order to show current time
         QTimer *timer1 = new QTimer(this);
         connect(timer1,SIGNAL(timeout()),this,SLOT(TekCapProgressbarUpdate()));
-        timer1->start(1000);
+        if(TekCurrent_msec != 0)
+        {
+            TekCurrent_msec = 0;
+        }
+        if(TekCurrent_msec == 0)
+        {
+            timer1->start(1000);
+        }
+
 
         current_date_time =QDateTime::currentDateTime();
         current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
@@ -597,7 +626,7 @@ void PositionSystem::on_TekEndCapturepushButton_clicked()
     int pInt = QProcess::execute(c);    //Close the background R3Fcaptyre.exe Process, blocking operation, always occupy the cpu, success returns 0, failure returns 1
     if(pInt == 0)
     {
-        QMessageBox::warning(0,"PATH","SUCCESS KILL R3FCAPTURE.EXE!",QMessageBox::Yes);
+        QMessageBox::warning(0,"MESSAGE","SUCCESS KILL R3FCAPTURE.EXE!",QMessageBox::Yes);
     }
 }
 
@@ -863,12 +892,12 @@ void PositionSystem::on_TekStartpushButton_clicked()
     QString exepath = currentpath + "/Tek2File.exe";
     //qDebug() << "exepath:" << exepath << endl;
     QString workpath = currentpath;
-    //QMessageBox::warning(0,"PATH",exepath,QMessageBox::Yes);           //View current path
+    //QMessageBox::warning(0,"MESSAGE",exepath,QMessageBox::Yes);           //View current path
 
     QDateTime current_date_time =QDateTime::currentDateTime();
     QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
     QString currentText = ui->TektextEdit->toPlainText();
-    ui->TektextEdit->setText(currentText + "\n\n" + current_dt + ":TEK@FILE.EXE HAS START!!  \n");
+    ui->TektextEdit->setText(currentText + "\n\n" + current_dt + ":TEK2FILE.EXE HAS START!!  \n");
     //使保持在最下面
     QTextCursor cursor = ui->TektextEdit->textCursor();
     cursor.movePosition(QTextCursor::End);
@@ -903,7 +932,7 @@ void PositionSystem::on_TekEndpushButton_clicked()
     int pInt = QProcess::execute(c);    //Close the background Tek2File.exeProcess, run blocking mode, using CPU all the time, return 0 on success, return 1 on failure
     if(pInt==0)
     {
-        QMessageBox::warning(0,"PATH","SUCCESS KILL TEK2FILE.EXE!",QMessageBox::Yes);
+        QMessageBox::warning(0,"MESSAGE","SUCCESS KILL TEK2FILE.EXE!",QMessageBox::Yes);
     }
 }
 
@@ -964,7 +993,6 @@ void PositionSystem::refreshtekout(void)
 * output：
 * Process：
 * 2020/08/02 sun 17:42:Complete the modification to make it run within the integral program；
-；
 **********************************************************************************************/
 void PositionSystem::on_AcqReadApushButton_clicked()
 {
@@ -1054,6 +1082,7 @@ void PositionSystem::on_AcqReadApushButton_clicked()
     ui->AcqWriteCpushButton->setEnabled(true);
     ui->AcqStartpushButton->setEnabled(true);
     ui->AcqEndpushButton->setEnabled(true);
+    ui->AcqRefreshpushButton->setEnabled(true);
 }
 
 /*********************************************************************************************
@@ -1317,7 +1346,7 @@ void PositionSystem::on_AcqStartpushButton_clicked()
     QString currentpath = QApplication::applicationDirPath();       //Read in the path of. Exe
     //qDebug() << "exepath:" << exepath << endl;
     QString workpath = currentpath;     //set the workpath of .Exe
-    //QMessageBox::warning(0,"PATH",exepath,QMessageBox::Yes);           //View current path
+    //QMessageBox::warning(0,"MESSAGE",exepath,QMessageBox::Yes);           //View current path
 
     QDateTime current_date_time =QDateTime::currentDateTime();
     QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
@@ -1444,19 +1473,19 @@ void PositionSystem::on_AcqEndpushButton_clicked()
             int pInt = QProcess::execute(c);    //Close the background notepad.exeProcess, blocking operation, always occupy the cpu, success returns 0, failure returns 1
             if(pInt==0)
             {
-                QMessageBox::warning(0,"PATH","SUCCESS KILL IRIDIUMACQ1.EXE!",QMessageBox::Yes);           //查看当前路径
+                QMessageBox::warning(0,"MESSAGE","SUCCESS KILL IRIDIUMACQ1.EXE!",QMessageBox::Yes);           //查看当前路径
             }
             c = "taskkill /im IridiumAcq2.exe /f";
             pInt = QProcess::execute(c);
             if(pInt==0)
             {
-                QMessageBox::warning(0,"PATH","SUCCESS KILL IRIDIUMACQ2.EXE!",QMessageBox::Yes);           //查看当前路径
+                QMessageBox::warning(0,"MESSAGE","SUCCESS KILL IRIDIUMACQ2.EXE!",QMessageBox::Yes);           //查看当前路径
             }
             c = "taskkill /im IridiumAcq3.exe /f";
             pInt = QProcess::execute(c);
             if(pInt==0)
             {
-                QMessageBox::warning(0,"PATH","SUCCESS KILL IRIDIUMACQ3.EXE!",QMessageBox::Yes);           //查看当前路径
+                QMessageBox::warning(0,"MESSAGE","SUCCESS KILL IRIDIUMACQ3.EXE!",QMessageBox::Yes);           //查看当前路径
             }
             //Call IridiumAcq.exe in this file
             QString currentpath = QApplication::applicationDirPath();       //Read in the path of. Exe
@@ -1492,7 +1521,7 @@ void PositionSystem::on_AcqEndpushButton_clicked()
             int pInt = QProcess::execute(c);    //Close the background notepad.exeProcess, blocking operation, always occupy the cpu, success returns 0, failure returns 1
             if(pInt==0)
             {
-                QMessageBox::warning(0,"PATH","SUCCESS KILL IRIDIUMACQ.EXE!",QMessageBox::Yes);           //查看当前路径
+                QMessageBox::warning(0,"MESSAGE","SUCCESS KILL IRIDIUMACQ.EXE!",QMessageBox::Yes);           //查看当前路径
             }
         }
         break;
@@ -1502,7 +1531,7 @@ void PositionSystem::on_AcqEndpushButton_clicked()
             int pInt = QProcess::execute(c);    //Close the background notepad.exeProcess, blocking operation, always occupy the cpu, success returns 0, failure returns 1
             if(pInt==0)
             {
-                QMessageBox::warning(0,"PATH","SUCCESS KILL IRIDIUMACQf.EXE!",QMessageBox::Yes);           //查看当前路径
+                QMessageBox::warning(0,"MESSAGE","SUCCESS KILL IRIDIUMACQf.EXE!",QMessageBox::Yes);           //查看当前路径
             }
         }
 
@@ -1511,16 +1540,22 @@ void PositionSystem::on_AcqEndpushButton_clicked()
 }
 
 /*********************************************************************************************
-* sun 20200802
+* sun 20200905
 * By sunguiyu96@gmail.com
 * Acquisition Part
-* Execute the refresh program (automatically)
+* Plot the finished result (automatically)
 * input：
 * output：
 * Process：
-* 2020/08/02 sun 18:18:Complete the modification to make it run within the integral program；
+* 2020/09/05 sun 18:18:Complete the modification to make it run within the integral program；
 **********************************************************************************************/
-//void PositionSystem::on_AcqRefreshpushButton_clicked()
+void PositionSystem::on_AcqRefreshpushButton_clicked()
+{
+    ReadData();     //Read the Result of Acquisition
+    PlotData();     //Plot
+
+    RefreshBar(TotalIndex);   //Display the process
+}
 //{
 //    if(ui->AcqFreshcheckBox->isChecked()==true)
 //    {
@@ -1858,12 +1893,13 @@ void PositionSystem::on_Iridium_clicked()
 
     //qDebug() << FILE_NAME << endl;
 
+    ui->UptextEdit_2->setText("Iridium.tle:\n" + codeContent);
     out << codeContent;
 
     //更新显示
     QDateTime current_date_time =QDateTime::currentDateTime();
     QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss.zzz");
-    text = current_dt + ": Iridium.tle has updated successfully!\n\n";
+    text = current_dt + ":" + FILE_NAME + " has updated successfully!\n\n";
     Currunt_textEdit += text;
     ui->UptextEdit->setText(Currunt_textEdit);
     QTextCursor cursor = ui->UptextEdit->textCursor();
@@ -1916,6 +1952,7 @@ void PositionSystem::on_IridiumNext_clicked()
 
     loop.exec();        //开启子事件循环
 
+    QString codeContent = reply->readAll();
     //写入文件
     //QString currentpath = "C:/Qt/TLETest/TLEDownload/";
     QString currentpath = QApplication::applicationDirPath();       //读入.exe所在的路径
@@ -1927,15 +1964,16 @@ void PositionSystem::on_IridiumNext_clicked()
         //qDebug() << "Cannot open the file: " << FILE_NAME;
     }
     QTextStream out(&file);
-    QString codeContent = reply->readAll();
+
 
     //qDebug() << FILE_NAME << endl;
+    ui->UptextEdit_2->setText(codeContent);
     out << codeContent;
 
     //更新显示
     QDateTime current_date_time =QDateTime::currentDateTime();
     QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
-    text = current_dt + ": IridiumNEXT.tle has updated successfully!\n\n";
+    text = current_dt + ":" + FILE_NAME + " has updated successfully!\n\n";
     Currunt_textEdit += text;
     ui->UptextEdit->setText(Currunt_textEdit);
     QTextCursor cursor = ui->UptextEdit->textCursor();
@@ -2859,7 +2897,8 @@ void PositionSystem::on_LocConfigWrite_clicked()
 
     //After .config has been read, enable the next button
     ui->LocMapDisplay->setEnabled(true);
-    ui->LocConfigWrite->setEnabled(true);
+    ui->LocStartLoc->setEnabled(true);
+    ui->LocEndLoc->setEnabled(true);
 }
 
 /***********************************************************************************************************
@@ -3528,7 +3567,7 @@ void PositionSystem::on_LocStartLoc_clicked()
     QString currentpath = QApplication::applicationDirPath();       //Read the path where the .exe is located
     QString exepath = currentpath + "/IridiumLoc.exe";
     QString workpath = currentpath;
-    //QMessageBox::warning(0,"PATH",exepath,QMessageBox::Yes);
+    //QMessageBox::warning(0,"MESSAGE",exepath,QMessageBox::Yes);
 
     QDateTime current_date_time =QDateTime::currentDateTime();
     QString current_dt =current_date_time.toString("\nyyyy.MM.dd hh:mm:ss");
@@ -3567,7 +3606,7 @@ void PositionSystem::on_LocEndLoc_clicked()
     int pInt = QProcess::execute(c);    //Close the background IridiumLoc.exe Process, blocking operation, always occupy the cpu, success returns 0, failure returns 1
     if(pInt == 0)
     {
-        QMessageBox::warning(0,"PATH","SUCCESS KILL IRIDIUMLOC.EXE!",QMessageBox::Yes);
+        QMessageBox::warning(0,"MESSAGE","SUCCESS KILL IRIDIUMLOC.EXE!",QMessageBox::Yes);
     }
 }
 

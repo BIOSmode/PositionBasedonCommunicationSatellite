@@ -1,7 +1,7 @@
 /************************************************************************************************************************
 * sun 20200801
 * By sunguiyu96@gmail.com
-* The overall interface program based on the positioning of the Communication Satellite signal,
+* The overall interface program basedon the positioning of the Communication Satellite signal,
 * can cooperate with Novelta to achieve GPS reference recording
 * input：Hardware collection data + TLE
 * output：
@@ -19,12 +19,14 @@
 * 2020/08/05 sun 19:46:Modify IridiumLoc.exe mode to read its output and refresh the interface display；
 * 2020/08/05 sun 19:46:The method of determining the end of exe has been modified to make it more reliable；
 * 2020/08/06 sun 00:47:Tek data preprocessing interface has been added to modify;
-* 2020/08/06 sun 00:47:Location: serial number can be read and progress can be refreshed as the sunmber;
+* 2020/08/06 sun 00:47:Location: serial number can be read and progress can be refreshed as the number;
 * 2020/08/07 sun 00:48:Add Icon、Title and rersion.rc for the system;
-* 2020/08/12 sun 15:38:Added multiple capture modes: including multi-process, and capture after preprocessing;
+* 2020/08/12 sun 15:38:Added multiple capturemodes: including multi-process, and capture after preprocessing;
 * 2020/08/12 sun 18:26:Modified the way to judge the end of the Acqisition;
 * 2020/08/13 sun 13:38:Modified GPS page, added TekAPI-based deployed and collection function;
 * 2020/09/01 sun 15:07:Added TekAPI-based external Ref input and external Tirgger,and displayed progress in a bar;
+* 2020/09/05 sun 20:54:Added the function of plotting the finished result in the interface;
+* 2020/09/12 sun 13:05:Added the function of adding GPS week's secondas in the save file name;
 ***************************************************************************************************************************/
 
 #ifndef POSITIONSYSTEM_H
@@ -71,6 +73,7 @@ public:
     struct GPSInfo
     {
         QDateTime time;
+        double GPSSecondWeek;
         double latitude;
         double longitude;
         double high;
@@ -152,6 +155,8 @@ private slots:
 
     void refreshacqoutSort(void);
 
+    void on_AcqRefreshpushButton_clicked();
+
     void ReadData();
 
     void PlotData();
@@ -168,7 +173,6 @@ private slots:
     void on_UpdateTLE_clicked();
 
     void on_UpCopypushButton_clicked();
-
 
     //Location
     void on_LocConfigRead_clicked();
@@ -195,7 +199,6 @@ private slots:
     void timerUpdate();
 
     void Delay_MSec(unsigned int msec);
-
 
 private:
 
