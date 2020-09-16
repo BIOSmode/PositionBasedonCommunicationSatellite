@@ -27,6 +27,7 @@
 * 2020/09/01 sun 15:07:Added TekAPI-based external Ref input and external Tirgger,and displayed progress in a bar;
 * 2020/09/05 sun 20:54:Added the function of plotting the finished result in the interface;
 * 2020/09/12 sun 13:05:Added the function of adding GPS week's secondas in the save file name;
+* 2020/09/16 sun 15:12:Added the second in a week to the GPS interface;
 ***************************************************************************************************************************/
 
 #ifndef POSITIONSYSTEM_H

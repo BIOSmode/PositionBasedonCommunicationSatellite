@@ -27,6 +27,7 @@
 * 2020/09/01 sun 15:07:Added TekAPI-based external Ref input and external Tirgger,and displayed progress in a bar;
 * 2020/09/05 sun 20:54:Added the function of plotting the finished result in the interface;
 * 2020/09/12 sun 13:05:Added the function of adding GPS week's secondas in the save file name;
+* 2020/09/16 sun 15:12:Added the second in a week to the GPS interface;
 ***************************************************************************************************************************/
 
 #include "positionsystem.h"
@@ -330,6 +331,7 @@ void PositionSystem::ReadPort()
 //        qDebug() << datalist[15];
 
         //output at interface
+        ui->GPSSecondWeeklineEdit->setText(datalis[6]);
         ui->GPSLatilineEdit->setText(datalist[2]);
         ui->GPSLonglineEdit->setText(datalist[3]);
         ui->GPSHighlineEdit->setText(datalist[4]);
@@ -367,7 +369,7 @@ void PositionSystem::ReadPort()
                 bool isok = file.open(QIODevice::WriteOnly|QIODevice::Append);
                 if(isok == true)
                 {
-                    strout = GPSOut.time.toString("yyyy-MM-dd hh:mm:ss") + " ";
+                    strout = GPSOut.time.toString("yyyy-MM-dd hh:mm:ss") + " (" + QString::number(GPSOut.GPSSecondWeek) + ") ";
                     //current_time_GPS = GPSOut.time.toString("yyyy_MM_dd_hh_mm_ss");
                     strout = strout + QString::number(GPSOut.latitude,'f',8) + " " + QString::number(GPSOut.longitude,'f',8)+ " " + QString::number(GPSOut.high,'f',8) + " ";
                     strout = strout + QString::number(GPSOut.deltalatitude,'f',8) + " " + QString::number(GPSOut.deltalongitude,'f',8)+ " " + QString::number(GPSOut.deltahigh,'f',8) + " " + QString::number(GPSOut.satnum) +"\n";

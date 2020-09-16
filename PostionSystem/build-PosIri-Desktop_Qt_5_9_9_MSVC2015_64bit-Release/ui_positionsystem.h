@@ -109,6 +109,7 @@ public:
     QPushButton *TekEndCapturepushButton;
     QProgressBar *TekCapprogressBar;
     QComboBox *TekTricomboBox;
+    QLineEdit *GPSSecondWeeklineEdit;
     QWidget *Acq;
     QLabel *AcqIndexE;
     QLabel *AcqDb2;
@@ -307,7 +308,7 @@ public:
         GPSSentCommand->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         GPSdateTimeEdit = new QDateTimeEdit(GPS);
         GPSdateTimeEdit->setObjectName(QStringLiteral("GPSdateTimeEdit"));
-        GPSdateTimeEdit->setGeometry(QRect(10, 70, 311, 31));
+        GPSdateTimeEdit->setGeometry(QRect(10, 70, 201, 31));
         GPSdateTimeEdit->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         GPSMapView = new QWebEngineView(GPS);
         GPSMapView->setObjectName(QStringLiteral("GPSMapView"));
@@ -456,6 +457,10 @@ public:
         TekTricomboBox->setObjectName(QStringLiteral("TekTricomboBox"));
         TekTricomboBox->setGeometry(QRect(540, 540, 151, 31));
         TekTricomboBox->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
+        GPSSecondWeeklineEdit = new QLineEdit(GPS);
+        GPSSecondWeeklineEdit->setObjectName(QStringLiteral("GPSSecondWeeklineEdit"));
+        GPSSecondWeeklineEdit->setGeometry(QRect(230, 70, 91, 31));
+        GPSSecondWeeklineEdit->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         tabWidget->addTab(GPS, QString());
         Acq = new QWidget();
         Acq->setObjectName(QStringLiteral("Acq"));

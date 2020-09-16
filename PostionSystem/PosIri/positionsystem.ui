@@ -393,7 +393,7 @@
        <rect>
         <x>10</x>
         <y>70</y>
-        <width>311</width>
+        <width>201</width>
         <height>31</height>
        </rect>
       </property>
@@ -960,6 +960,19 @@ border:1px solid grey
         <string>H-&gt;L Trigger</string>
        </property>
       </item>
+     </widget>
+     <widget class="QLineEdit" name="GPSSecondWeeklineEdit">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>70</y>
+        <width>91</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="Acq">
