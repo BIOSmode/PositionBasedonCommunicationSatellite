@@ -3,15 +3,15 @@ stk.v.4.3
 BEGIN Ephemeris 
  
 NumberOfEphemerisPoints		146 
-ScenarioEpoch	    1 Sep 2020 10:15:18.928214908 
+ScenarioEpoch	    3 Sep 2020 20:51:38.730540276 
 InterpolationMethod		Lagrange 
 InterpolationOrder		5 
 CentralBody				Earth 
 CoordinateSystem			TEME 
-CoordinateSystemEpoch	  1 Sep 2020 10:15:18.928214908 
+CoordinateSystemEpoch	  3 Sep 2020 20:51:38.730540276 
 DistanceUnit			Kilometers 
  
 EphemerisTimePosVel 
  
-       0.00000000   -5448.37908683   -4643.35239701       0.04147561  0.311504554 -0.350261179  7.449011368
+       0.00000000   -5530.13548154   -4545.57902228       0.03060380  0.305167718 -0.355748601  7.449076700
  END Ephemeris 

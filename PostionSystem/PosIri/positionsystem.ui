@@ -84,7 +84,7 @@
        <rect>
         <x>10</x>
         <y>309</y>
-        <width>61</width>
+        <width>81</width>
         <height>31</height>
        </rect>
       </property>
@@ -183,7 +183,7 @@
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+       <string notr="true">font: 10pt &quot;Times New Roman&quot;;</string>
       </property>
       <property name="text">
        <string>Receive GPS INF</string>
@@ -253,7 +253,7 @@
        <rect>
         <x>10</x>
         <y>350</y>
-        <width>71</width>
+        <width>91</width>
         <height>31</height>
        </rect>
       </property>
@@ -269,7 +269,7 @@
        <rect>
         <x>10</x>
         <y>232</y>
-        <width>61</width>
+        <width>71</width>
         <height>31</height>
        </rect>
       </property>
@@ -382,7 +382,7 @@
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+       <string notr="true">font: 10pt &quot;Times New Roman&quot;;</string>
       </property>
       <property name="text">
        <string>Sent GPS Command</string>
@@ -971,7 +971,7 @@ border:1px solid grey
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 12pt &quot;Times New Roman&quot;;</string>
+       <string notr="true">font: 10pt &quot;Times New Roman&quot;;</string>
       </property>
      </widget>
     </widget>

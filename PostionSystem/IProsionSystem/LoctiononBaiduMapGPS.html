@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=M9mh89GYYOOYxzxDhWQGQBxHEz8ighNR"></script>
+    <title>定位结果</title>
+</head>
+<body>
+    <div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+    // 百度地图API功能
+    //GPS坐标
+    var lon_ini = 116.341702;
+    var lat_ini = 39.978947;
+    var inipoint =new BMap.Point(lon_ini,lat_ini);
+	
+	//半径
+    var radius50 = 116.341702;
+    var radius100 = 39.978947;
+    var inipoint =new BMap.Point(radius50,radius100);
+   
+ 
+    //地图初始化
+    var bm = new BMap.Map("allmap");
+    bm.centerAndZoom(inipoint, 15);
+    bm.enableScrollWheelZoom(true);
+
+	
+	//标记目前点
+	// var marker = new BMap.Marker(gpoint);
+	// bm.addOverlay(marker);
+	
+	//设置一个我的标注
+	var myIcon_orange = new BMap.Icon("http://api.map.baidu.com/img/markers.png", new BMap.Size(23, 25), {  
+                        offset: new BMap.Size(10, 25), // 指定定位位置  
+                        imageOffset: new BMap.Size(0, 0 - 12 * 25) // 设置图片偏移  
+                    });  //橙色
+	var myIcon_blue = new BMap.Icon("http://api.map.baidu.com/img/markers.png", new BMap.Size(23, 25), {  
+                        offset: new BMap.Size(10, 25), // 指定定位位置  
+                        imageOffset: new BMap.Size(0, 0 - 10 * 25) // 设置图片偏移  
+                    }); 	//蓝色
+	
+
+	
+	//坐标转换完之后的回调函数（基准点）
+    translateCallback_Real = function (data){
+        if (data.status === 0) {
+        var marker1 = new BMap.Marker(data.points[0],{icon:myIcon_blue});
+        bm.addOverlay(marker1);  
+		var label1 = new BMap.Label("Real",{offset:new BMap.Size(20,-10)});
+        marker1.setLabel(label1); //添加label
+		bm.setCenter(data.points[0]);
+      }
+    }
+	
+	
+	//坐标转换完之后的回调函数（定位点）
+    translateCallback = function (data){
+        if (data.status === 0) {
+        var marker2 = new BMap.Marker(data.points[0],{icon:myIcon_orange});
+        bm.addOverlay(marker2);  
+		//var label2 = new BMap.Label("Real",{offset:new BMap.Size(20,-10)});
+        //marker2.setLabel(label2); //添加label
+		//bm.setCenter(data.points[0]);
+      }
+    }
+	
+	//坐标转换完之后的回调函数（画两个圆，以真实位置为圆心）
+    translateCallback_CircleReal = function (data){
+        if (data.status === 0) {
+        var marker1 = new BMap.Marker(data.points[0],{icon:myIcon_blue});
+        bm.addOverlay(marker1);  
+		var label1 = new BMap.Label("Real",{offset:new BMap.Size(20,-10)});
+        marker1.setLabel(label1); //添加label
+		
+		var circle50 = new BMap.Circle(data.points[0],50,{strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5,fillOpacity: 0.3}); //创建圆
+		var circle100 = new BMap.Circle(data.points[0],100,{strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5,fillOpacity: 0.3}); //创建圆
+		
+		bm.addOverlay(circle50);            //增加圆
+		bm.addOverlay(circle100);            //增加圆
+		
+		//调整圆半径
+		circle50.setRadius(radius50);			//调整半径
+		circle100.setRadius(radius100);			//调整半径
+		
+		bm.setCenter(data.points[0]);
+      }
+    }
+	
+	//坐标转换完之后的回调函数（画两个圆，以定位平均位置为圆心）
+    translateCallback_CircleLoc = function (data){
+        if (data.status === 0) {
+        var marker1 = new BMap.Marker(data.points[0]);
+        bm.addOverlay(marker1);  
+		var label1 = new BMap.Label("Locate",{offset:new BMap.Size(20,-10)});
+        marker1.setLabel(label1); //添加label
+		
+		var circle50 = new BMap.Circle(data.points[0],50,{strokeColor:"red", strokeWeight:2, strokeOpacity:0.5,fillOpacity: 0.3}); //创建圆
+		var circle100 = new BMap.Circle(data.points[0],100,{strokeColor:"red", strokeWeight:2, strokeOpacity:0.5,fillOpacity: 0.3}); //创建圆
+		
+		bm.addOverlay(circle50);            //增加圆
+		bm.addOverlay(circle100);            //增加圆
+		
+		//调整圆半径
+		circle50.setRadius(radius50);			//调整半径
+		circle100.setRadius(radius100);			//调整半径
+      }
+    }
+	
+	//添加定位点
+    function addpoint (lon,lat){
+        var convertor1 = new BMap.Convertor();
+        var pointArr1 = [];
+        var newPoint1 = new BMap.Point(lon,lat);
+        pointArr1.push(newPoint1);
+        // var marker = new BMap.Marker(ggPoint);
+        // bm.addOverlay(marker);
+        convertor1.translate(pointArr1, 1, 5, translateCallback);
+    }
+	
+
+	//添加基准点
+    function addreal (lon,lat){
+        var convertor0 = new BMap.Convertor();
+        var pointArr0 = [];
+        var newPoint0 = new BMap.Point(lon,lat);
+        pointArr0.push(newPoint0);
+        convertor0.translate(pointArr0, 1, 5, translateCallback_Real);
+    }
+	
+	//画圆，以真实位置为圆心
+    function addcirclereal (lon,lat,rad50,rad100){
+        var convertor2 = new BMap.Convertor();
+        var pointArr2 = [];
+        var newPoint2 = new BMap.Point(lon,lat);
+        pointArr2.push(newPoint2);
+		radius50 = rad50;
+		radius100 = rad100;
+        convertor2.translate(pointArr2, 1, 5, translateCallback_CircleReal);		
+    }
+	
+	//画圆，以定位平均位置为圆心
+    function addcircleloc (lon,lat,rad50,rad100){
+        var convertor2 = new BMap.Convertor();
+        var pointArr2 = [];
+        var newPoint2 = new BMap.Point(lon,lat);
+        pointArr2.push(newPoint2);
+		radius50 = rad50;
+		radius100 = rad100;
+        convertor2.translate(pointArr2, 1, 5, translateCallback_CircleLoc);		
+    }
+	
+	// var convertor = new BMap.Convertor();
+    // var pointArr = [];
+    // pointArr.push(gpoint);
+    // convertor.translate(pointArr, 1, 5, translateCallback_Real)
+	bm.setCenter(inipoint);
+	
+	
+
+ 
+</script>

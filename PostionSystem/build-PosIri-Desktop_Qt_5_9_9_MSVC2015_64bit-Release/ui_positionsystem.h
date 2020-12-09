@@ -231,7 +231,7 @@ public:
         GPSOpenPort->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         GPSLati = new QLabel(GPS);
         GPSLati->setObjectName(QStringLiteral("GPSLati"));
-        GPSLati->setGeometry(QRect(10, 309, 61, 31));
+        GPSLati->setGeometry(QRect(10, 309, 81, 31));
         GPSLati->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         GPSSearchPort = new QPushButton(GPS);
         GPSSearchPort->setObjectName(QStringLiteral("GPSSearchPort"));
@@ -252,7 +252,7 @@ public:
         GPSReceive = new QPushButton(GPS);
         GPSReceive->setObjectName(QStringLiteral("GPSReceive"));
         GPSReceive->setGeometry(QRect(160, 190, 161, 31));
-        GPSReceive->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
+        GPSReceive->setStyleSheet(QStringLiteral("font: 10pt \"Times New Roman\";"));
         GPSLonglineEdit = new QLineEdit(GPS);
         GPSLonglineEdit->setObjectName(QStringLiteral("GPSLonglineEdit"));
         GPSLonglineEdit->setGeometry(QRect(100, 350, 221, 31));
@@ -272,11 +272,11 @@ public:
 ""));
         GPSLong = new QLabel(GPS);
         GPSLong->setObjectName(QStringLiteral("GPSLong"));
-        GPSLong->setGeometry(QRect(10, 350, 71, 31));
+        GPSLong->setGeometry(QRect(10, 350, 91, 31));
         GPSLong->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         GPSSatNum = new QLabel(GPS);
         GPSSatNum->setObjectName(QStringLiteral("GPSSatNum"));
-        GPSSatNum->setGeometry(QRect(10, 232, 61, 31));
+        GPSSatNum->setGeometry(QRect(10, 232, 71, 31));
         GPSSatNum->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
         GPSState = new QLabel(GPS);
         GPSState->setObjectName(QStringLiteral("GPSState"));
@@ -305,7 +305,7 @@ public:
         GPSSentCommand = new QPushButton(GPS);
         GPSSentCommand->setObjectName(QStringLiteral("GPSSentCommand"));
         GPSSentCommand->setGeometry(QRect(10, 190, 141, 31));
-        GPSSentCommand->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
+        GPSSentCommand->setStyleSheet(QStringLiteral("font: 10pt \"Times New Roman\";"));
         GPSdateTimeEdit = new QDateTimeEdit(GPS);
         GPSdateTimeEdit->setObjectName(QStringLiteral("GPSdateTimeEdit"));
         GPSdateTimeEdit->setGeometry(QRect(10, 70, 201, 31));
@@ -460,7 +460,7 @@ public:
         GPSSecondWeeklineEdit = new QLineEdit(GPS);
         GPSSecondWeeklineEdit->setObjectName(QStringLiteral("GPSSecondWeeklineEdit"));
         GPSSecondWeeklineEdit->setGeometry(QRect(230, 70, 91, 31));
-        GPSSecondWeeklineEdit->setStyleSheet(QStringLiteral("font: 12pt \"Times New Roman\";"));
+        GPSSecondWeeklineEdit->setStyleSheet(QStringLiteral("font: 10pt \"Times New Roman\";"));
         tabWidget->addTab(GPS, QString());
         Acq = new QWidget();
         Acq->setObjectName(QStringLiteral("Acq"));

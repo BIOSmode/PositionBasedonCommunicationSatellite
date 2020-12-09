@@ -28,6 +28,7 @@
 * 2020/09/05 sun 20:54:Added the function of plotting the finished result in the interface;
 * 2020/09/12 sun 13:05:Added the function of adding GPS week's secondas in the save file name;
 * 2020/09/16 sun 15:12:Added the second in a week to the GPS interface;
+* 2020/12/07 sun 18:11:Completed the function to show GPS location;
 ***************************************************************************************************************************/
 
 #include "positionsystem.h"
@@ -339,15 +340,15 @@ void PositionSystem::ReadPort()
         ui->GPSSatNumlineEdit->setText(datalist[15]);
         //output at BaiduMap
         QString currentpath = QApplication::applicationDirPath();       //Read the path where the .exe is located
-        QString path = currentpath + "/LoctiononBaiduMap.html";
+        QString path = currentpath + "/LoctiononBaiduMapGPS.html";
     //    QString path = "C:/Qt/BaiduMapTest/BaiduMap2/BaiduMap2.html";        //Fixed path
         QUrl url(path);
 
-        ui->LocMapView->load(url);
-        ui->LocMapView->show();
+        ui->GPSMapView->load(url);
+        ui->GPSMapView->show();
 
         QString command = QString("addpoint(%1,%2)").arg(QString::number(GPSOut.longitude)).arg(QString::number(GPSOut.latitude));
-        ui->LocMapView->page()->runJavaScript(command);
+        ui->GPSMapView->page()->runJavaScript(command);
 
         QString str = ui->GPStextEdit->toPlainText();       //Associate a string with text
         int n =0 ;
@@ -545,20 +546,20 @@ void PositionSystem::on_TekCapturepushButton_clicked()
                 bat = bat + " trig=100";        //set external trigger
                 bat = bat + " trigx=-1";         //Set falling edge trigger
             }
-            bat = bat + " rl=" + QString::number(RL) + " cf=" + QString::number(CF)
-                    + "e6 msec=" + QString::number(MSEC) + " fp=" + FP + " fn=DATA fnsfx=-1 fm=0";
+//            bat = bat + " rl=" + QString::number(RL) + " cf=" + QString::number(CF)
+//                    + "e6 msec=" + QString::number(MSEC) + " fp=" + FP + " fn=DATA fnsfx=-1 fm=0";
 
             //Sync GPS PPS
-//            bat = bat + " rl=" + QString::number(RL) + " cf=" + QString::number(CF)
-//                    + "e6 msec=" + QString::number(MSEC) + " fp=" + FP;
-//            if((ui->TekTricomboBox->currentIndex() == 1)||(ui->TekTricomboBox->currentIndex() == 2))
-//            {
-//                bat = bat + " fn=" + QString::number(GPSOut.GPSSecondWeek) + " fnsfx=-1 fm=0";      //Add week seconds in naming
-//            }
-//            else
-//            {
-//                bat = bat + " fn=DATA fnsfx=-1 fm=0";
-//            }
+            bat = bat + " rl=" + QString::number(RL) + " cf=" + QString::number(CF)
+                    + "e6 msec=" + QString::number(MSEC) + " fp=" + FP;
+            if((ui->TekTricomboBox->currentIndex() == 1)||(ui->TekTricomboBox->currentIndex() == 2))
+            {
+                bat = bat + " fn=DATA(" + QString::number((int)(GPSOut.GPSSecondWeek + 1)) + ") fnsfx=-1 fm=0";      //Add week seconds in naming
+            }
+            else
+            {
+                bat = bat + " fn=DATA fnsfx=-1 fm=0";
+            }
 
             //qDebug() << bat << endl;
             file.write(bat.toUtf8());
@@ -586,6 +587,12 @@ void PositionSystem::on_TekCapturepushButton_clicked()
         TekProcess->setWorkingDirectory(workpath);
         TekProcess->start(batpath,TekList);
        //AcqProcess->startDetached(exepath,QStringList(),workpath);
+
+        //In order to record GPS second at the capture time
+        if((ui->TekTricomboBox->currentIndex() == 1)||(ui->TekTricomboBox->currentIndex() == 2))
+        {
+            ui->GPSLogcheckBox->setChecked(true);
+        }
 
         //In order to show current time
         QTimer *timer1 = new QTimer(this);
@@ -2219,7 +2226,7 @@ void PositionSystem::on_UpCopypushButton_clicked()
 * sun 20200801
 * By sunguiyu96@gmail.com
 * Update TLE Part
-* 根据input的TLE计算采集TLE对应时间
+* 根据input的TLE计算采集TLE对应时间（北京时间）
 * input：TLE行信息
 * output：QString格式采集时间
 * Process：
